@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    
+    <title>@ViewData["Title"] - BeautySaloon</title>
+    
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+</head>
+
+<body>
+<nav class="sidebar close">
+    <header>
+        <div class="image-text">
+            <span class="image">
+                <img src="img\logo.png" alt="logo">
+            </span>
+
+            <div class="text header-text">
+                <span class="name">Салон красоты</span>
+                <span class="profession">Алеся Ковыряева</span>
+            </div>
+        </div>
+                
+        <i class='bx bx-chevron-right toggle'></i>
+    </header>
+    
+    <div class="menu-bar">
+        <div class="menu">
+            <li class="search-box">
+                <i class='bx bx-search icon' ></i>
+                <input type="text" placeholder="Поиск..."/>
+            </li>
+            <ul class="menu-links">
+                <li class="nav-link">
+                    <a href="#">
+                        <i class='bx bx-home-alt icon'></i>
+                        <span class="text nav-text">Главная</span>
+                    </a>
+                </li>
+                <li class="nav-link">
+                    <a href="#">
+                        <i class='bx bx-shopping-bag icon'></i>
+                        <span class="text nav-text">Услуги</span>
+                    </a>
+                </li>
+                <li class="nav-link">
+                    <a href="#">
+                        <i class='bx bx-bell icon'></i>
+                        <span class="text nav-text">Акции</span>
+                    </a>
+                </li>
+                <li class="nav-link">
+                    <a href="#">
+                        <i class='bx bx-group icon'></i>
+                        <span class="text nav-text">О нас</span>
+                    </a>
+                </li>
+                <li class="nav-link">
+                    <a href="#">
+<i class='bx bx-user-pin icon' ></i>
+                        <span class="text nav-text">Контакты</span>
+                    </a>
+                </li>
+                <li class="nav-link">
+                    <a href="#">
+                        <i class='bx bx-registered icon'></i>
+                        <span class="text nav-text">Лицензии</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="bottom-content">
+            <li class="">
+                <a href="#">
+                    <i class="bx bx-log-out icon"></i>
+                    <span class="text nav-text">Выйти</span>
+                </a>
+            </li>
+            
+            <li class="mode">
+                <div class="moon-sun">
+                    <i class="bx bx-moon icon moon"></i>
+                    <i class="bx bx-sun icon sun"></i>
+                </div>
+                <span class="mode-text text">Ночь</span>
+                            
+                <div class="toggle-switch">
+                    <span class="switch"></span>
+                </div>
+            </li>
+        </div>
+    </div>
+
+</nav>
+
+<section class="home">
+    <div class="text">Dashboard</div>
+</section>
+
+<main>
+            @RenderBody()
+        </main>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>
