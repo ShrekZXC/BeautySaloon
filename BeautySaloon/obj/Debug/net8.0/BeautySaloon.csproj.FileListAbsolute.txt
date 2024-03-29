@@ -28,3 +28,4 @@ C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\obj\Debug\net8.0\refi
 C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\obj\Debug\net8.0\BeautySaloon.pdb
 C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\obj\Debug\net8.0\BeautySaloon.genruntimeconfig.cache
 C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\obj\Debug\net8.0\ref\BeautySaloon.dll
+C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\obj\Debug\net8.0\BeautySaloon.sourcelink.json
