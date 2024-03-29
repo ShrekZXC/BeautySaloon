@@ -1,18 +1,19 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics;
 using BeautySaloon.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BeautySaloon.Controllers;
 
-public class HomeController : Controller
+public class ServicesController : Controller
 {
     private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    public ServicesController(ILogger<HomeController> logger)
     {
         _logger = logger;
     }
 
+    [Route("services")]
     public IActionResult Index()
     {
         return View();
