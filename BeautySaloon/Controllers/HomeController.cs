@@ -1,6 +1,6 @@
 using System.Diagnostics;
+using BeautySaloon.ViewModel;
 using Microsoft.AspNetCore.Mvc;
-using BeautySaloon.Models;
 
 namespace BeautySaloon.Controllers;
 
@@ -12,7 +12,6 @@ public class HomeController : Controller
     {
         _logger = logger;
     }
-
     public IActionResult Index()
     {
         return View();

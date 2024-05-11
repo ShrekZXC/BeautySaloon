@@ -1,4 +1,4 @@
-namespace BeautySaloon.Models;
+namespace BeautySaloon.ViewModel;
 
 public class ErrorViewModel
 {
