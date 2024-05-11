@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using BeautySaloon.Models;
+using BeautySaloon.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeautySaloon.Controllers;
