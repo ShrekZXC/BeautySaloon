@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Register page";
+}
+
+@{
+    Layout = null;
+}
+
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>@ViewData["Title"] - BeautySaloon</title>
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true"/>
+</head>
+
+<body>
+
+<div class="wrapper">
+    <h2>Регистрация</h2>
+    <form action="#">
+        <div class="input-box">
+            <input type="text" placeholder="Введите ваше имя"/>
+        </div>
+        <div class="input-box">
+            <input type="text" placeholder="Введите ваш email"/>
+        </div>
+        <div class="input-box">
+            <input type="password" placeholder="Введите ваш пароль"/>
+        </div>
+        <div class="input-box">
+            <input type="password" placeholder="Подтвердите ваш пароль"/>
+        </div>
+        <div class="policy">
+            <input type="checkbox"/>
+            <h3>Я даю согласию на обработку персональных данных</h3>
+        </div>
+        <div class="input-box button">
+            <input type="submit" value="Зарегистрироваться"/>
+        </div>
+        <div class="text">
+            <h3>Уже есть аккаунт ? <a href="/login">Войти</a></h3>
+        </div>
+    </form>
+</div>
+
+</body>
