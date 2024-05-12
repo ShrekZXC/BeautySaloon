@@ -18,9 +18,12 @@ public class UserTokenService : IUserTokenService
         _mapper = mapper;
     }
     
-    public async Task<Guid> Create(UserTokenModel userTokenModel)
+    public async Task<Guid> Create(Guid userId)
     {
-        var entity = _mapper.Map<UserTokenEntity>(userTokenModel);
+        Guid tockenId = Guid.NewGuid();
+        var entity = new UserTokenEntity();
+        entity.Id = tockenId;
+        entity.UserId = userId;
             
         var result = await _dbRepository.Add(entity);
         await _dbRepository.SaveChangesAsync();
@@ -46,7 +49,8 @@ public class UserTokenService : IUserTokenService
 
     public async Task Delete(Guid sessionId)
     {
-        await _dbRepository.Delete<UserTokenEntity>(sessionId);
+        var entity = await _dbRepository.Get<UserTokenEntity>().FirstOrDefaultAsync(x => x.Id == sessionId);
+        if (entity != null) await _dbRepository.Remove<UserTokenEntity>(entity);
         await _dbRepository.SaveChangesAsync();
     }
 }

@@ -15,12 +15,12 @@ public class DbRepository : IDbRepository
 
     public IQueryable<T> Get<T>(Expression<Func<T, bool>> selector) where T : class, IEntity
     {
-        return _context.Set<T>().Where(selector).Where(x => x.IsActive).AsQueryable();
+        return _context.Set<T>().Where(selector).AsQueryable();
     }
 
     public IQueryable<T> Get<T>() where T : class, IEntity
     {
-        return _context.Set<T>().Where(x => x.IsActive).AsQueryable();
+        return _context.Set<T>().AsQueryable();
     }
 
     public IQueryable<T> GetAll<T>() where T : class, IEntity
@@ -37,13 +37,6 @@ public class DbRepository : IDbRepository
     public async Task AddRange<T>(IEnumerable<T> newEntities) where T : class, IEntity
     {
         await _context.Set<T>().AddRangeAsync(newEntities);
-    }
-
-    public async Task Delete<T>(Guid id) where T : class, IEntity
-    {
-        var activeEntity = await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
-        activeEntity.IsActive = false;
-        await Task.Run(() => _context.Update(activeEntity));
     }
 
     public async Task Remove<T>(T entity) where T : class, IEntity

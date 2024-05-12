@@ -1,0 +1,20 @@
+@model bool
+
+@if (Model)
+{
+    <li class="">
+        <a href="/logout">
+            <i class="bx bx-log-out icon"></i>
+            <span class="text nav-text">Выйти</span>
+        </a>
+    </li>
+}
+else 
+{
+<li class="">
+    <a href="/login">
+        <i class="bx bx-log-in icon"></i>
+        <span class="text nav-text">Войти</span>
+    </a>
+</li>
+}

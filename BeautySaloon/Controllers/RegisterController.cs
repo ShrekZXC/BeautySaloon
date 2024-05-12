@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using AutoMapper;
+using BeautySaloon.Exception;
 using BeautySaloon.Middleware;
 using BeautySaloon.Model;
 using BeautySaloon.Services.Interfaces;
@@ -12,11 +14,15 @@ public class RegisterController : Controller
 {
     private readonly ILogger<LoginController> _logger;
     private readonly IUserSerivce _userSerivce;
+    private readonly IMapper _mapper;
 
-    public RegisterController(ILogger<LoginController> logger, IUserSerivce userSerivce)
+    public RegisterController(ILogger<LoginController> logger,
+        IUserSerivce userSerivce,
+        IMapper mapper)
     {
         _logger = logger;
         _userSerivce = userSerivce;
+        _mapper = mapper;
     }
     
     [HttpGet]
@@ -34,20 +40,22 @@ public class RegisterController : Controller
         {
             return View("Index", model);
         }
-        var user = new UserModel()
-        {
-            Id = Guid.NewGuid(),
-            FirstName = model.FirstName,
-            SecondName = model.SecondName,
-            LastName = model.LastName,
-            Email = model.Email,
-            Password = model.Password,
-            Phone = model.Phone
-        };
 
-       await _userSerivce.Create(user);
+        try
+        {
+            var user = _mapper.Map<UserModel>(model);
+
+            await _userSerivce.Create(user);
         
-        return RedirectToAction("RegistrationSuccess");
+            return RedirectToAction("RegistrationSuccess");
+            //  return Redirect("/");
+        }
+        catch (DuplicateEmailException)
+        {
+            ModelState.TryAddModelError("Email", "Email уже существует");
+        }
+        
+        return View("Index", model);
     }
 
     public IActionResult RegistrationSuccess()

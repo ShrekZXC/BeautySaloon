@@ -46,7 +46,8 @@ public class SessionService : ISessionService
 
     public async Task Delete(Guid sessionId)
     {
-        await _dbRepository.Delete<SessionEntity>(sessionId);
+        var entity = await _dbRepository.Get<SessionEntity>().FirstOrDefaultAsync(x => x.Id == sessionId);
+        if (entity != null) await _dbRepository.Remove<SessionEntity>(entity);
         await _dbRepository.SaveChangesAsync();
     }
 }

@@ -7,6 +7,8 @@ public interface IUserSerivce
     Task<Guid> Create(UserModel user);
 
     Task<UserModel> Get(Guid Id);
+    
+    Task<UserModel> GetByEmail(string email);
 
     Task Update(UserModel user);
 
