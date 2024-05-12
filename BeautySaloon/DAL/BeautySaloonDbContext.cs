@@ -8,6 +8,10 @@ namespace BeautySaloon.DAL;
 
 public class BeautySaloonDbContext : DbContext
 {
+    public BeautySaloonDbContext(DbContextOptions<BeautySaloonDbContext> options) : base(options)
+    {
+        
+    }
     public DbSet<UserEntity> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

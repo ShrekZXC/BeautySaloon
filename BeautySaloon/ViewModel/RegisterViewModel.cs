@@ -1,7 +1,8 @@
-﻿namespace BeautySaloon.DAL.Entity;
+﻿namespace BeautySaloon.ViewModel;
 
-public class UserEntity : BaseEntity
+public class RegisterViewModel
 {
+        
     public string FirstName { get; set; }
     
     public string SecondName { get; set; }

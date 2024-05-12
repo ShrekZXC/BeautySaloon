@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using BeautySaloon.Model;
 using BeautySaloon.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,31 @@ public class RegisterController : Controller
     [Route("register")]
     public IActionResult Index()
     {
+        return View();
+    }
+    
+    [HttpPost]
+    [Route("register")]
+    public IActionResult Register(RegisterViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View("Index", model);
+        }
+        var user = new User
+        {
+            FirstName = model.FirstName,
+            SecondName = model.SecondName,
+            Email = model.Email,
+            Password = model.Password
+        };
+        
+        return RedirectToAction("RegistrationSuccess");
+    }
+
+    public IActionResult RegistrationSuccess()
+    {
+        // Action for showing registration success page
         return View();
     }
 
