@@ -13,18 +13,21 @@ public class BeautySaloonDbContext : DbContext
         
     }
     public DbSet<UserEntity> Users { get; set; }
+    
+    public DbSet<ServiceEntity> Services { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public async Task<int> SaveChangesAsync()
     {
-        if (!optionsBuilder.IsConfigured)
-        {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
+        return await base.SaveChangesAsync();
+    }
 
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
-            optionsBuilder.UseMySQL(connectionString);
-        }
+    public DbSet<T> DbSet<T>() where T : class
+    {
+        return Set<T>();
+    }
+
+    public new IQueryable<T> Query<T>() where T : class
+    {
+        return Set<T>();
     }
 }
