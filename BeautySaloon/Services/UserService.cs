@@ -47,6 +47,7 @@ public class UserService : IUserSerivce
         
         entity.Salt = Guid.NewGuid().ToString();
         entity.Password = _encrypt.HashPassword(entity.Password, entity.Salt);
+        entity.idRole = 3;
         
         var result = await _dbRepository.Add(entity);
         await _dbSession.SetUserId(result);

@@ -17,4 +17,6 @@ public class UserEntity : BaseEntity
     public string? Phone { get; set; }
     
     public string Salt { get; set; }
+    
+    public int idRole { get; set; }
 }

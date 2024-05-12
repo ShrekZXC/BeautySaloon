@@ -45,7 +45,7 @@ public class LoginController : Controller
             }
             catch (AuthorizationException)
             {
-                ModelState.AddModelError("Email", "Имя или Email неверные");
+                ModelState.AddModelError("Email", "Email или пароль");
             }
         }
 

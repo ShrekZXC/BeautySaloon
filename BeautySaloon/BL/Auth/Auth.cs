@@ -35,7 +35,7 @@ public class Auth : IAuth
     {
         var user = await _userSerivce.GetByEmail(email);
 
-        if (user.Id != null && user.Password == _encrypt.HashPassword(password, user.Salt))
+        if (user != null && user.Password == _encrypt.HashPassword(password, user.Salt))
         {
             await Login(user.Id);
 

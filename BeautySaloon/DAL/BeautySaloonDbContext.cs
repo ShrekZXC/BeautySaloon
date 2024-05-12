@@ -19,6 +19,8 @@ public class BeautySaloonDbContext : DbContext
     public DbSet<SessionEntity> Sessions { get; set; }
     
     public DbSet<UserTokenEntity> userTokens { get; set; }
+    
+    public DbSet<RoleEntity> roles { get; set; }
 
     public async Task<int> SaveChangesAsync()
     {
