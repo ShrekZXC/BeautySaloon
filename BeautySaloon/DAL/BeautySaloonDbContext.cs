@@ -8,19 +8,30 @@ namespace BeautySaloon.DAL;
 
 public class BeautySaloonDbContext : DbContext
 {
-    public DbSet<UserEntity> Users { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public BeautySaloonDbContext(DbContextOptions<BeautySaloonDbContext> options) : base(options)
     {
-        if (!optionsBuilder.IsConfigured)
-        {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
+        
+    }
+    public DbSet<UserEntity> Users { get; set; }
+    
+    public DbSet<ServiceEntity> Services { get; set; }
+    
+    public DbSet<SessionEntity> Sessions { get; set; }
+    
+    public DbSet<UserTokenEntity> userTokens { get; set; }
 
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
-            optionsBuilder.UseMySQL(connectionString);
-        }
+    public async Task<int> SaveChangesAsync()
+    {
+        return await base.SaveChangesAsync();
+    }
+
+    public DbSet<T> DbSet<T>() where T : class
+    {
+        return Set<T>();
+    }
+
+    public new IQueryable<T> Query<T>() where T : class
+    {
+        return Set<T>();
     }
 }
