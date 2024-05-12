@@ -26,6 +26,8 @@ builder.Services.AddTransient<ISessionService, SessionService>();
 builder.Services.AddTransient<IUserTokenService, UserTokenService>();
 builder.Services.AddTransient<IUserSerivce, UserService>();
 builder.Services.AddScoped<IWebCookie, WebCookie>();
+builder.Services.AddScoped<IAuth, Auth>();
+builder.Services.AddSingleton<IEncrypt, Encrypt>();
 
 var app = builder.Build();
 

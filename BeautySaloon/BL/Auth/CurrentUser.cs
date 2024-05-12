@@ -20,6 +20,13 @@ public class CurrentUser: ICurrentUser
         _webCookie = webCookie;
         _userTokenService = userTokenService;
     }
+    
+    private Guid? GetCurrentUserToken() {
+        string? tokenCookie = _webCookie.Get(AuthConstants.RememberMeCookieName);
+        if (tokenCookie == null)
+            return null;
+        return Helpers.StringToGuidDef(tokenCookie ?? "");
+    }
 
     public async Task<Guid?> GetUserIdByToken()
     {
@@ -47,6 +54,20 @@ public class CurrentUser: ICurrentUser
             }
         }
         return isLoggedIn;
+    }
+    
+    public async Task Logout()
+    {
+        await _dbSession.DeleteSessionId();
+
+        Guid? tokenGuid = GetCurrentUserToken();
+        if (tokenGuid != null){
+            await _userTokenService.Delete((Guid)tokenGuid);
+            _webCookie.Delete(AuthConstants.RememberMeCookieName);
+        }
+
+        _webCookie.Delete(AuthConstants.SessionCookieName);
+        _dbSession.ResetSessionCache();
     }
 
     public async Task<Guid?> GetCurrentUserId()

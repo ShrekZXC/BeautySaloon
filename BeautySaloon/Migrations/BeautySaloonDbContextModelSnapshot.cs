@@ -22,6 +22,27 @@ namespace BeautySaloon.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("BeautySaloon.DAL.Entity.RoleEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("idRole")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("roles");
+                });
+
             modelBuilder.Entity("BeautySaloon.DAL.Entity.ServiceEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -65,8 +86,8 @@ namespace BeautySaloon.Migrations
                     b.Property<string>("SessionContent")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -100,9 +121,16 @@ namespace BeautySaloon.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("SecondName")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("idRole")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

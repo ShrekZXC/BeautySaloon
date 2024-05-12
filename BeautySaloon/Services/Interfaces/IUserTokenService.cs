@@ -4,7 +4,7 @@ namespace BeautySaloon.Services.Interfaces;
 
 public interface IUserTokenService
 {
-    Task<Guid> Create(UserTokenModel userTokenModel);
+    Task<Guid> Create(Guid userId);
 
     Task<UserTokenModel> Get(Guid Id);
 

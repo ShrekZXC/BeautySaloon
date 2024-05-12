@@ -15,8 +15,6 @@ public interface IDbRepository
     
     Task AddRange<T>(IEnumerable<T> newEntities) where T : class, IEntity;
 
-    Task Delete<T>(Guid id) where T : class, IEntity;
-
     Task Remove<T>(T entity) where T : class, IEntity;
     
     Task RemoveRange<T>(IEnumerable<T> entities) where T : class, IEntity;

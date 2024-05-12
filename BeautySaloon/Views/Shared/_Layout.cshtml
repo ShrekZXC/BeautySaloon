@@ -75,12 +75,7 @@
         </div>
         
         <div class="bottom-content">
-            <li class="">
-                <a href="#">
-                    <i class="bx bx-log-out icon"></i>
-                    <span class="text nav-text">Выйти</span>
-                </a>
-            </li>
+            @await Component.InvokeAsync("Auth")
             
             <li class="mode">
                 <div class="moon-sun">

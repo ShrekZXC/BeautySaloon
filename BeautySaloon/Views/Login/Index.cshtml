@@ -25,17 +25,24 @@
 
 <div class="wrapper">
     <h2>Авторизация</h2>
-    <form action="#">
+    <form action="/login" method="post">
+        @Html.AntiForgeryToken()
         <div class="input-box">
-            <input type="text" placeholder="Введите ваш email"/>
+            <input type="text" placeholder="Введите ваш email" name="Email"/>
+            @Html.ValidationMessageFor(model => model.Email)
         </div>
         <div class="input-box">
-            <input type="password" placeholder="Введите ваш пароль"/>
+            <input type="password" placeholder="Введите ваш пароль" name="Password"/>
+            @Html.ValidationMessageFor(model => model.Password)
         </div>
         <div class="input-box button">
             <input type="submit" value="Войти"/>
         </div>
+        <div class="text">
+            <h3>Нет аккаунта ? <a href="/register">Зарегистрироваться</a></h3>
+        </div>
     </form>
+    
 </div>
 
 </body>
