@@ -79,4 +79,16 @@ public class DbSession : IDbSession
         var data = await this.GetSession();
         return data.UserId;
     }
+    
+    public void ResetSessionCache()
+    {
+        sessionModel = null;
+    }
+    
+    public async Task DeleteSessionId()
+    {
+        await GetSession();
+        if (this.sessionModel != null)
+            await _sessionService.Delete(sessionModel.Id);
+    }
 }

@@ -5,4 +5,5 @@ public interface ICurrentUser
     Task<bool> IsLoggedIn();
 
     Task<Guid?> GetCurrentUserId();
+    Task Logout();
 }

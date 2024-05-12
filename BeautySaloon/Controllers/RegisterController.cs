@@ -12,11 +12,11 @@ namespace BeautySaloon.Controllers;
 [SiteNotAuthorize()]
 public class RegisterController : Controller
 {
-    private readonly ILogger<LoginController> _logger;
+    private readonly ILogger<RegisterController> _logger;
     private readonly IUserSerivce _userSerivce;
     private readonly IMapper _mapper;
 
-    public RegisterController(ILogger<LoginController> logger,
+    public RegisterController(ILogger<RegisterController> logger,
         IUserSerivce userSerivce,
         IMapper mapper)
     {

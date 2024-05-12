@@ -12,4 +12,8 @@ public interface IDbSession
     Task SetUserId(Guid userId);
     
     Task<Guid?> GetUserId();
+
+    Task DeleteSessionId();
+
+    void ResetSessionCache();
 }

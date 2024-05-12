@@ -32,9 +32,9 @@ public class LoginController : Controller
     }
     
     [HttpPost]
-    [Route("/login")]
+    [Route("login")]
     [AutoValidateAntiforgeryToken]
-    public async Task<IActionResult> IndexSave(LoginViewModel model)
+    public async Task<IActionResult> Login(LoginViewModel model)
     {
         if (ModelState.IsValid)
         {
