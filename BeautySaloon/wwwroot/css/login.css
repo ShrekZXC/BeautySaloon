@@ -123,4 +123,15 @@ form .text h3 a:hover
     text-decoration: underline;
 }
 
+form .field-validation-error
+{
+    color: #f31f1f;
+    font-size: 14px;
+}
+
+form .warning h3
+{
+    text-align: left;
+}
+
 

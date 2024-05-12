@@ -1,9 +1,11 @@
 ﻿using System.Diagnostics;
+using BeautySaloon.Middleware;
 using BeautySaloon.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeautySaloon.Controllers;
 
+[SiteNotAuthorize()]
 public class LoginController : Controller
 {
     private readonly ILogger<LoginController> _logger;

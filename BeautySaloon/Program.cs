@@ -1,4 +1,10 @@
+using BeautySaloon.BL.Auth;
+using BeautySaloon.BL.General;
 using BeautySaloon.DAL;
+using BeautySaloon.DAL.Repository;
+using BeautySaloon.Model;
+using BeautySaloon.Services;
+using BeautySaloon.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -10,6 +16,16 @@ var connectionString = configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<BeautySaloonDbContext>(op =>
     op.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<IDbRepository, DbRepository>();
+builder.Services.AddScoped<ICurrentUser, CurrentUser>();
+builder.Services.AddScoped<IDbSession, DbSession>();
+builder.Services.AddTransient<ISessionService, SessionService>();
+builder.Services.AddTransient<IUserTokenService, UserTokenService>();
+builder.Services.AddTransient<IUserSerivce, UserService>();
+builder.Services.AddScoped<IWebCookie, WebCookie>();
 
 var app = builder.Build();
 

@@ -1,8 +1,8 @@
 ﻿namespace BeautySaloon.Model;
 
-public class User
+public class UserModel
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     
     public string FirstName { get; set; }
     
