@@ -12,6 +12,7 @@ namespace BeautySaloon.Services;
 
 public class UserService : IUserSerivce
 {
+    private readonly int idAdmin = 3;
     private readonly IDbRepository _dbRepository;
     private readonly IMapper _mapper;
     private readonly IEncrypt _encrypt;
@@ -77,6 +78,14 @@ public class UserService : IUserSerivce
         var user = await _dbRepository.Get<UserEntity>().FirstOrDefaultAsync(x=>x.Id == userId);
         if (user != null) await _dbRepository.Remove<UserEntity>(user);
         await _dbRepository.SaveChangesAsync();
+    }
+
+    public async Task<bool> IsAdmin(Guid userId)
+    {        
+        var entity = await _dbRepository.Get<UserEntity>().FirstOrDefaultAsync(x => x.Id == userId);
+        var userModel = _mapper.Map<UserModel>(entity);
+
+        return (userModel.IdRole == idAdmin);
     }
 
     public async Task<UserModel> GetByEmail(string email)

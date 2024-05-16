@@ -35,6 +35,14 @@ public class ServiceService : IServiceService
         return serviceModel;
     }
 
+    public List<ServiceModel> GetAll()
+    {
+        var entities =  _dbRepository.GetAll<ServiceEntity>();
+        var servicesModel = _mapper.Map<List<ServiceModel>>(entities).ToList();
+
+        return servicesModel;
+    }
+
     public async Task Update(ServiceModel serviceModel)
     {
         var entity = _mapper.Map<ServiceEntity>(serviceModel);

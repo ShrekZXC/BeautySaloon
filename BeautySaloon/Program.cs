@@ -23,6 +23,7 @@ builder.Services.AddScoped<IDbRepository, DbRepository>();
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 builder.Services.AddScoped<IDbSession, DbSession>();
 builder.Services.AddTransient<ISessionService, SessionService>();
+builder.Services.AddTransient<IServiceService, ServiceService>();
 builder.Services.AddTransient<IUserTokenService, UserTokenService>();
 builder.Services.AddTransient<IUserSerivce, UserService>();
 builder.Services.AddScoped<IWebCookie, WebCookie>();

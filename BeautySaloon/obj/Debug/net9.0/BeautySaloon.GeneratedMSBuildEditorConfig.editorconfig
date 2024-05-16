@@ -19,6 +19,18 @@ build_property.MSBuildProjectDirectory = C:\Users\ShrekUser\RiderProjects\Beauty
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 9.0
 
+[C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5caW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/service/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cc2VydmljZVxpbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/user/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cdXNlclxpbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -49,6 +61,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Shared/_AdminHeadPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BZG1pbkhlYWRQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Shared/_HeaderPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9IZWFkZXJQYXJ0aWFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Shared/_ValidationScriptsPartial.cshtml]

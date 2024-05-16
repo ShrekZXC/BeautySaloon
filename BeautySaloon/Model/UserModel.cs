@@ -17,4 +17,6 @@ public class UserModel
     public string Phone { get; set; }
     
     public string Salt { get; set; }
+    
+    public int IdRole { get; set; }
 }

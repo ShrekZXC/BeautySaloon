@@ -6,36 +6,40 @@
 
 <div class="container">
     <div class="row">
-        @foreach (var service in Model.services)
+        @if (Model?.services != null)
         {
-            <div class="col-md-3 mt-5">
-                <div class="service">
-                    <div class="image">
-                        <img src="@service.ImageSrc" alt="http://placehold.it/300x400">
-                    </div>
-                    <div class="info-service">
-                        <h3>@service.Name</h3>
+            foreach (var service in Model?.services)
+            {
+                <div class="col-md-3 mt-5">
+                    <div class="service">
+                        <div class="image">
+                            <img src="@service.ImageSrc" alt="http://placehold.it/300x400">
+                        </div>
+                        <div class="info-service">
+                            <h3>@service.Name</h3>
 
-                        <ul class="rating">
-                            <li>
-                                <i class='bx bxs-star'></i>
-                                <i class='bx bxs-star'></i>
-                                <i class='bx bxs-star'></i>
-                                <i class='bx bxs-star'></i>
-                                <i class='bx bxs-star-half'></i>
-                            </li>
-                        </ul>
-                        <div class="info-price">
-                            <span class="price">@service.Price
-                                <small>₽</small>
-                            </span>
-                            <button class="add-to-cart">
-                                <i class='bx bx-check'></i>
-                            </button>
+                            <ul class="rating">
+                                <li>
+                                    <i class='bx bxs-star'></i>
+                                    <i class='bx bxs-star'></i>
+                                    <i class='bx bxs-star'></i>
+                                    <i class='bx bxs-star'></i>
+                                    <i class='bx bxs-star-half'></i>
+                                </li>
+                            </ul>
+                            <div class="info-price">
+                                <span class="price">
+                                    @service.Price
+                                    <small>₽</small>
+                                </span>
+                                <button class="add-to-cart">
+                                    <i class='bx bx-check'></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>   
+            }
         }
     </div>
 </div>

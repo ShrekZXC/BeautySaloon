@@ -13,4 +13,6 @@ public interface IUserSerivce
     Task Update(UserModel user);
 
     Task Delete(Guid userId);
+
+    Task<bool> IsAdmin(Guid userId);
 }

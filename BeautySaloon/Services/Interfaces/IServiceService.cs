@@ -10,5 +10,7 @@ public interface IServiceService
 
     Task Update(ServiceModel serviceModel);
 
+    List<ServiceModel> GetAll();
+
     Task Delete(Guid serviceId);
 }
