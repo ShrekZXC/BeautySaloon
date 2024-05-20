@@ -614,6 +614,22 @@
           }
         }
       },
+      "SixLabors.ImageSharp/3.1.4": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/SixLabors.ImageSharp.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/SixLabors.ImageSharp.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "build/SixLabors.ImageSharp.props": {}
+        }
+      },
       "System.CodeDom/6.0.0": {
         "type": "package",
         "compile": {
@@ -1853,6 +1869,22 @@
         "pomelo.entityframeworkcore.mysql.nuspec"
       ]
     },
+    "SixLabors.ImageSharp/3.1.4": {
+      "sha512": "lFIdxgGDA5iYkUMRFOze7BGLcdpoLFbR+a20kc1W7NepvzU7ejtxtWOg9RvgG7kb9tBoJ3ONYOK6kLil/dgF1w==",
+      "type": "package",
+      "path": "sixlabors.imagesharp/3.1.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "build/SixLabors.ImageSharp.props",
+        "lib/net6.0/SixLabors.ImageSharp.dll",
+        "lib/net6.0/SixLabors.ImageSharp.xml",
+        "sixlabors.imagesharp.128.png",
+        "sixlabors.imagesharp.3.1.4.nupkg.sha512",
+        "sixlabors.imagesharp.nuspec"
+      ]
+    },
     "System.CodeDom/6.0.0": {
       "sha512": "CPc6tWO1LAer3IzfZufDBRL+UZQcj5uS207NHALQzP84Vp/z6wF0Aa0YZImOQY8iStY0A2zI/e3ihKNPfUm8XA==",
       "type": "package",
@@ -2279,7 +2311,8 @@
       "AutoMapper >= 13.0.1",
       "Microsoft.EntityFrameworkCore >= 9.0.0-preview.1.24081.2",
       "Microsoft.EntityFrameworkCore.Design >= 9.0.0-preview.1.24081.2",
-      "Pomelo.EntityFrameworkCore.MySql >= 9.0.0-preview.1"
+      "Pomelo.EntityFrameworkCore.MySql >= 9.0.0-preview.1",
+      "SixLabors.ImageSharp >= 3.1.4"
     ]
   },
   "packageFolders": {
@@ -2348,6 +2381,10 @@
           "Pomelo.EntityFrameworkCore.MySql": {
             "target": "Package",
             "version": "[9.0.0-preview.1, )"
+          },
+          "SixLabors.ImageSharp": {
+            "target": "Package",
+            "version": "[3.1.4, )"
           }
         },
         "imports": [

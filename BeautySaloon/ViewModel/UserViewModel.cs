@@ -14,6 +14,7 @@ public class UserViewModel
     
     public string Phone { get; set; }
     
+    public string Password { get; set; }
     public string Salt { get; set; }
     
     public int IdRole { get; set; }

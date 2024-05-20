@@ -20,18 +20,15 @@ public class ServicesController : Controller
         _mapper = mapper;
     }
 
+    [HttpGet]
     [Route("services")]
     public IActionResult Index()
     {
         var services = _serviceService.GetAll();
-        var servicesViewModel = new ServicesViewModel();
-        if (services.Count>0)
-        {
-            var serviceViewModel = _mapper.Map<List<ServiceViewModel>>(services);
-            servicesViewModel.services = serviceViewModel;
-        }
         
-        return View(servicesViewModel);
+        var serviceViewModel = _mapper.Map<List<ServiceViewModel>>(services);
+        
+        return View(serviceViewModel);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -16,6 +16,6 @@ public class BeautySaloonProfile: Profile
         CreateMap<ProfileViewModel, UserModel>().ReverseMap();
         CreateMap<UserViewModel, UserModel>().ReverseMap();
         CreateMap<ServiceModel, ServiceViewModel>().ReverseMap();
-        //CreateMap<List<ServiceModel>, List<ServiceViewModel>>().ReverseMap();
+        CreateMap<ServiceModel, ServiceEntity>().ReverseMap();
     }
 }

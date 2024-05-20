@@ -166,3 +166,4 @@ C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\bin\Debug\net9.0\zh-H
 C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\bin\Debug\net9.0\MySqlConnector.dll
 C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\bin\Debug\net9.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\bin\Debug\net9.0\SixLabors.ImageSharp.dll

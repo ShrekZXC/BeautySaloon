@@ -18,5 +18,5 @@ public class UserEntity : BaseEntity
     
     public string Salt { get; set; }
     
-    public int idRole { get; set; }
+    public RoleEntity Role { get; set; }
 }

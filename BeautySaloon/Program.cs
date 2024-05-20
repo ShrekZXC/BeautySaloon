@@ -15,8 +15,10 @@ var connectionString = configuration.GetConnectionString("DefaultConnection");
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<BeautySaloonDbContext>(op =>
-    op.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
-
+{
+    op.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+    op.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+});
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IDbRepository, DbRepository>();

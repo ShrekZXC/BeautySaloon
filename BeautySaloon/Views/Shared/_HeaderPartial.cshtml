@@ -5,11 +5,17 @@
     </a>
 
     <ul class="nav nav-pills">
-        <li class="nav-item"><a href="/admin/user" class="nav-link 
+        <li class="nav-item"><a href=@Url.Action("Index", "AdminUser") class="nav-link 
 @(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminUser" ? "active" : "")
 ">Пользователи</a></li>
-        <li class="nav-item"><a href="/admin/service" class="nav-link 
+        <li class="nav-item"><a href=@Url.Action("Index", "AdminService") class="nav-link 
 @(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminService" ? "active" : "")
 ">Услуги</a></li>
+        <li class="nav-item"><a href=@Url.Action("Index", "AdminPromotion") class="nav-link 
+@(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminService" ? "active" : "")
+">Акций</a></li>
+        <li class="nav-item"><a href=@Url.Action("Index", "AdminSchedule") class="nav-link 
+@(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminService" ? "active" : "")
+">Расписание</a></li>
     </ul>
 </header>

@@ -1,0 +1,36 @@
+﻿@model BeautySaloon.ViewModel.ServiceViewModel
+
+@{
+    Layout = null;
+}
+<html lang="ru">
+
+@Html.Partial("_AdminHeadPartial")
+
+@Html.Partial("_HeaderPartial")
+
+<body>
+<div class="container mt-5">
+    <h2>Добавление услуги</h2>
+    <form id="addService" method="post" action=@Url.Action("Add", "AdminService") enctype="multipart/form-data">
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <div class="form-group">
+            <label for="Name">Название</label>
+            <input type="text" class="form-control" id="Name" name="Name">
+        </div>
+        <div class="form-group">
+            <label for="Description">Описание</label>
+            <input type="text" class="form-control" id="Description" name="Description">
+        </div>
+        <div class="form-group">
+            <label for="Price">Цена</label>
+            <input type="text" class="form-control" id="Price" name="Price">
+        </div>
+        <div class="form-group">
+            <label for="ImageSrc">Загрузить изображение</label>
+            <input type="file" class="form-control-file" id="ImageSrc" name="ImageSrc">
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+</div>
+</body>

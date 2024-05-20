@@ -4,6 +4,7 @@ using BeautySaloon.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeautySaloon.Migrations
 {
     [DbContext(typeof(BeautySaloonDbContext))]
-    partial class BeautySaloonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240520095106_VosemUpdate")]
+    partial class VosemUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,31 +24,6 @@ namespace BeautySaloon.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
-
-            modelBuilder.Entity("BeautySaloon.DAL.Entity.CategoryEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImgSrc")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Caregories");
-                });
 
             modelBuilder.Entity("BeautySaloon.DAL.Entity.RoleEntity", b =>
                 {
@@ -77,9 +55,6 @@ namespace BeautySaloon.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<int>("IdCatorgory")
-                        .HasColumnType("int");
 
                     b.Property<string>("ImageSrc")
                         .IsRequired()

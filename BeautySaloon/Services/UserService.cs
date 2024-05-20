@@ -73,12 +73,21 @@ public class UserService : IUserSerivce
         return users;
     }
 
-    public async Task Update(UserModel userModel)
+    public async Task<bool> Update(UserModel userModel)
     {
-        var entity = _mapper.Map<UserEntity>(userModel);
+        try
+        {
+            var entity = _mapper.Map<UserEntity>(userModel);
             
-        await _dbRepository.Update(entity);
-        await _dbRepository.SaveChangesAsync();
+            await _dbRepository.Update(entity);
+            await _dbRepository.SaveChangesAsync();
+
+            return true;
+        }
+        catch (System.Exception ex)
+        {
+            return false;
+        }
     }
 
     public async Task Delete(Guid userId)
