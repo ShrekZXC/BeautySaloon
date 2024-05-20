@@ -1,4 +1,4 @@
-﻿@model BeautySaloon.ViewModel.ServicesViewModel
+﻿@model List<BeautySaloon.ViewModel.ServiceViewModel>
 
 @{
     ViewData["Title"] = "Services Page";
@@ -6,40 +6,37 @@
 
 <div class="container">
     <div class="row">
-        @if (Model?.services != null)
+        @foreach (var service in Model)
         {
-            foreach (var service in Model?.services)
-            {
-                <div class="col-md-3 mt-5">
-                    <div class="service">
-                        <div class="image">
-                            <img src="@service.ImageSrc" alt="http://placehold.it/300x400">
-                        </div>
-                        <div class="info-service">
-                            <h3>@service.Name</h3>
+            <div class="col-md-3 mt-5">
+                <div class="service">
+                    <div class="image">
+                        <img src="@service.ImageSrc" alt="http://placehold.it/300x400">
+                    </div>
+                    <div class="info-service">
+                        <h3>@service.Name</h3>
 
-                            <ul class="rating">
-                                <li>
-                                    <i class='bx bxs-star'></i>
-                                    <i class='bx bxs-star'></i>
-                                    <i class='bx bxs-star'></i>
-                                    <i class='bx bxs-star'></i>
-                                    <i class='bx bxs-star-half'></i>
-                                </li>
-                            </ul>
-                            <div class="info-price">
-                                <span class="price">
-                                    @service.Price
-                                    <small>₽</small>
-                                </span>
-                                <button class="add-to-cart">
-                                    <i class='bx bx-check'></i>
-                                </button>
-                            </div>
+                        <ul class="rating">
+                            <li>
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star-half'></i>
+                            </li>
+                        </ul>
+                        <div class="info-price">
+                            <span class="price">
+                                @service.Price
+                                <small>₽</small>
+                            </span>
+                            <button class="add-to-cart">
+                                <i class='bx bx-check'></i>
+                            </button>
                         </div>
                     </div>
                 </div>
-            }
+            </div>
         }
     </div>
 </div>
