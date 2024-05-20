@@ -38,27 +38,20 @@
                 <button class="btn btn-primary" onclick="editUser('@user.Id')">Редактировать</button>
                 <button class="btn btn-danger" onclick="deleteUser('@user.Id')">Удалить</button>
             </td> <!-- Добавлены кнопки "Редактировать" и "Удалить" -->
-
         </tr>
     }
     </tbody>
 </table>
-<button class="btn btn-success" onclick="addUser()">Добавить пользователя</button> <!-- Кнопка для добавления пользователя -->
-
 </body>
 
 <script>
     function editUser(id) {
-        window.location.href = '/users/edit/' + id;
+        window.location.href = 'user/update?id=' + id;
     }
 
     function deleteUser(id) {
         if (confirm('Вы уверены, что хотите удалить этого пользователя?')) {
-            window.location.href = '/users/delete/' + id;
+            window.location.href = '/user/delete/' + id;
         }
-    }
-
-    function addUser() {
-        window.location.href = '/users/create';
     }
 </script>
