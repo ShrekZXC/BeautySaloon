@@ -15,4 +15,6 @@ public interface IUserSerivce
     Task Delete(Guid userId);
 
     Task<bool> IsAdmin(Guid userId);
+
+    List<UserModel> GetAll();
 }

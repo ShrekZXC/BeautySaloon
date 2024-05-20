@@ -10,10 +10,10 @@ namespace BeautySaloon.Controllers;
 
 public class AdminBaseController  : Controller
 {
-    private readonly ILogger<AdminBaseController > _logger;
-    private readonly IUserSerivce _userService;
-    private readonly ICurrentUser _currentUser;
-    private readonly IMapper _mapper;
+    protected readonly ILogger<AdminBaseController > _logger;
+    protected readonly IUserSerivce _userService;
+    protected readonly ICurrentUser _currentUser;
+    protected readonly IMapper _mapper;
 
     public AdminBaseController (ILogger<AdminBaseController > logger,
         ICurrentUser currentUser,

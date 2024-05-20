@@ -64,6 +64,14 @@ public class UserService : IUserSerivce
 
         return userModel;
     }
+    
+    public List<UserModel> GetAll()
+    {
+        var entity =  _dbRepository.GetAll<UserEntity>();
+        var users = _mapper.Map<List<UserModel>>(entity).ToList();
+
+        return users;
+    }
 
     public async Task Update(UserModel userModel)
     {

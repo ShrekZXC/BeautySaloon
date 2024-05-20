@@ -1,3 +1,5 @@
+@model List<BeautySaloon.ViewModel.ServiceViewModel>
+
 @{
     Layout = null;
 }
@@ -7,3 +9,30 @@
 </head>
 
 @Html.Partial("_HeaderPartial")
+
+<body>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Название</th>
+        <th scope="col">Описание</th>
+        <th scope="col">Цена</th>
+        <th scope="col">Изображение</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var service in Model)
+    {
+        <tr>
+            <th scope="row">1</th>
+            <td>@service.Id</td>
+            <td>@service.Name</td>
+            <td>@service.Description</td>
+            <td>@service.Price</td>
+            <td>@service.ImageSrc</td>
+        </tr>
+    }
+    </tbody>
+</table>
+</body>

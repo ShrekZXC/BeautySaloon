@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BeautySaloon.BL.Auth;
 using BeautySaloon.Services.Interfaces;
+using BeautySaloon.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeautySaloon.Controllers;
@@ -22,7 +23,8 @@ public class AdminUserController(
             return accessResult;
         }
 
-        // Ваш код
-        return View("~/Views/Admin/User/Index.cshtml");
+        var users = _userService.GetAll();
+
+        return View("~/Views/Admin/User/Index.cshtml", _mapper.Map<List<UserViewModel>>(users));
     }
 }
