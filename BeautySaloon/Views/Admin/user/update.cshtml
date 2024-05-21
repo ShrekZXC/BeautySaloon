@@ -38,11 +38,11 @@
             <input type="tel" class="form-control" id="Phone" name="Phone" value="@Model.Phone">
         </div>
         <div class="form-group">
-            <label for="IdRole">Роль</label>
-            <select class="form-control" id="IdRole" name="IdRole">
-                <option value="1" selected="@(Model.IdRole == 1 ? "selected" : null)">Пользователь</option>
-                <option value="2" selected="@(Model.IdRole == 2 ? "selected" : null)">Работник</option>
-                <option value="3" selected="@(Model.IdRole == 3 ? "selected" : null)">Админ</option>
+            <label for="RoleId">Роль</label>
+            <select class="form-control" id="RoleId" name="RoleId">
+                <option value="425abb27-6970-41dc-8e54-ae8ffe3c3e0e" selected="@(Model.RoleId == new Guid("425abb27-6970-41dc-8e54-ae8ffe3c3e0e") ? "selected" : null)">Пользователь</option>
+                <option value="0561523a-38b5-4376-8cb3-a13da891e364" selected="@(Model.RoleId == new Guid("0561523a-38b5-4376-8cb3-a13da891e364") ? "selected" : null)">Работник</option>
+                <option value="8c1e6b9f-7c66-4594-8f81-a5dffce769de" selected="@(Model.RoleId == new Guid("8c1e6b9f-7c66-4594-8f81-a5dffce769de") ? "selected" : null)">Админ</option>
             </select>
         </div>
         <input type="hidden" name="Password" value="@Model.Password" />
