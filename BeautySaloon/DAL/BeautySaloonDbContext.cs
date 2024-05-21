@@ -21,6 +21,8 @@ public class BeautySaloonDbContext : DbContext
     public DbSet<UserTokenEntity> userTokens { get; set; }
     
     public DbSet<RoleEntity> roles { get; set; }
+    
+    public DbSet<CategoryEntity> Caregories { get; set; }
 
     public async Task<int> SaveChangesAsync()
     {

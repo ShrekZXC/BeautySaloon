@@ -1,0 +1,46 @@
+@model List<BeautySaloon.ViewModel.ServiceViewModel>
+
+@{
+    Layout = null;
+}
+<html lang="ru">
+<head>
+    @Html.Partial("_AdminHeadPartial")
+</head>
+
+@Html.Partial("_HeaderPartial")
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-right mb-3">
+            <a href="@Url.Action("Add", "AdminService")" class="btn btn-primary">Добавить услугу</a>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Название</th>
+            <th scope="col">Описание</th>
+            <th scope="col">Цена</th>
+            <th scope="col">Категория</th>
+            <th scope="col">Изображение</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var service in Model)
+        {
+        <tr>
+            <th scope="row">@service.Id</th>
+            <td>@service.Name</td>
+            <td>@service.Description</td>
+            <td>@service.Price</td>
+            <td>@service.Category</td>
+            <td><img src="@service.ImageSrc" alt="@service.Name" width="100"/></td>
+        </tr>
+        }
+        </tbody>
+    </table>
+</div>
+</body>

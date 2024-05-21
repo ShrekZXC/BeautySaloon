@@ -10,7 +10,11 @@ public interface IUserSerivce
     
     Task<UserModel> GetByEmail(string email);
 
-    Task Update(UserModel user);
+    Task<bool> Update(UserModel user);
 
     Task Delete(Guid userId);
+
+    Task<bool> IsAdmin(Guid userId);
+
+    List<UserModel> GetAll();
 }

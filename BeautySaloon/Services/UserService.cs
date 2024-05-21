@@ -12,6 +12,7 @@ namespace BeautySaloon.Services;
 
 public class UserService : IUserSerivce
 {
+    private readonly Guid AdminId = new Guid("8c1e6b9f-7c66-4594-8f81-a5dffce769de");
     private readonly IDbRepository _dbRepository;
     private readonly IMapper _mapper;
     private readonly IEncrypt _encrypt;
@@ -47,8 +48,9 @@ public class UserService : IUserSerivce
         
         entity.Salt = Guid.NewGuid().ToString();
         entity.Password = _encrypt.HashPassword(entity.Password, entity.Salt);
-        entity.idRole = 3;
-        
+        // Установите RoleId на нужное значение, например, для роли "Пользователь"
+        entity.RoleId = new Guid("425abb27-6970-41dc-8e54-ae8ffe3c3e0e");  // Замените на соответствующий GUID роли
+
         var result = await _dbRepository.Add(entity);
         await _dbSession.SetUserId(result);
         await _dbRepository.SaveChangesAsync();
@@ -63,13 +65,30 @@ public class UserService : IUserSerivce
 
         return userModel;
     }
-
-    public async Task Update(UserModel userModel)
+    
+    public List<UserModel> GetAll()
     {
-        var entity = _mapper.Map<UserEntity>(userModel);
+        var entity =  _dbRepository.GetAll<UserEntity>();
+        var users = _mapper.Map<List<UserModel>>(entity).ToList();
+
+        return users;
+    }
+
+    public async Task<bool> Update(UserModel userModel)
+    {
+        try
+        {
+            var entity = _mapper.Map<UserEntity>(userModel);
             
-        await _dbRepository.Update(entity);
-        await _dbRepository.SaveChangesAsync();
+            await _dbRepository.Update(entity);
+            await _dbRepository.SaveChangesAsync();
+
+            return true;
+        }
+        catch (System.Exception ex)
+        {
+            return false;
+        }
     }
 
     public async Task Delete(Guid userId)
@@ -77,6 +96,15 @@ public class UserService : IUserSerivce
         var user = await _dbRepository.Get<UserEntity>().FirstOrDefaultAsync(x=>x.Id == userId);
         if (user != null) await _dbRepository.Remove<UserEntity>(user);
         await _dbRepository.SaveChangesAsync();
+    }
+
+    public async Task<bool> IsAdmin(Guid userId)
+    {        
+        var entity = await _dbRepository.Get<UserEntity>()
+            .Include(x=>x.Role)
+            .FirstOrDefaultAsync(x => x.Id == userId);
+        
+        return entity != null && entity.Role.Id == AdminId;
     }
 
     public async Task<UserModel> GetByEmail(string email)

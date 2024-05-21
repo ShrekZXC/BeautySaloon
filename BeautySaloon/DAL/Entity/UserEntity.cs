@@ -18,5 +18,7 @@ public class UserEntity : BaseEntity
     
     public string Salt { get; set; }
     
-    public int idRole { get; set; }
+    public Guid RoleId { get; set; }  // Свойство RoleId для связи с RoleEntity
+    
+    public RoleEntity Role { get; set; }
 }

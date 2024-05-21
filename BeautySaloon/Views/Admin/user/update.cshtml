@@ -1,0 +1,53 @@
+﻿@model BeautySaloon.ViewModel.UserViewModel
+
+@{
+    Layout = null;
+}
+<html lang="ru">
+
+@Html.Partial("_AdminHeadPartial")
+
+@Html.Partial("_HeaderPartial")
+
+<body>
+<div class="container mt-5">
+    <h2>Редактирование пользователя</h2>
+    <form id="editUserForm" method="post" action=@Url.Action("UpdateUser","AdminUser")>
+        <div class="form-group">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id" readonly value="@Model.Id">
+        </div>
+        <div class="form-group">
+            <label for="FirstName">Имя</label>
+            <input type="text" class="form-control" id="FirstName" name="FirstName" required value="@Model.FirstName">
+        </div>
+        <div class="form-group">
+            <label for="SecondName">Фамилия</label>
+            <input type="text" class="form-control" id="SecondName" name="SecondName" required value="@Model.SecondName">
+        </div>
+        <div class="form-group">
+            <label for="LastName">Отчество</label>
+            <input type="text" class="form-control" id="LastName" name="LastName" value="@Model.LastName">
+        </div>
+        <div class="form-group">
+            <label for="Email">Email</label>
+            <input type="email" class="form-control" id="Email" name="Email" required value="@Model.Email">
+        </div>
+        <div class="form-group">
+            <label for="Phone">Телефон</label>
+            <input type="tel" class="form-control" id="Phone" name="Phone" value="@Model.Phone">
+        </div>
+        <div class="form-group">
+            <label for="IdRole">Роль</label>
+            <select class="form-control" id="IdRole" name="IdRole">
+                <option value="1" selected="@(Model.IdRole == 1 ? "selected" : null)">Пользователь</option>
+                <option value="2" selected="@(Model.IdRole == 2 ? "selected" : null)">Работник</option>
+                <option value="3" selected="@(Model.IdRole == 3 ? "selected" : null)">Админ</option>
+            </select>
+        </div>
+        <input type="hidden" name="Password" value="@Model.Password" />
+        <input type="hidden" name="Salt" value="@Model.Salt" />
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+</div>
+</body>

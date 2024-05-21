@@ -22,6 +22,28 @@ namespace BeautySaloon.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("BeautySaloon.DAL.Entity.CategoryEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("ImgSrc")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Caregories");
+                });
+
             modelBuilder.Entity("BeautySaloon.DAL.Entity.RoleEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -35,9 +57,6 @@ namespace BeautySaloon.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("idRole")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("roles");
@@ -50,6 +69,13 @@ namespace BeautySaloon.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("IdCatorgory")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageSrc")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -121,6 +147,9 @@ namespace BeautySaloon.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("longtext");
 
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("char(36)");
+
                     b.Property<string>("Salt")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -129,10 +158,9 @@ namespace BeautySaloon.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("idRole")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -155,6 +183,22 @@ namespace BeautySaloon.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("userTokens");
+                });
+
+            modelBuilder.Entity("BeautySaloon.DAL.Entity.UserEntity", b =>
+                {
+                    b.HasOne("BeautySaloon.DAL.Entity.RoleEntity", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("BeautySaloon.DAL.Entity.RoleEntity", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }
