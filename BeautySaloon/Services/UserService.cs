@@ -12,7 +12,7 @@ namespace BeautySaloon.Services;
 
 public class UserService : IUserSerivce
 {
-    private readonly int idAdmin = 3;
+    private readonly Guid AdminId = new Guid("8c1e6b9f-7c66-4594-8f81-a5dffce769de");
     private readonly IDbRepository _dbRepository;
     private readonly IMapper _mapper;
     private readonly IEncrypt _encrypt;
@@ -48,8 +48,9 @@ public class UserService : IUserSerivce
         
         entity.Salt = Guid.NewGuid().ToString();
         entity.Password = _encrypt.HashPassword(entity.Password, entity.Salt);
-        entity.RoleId = 1; 
-        
+        // Установите RoleId на нужное значение, например, для роли "Пользователь"
+        entity.RoleId = new Guid("425abb27-6970-41dc-8e54-ae8ffe3c3e0e");  // Замените на соответствующий GUID роли
+
         var result = await _dbRepository.Add(entity);
         await _dbSession.SetUserId(result);
         await _dbRepository.SaveChangesAsync();
@@ -99,10 +100,11 @@ public class UserService : IUserSerivce
 
     public async Task<bool> IsAdmin(Guid userId)
     {        
-        var entity = await _dbRepository.Get<UserEntity>().FirstOrDefaultAsync(x => x.Id == userId);
-        var userModel = _mapper.Map<UserModel>(entity);
-
-        return (userModel.IdRole == idAdmin);
+        var entity = await _dbRepository.Get<UserEntity>()
+            .Include(x=>x.Role)
+            .FirstOrDefaultAsync(x => x.Id == userId);
+        
+        return entity != null && entity.Role.Id == AdminId;
     }
 
     public async Task<UserModel> GetByEmail(string email)

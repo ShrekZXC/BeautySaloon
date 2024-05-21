@@ -28,9 +28,6 @@ namespace BeautySaloon.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ImgSrc")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -59,9 +56,6 @@ namespace BeautySaloon.Migrations
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<int>("idRole")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -153,6 +147,9 @@ namespace BeautySaloon.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("longtext");
 
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("char(36)");
+
                     b.Property<string>("Salt")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -161,10 +158,9 @@ namespace BeautySaloon.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("idRole")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -187,6 +183,22 @@ namespace BeautySaloon.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("userTokens");
+                });
+
+            modelBuilder.Entity("BeautySaloon.DAL.Entity.UserEntity", b =>
+                {
+                    b.HasOne("BeautySaloon.DAL.Entity.RoleEntity", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("BeautySaloon.DAL.Entity.RoleEntity", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }
