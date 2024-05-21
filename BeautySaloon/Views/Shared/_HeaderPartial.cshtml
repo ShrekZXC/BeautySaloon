@@ -17,5 +17,8 @@
         <li class="nav-item"><a href=@Url.Action("Index", "AdminSchedule") class="nav-link 
 @(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminSchedule" ? "active" : "")
 ">Расписание</a></li>
+        <li class="nav-item"><a href=@Url.Action("Index", "AdminCategory") class="nav-link 
+@(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminCategory" ? "active" : "")
+">Категории</a></li>
     </ul>
 </header>

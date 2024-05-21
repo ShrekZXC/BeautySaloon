@@ -1,0 +1,28 @@
+﻿@model BeautySaloon.ViewModel.CategoryViewModel
+
+@{
+Layout = null;
+}
+<html lang="ru">
+
+@Html.Partial("_AdminHeadPartial")
+
+@Html.Partial("_HeaderPartial")
+
+<body>
+<div class="container mt-5">
+    <h2>Добавление категории</h2>
+    <form id="addService" method="post" action=@Url.Action("Add", "AdminCategory") enctype="multipart/form-data">
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <div class="form-group">
+            <label for="Name">Название</label>
+            <input type="text" class="form-control" id="Name" name="Name">
+        </div>
+        <div class="form-group">
+            <label for="ImgSrc">Загрузить изображение</label>
+            <input type="file" class="form-control-file" id="ImgSrc" name="ImgSrc">
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+</div>
+</body>

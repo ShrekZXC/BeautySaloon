@@ -1,0 +1,60 @@
+﻿@model List<BeautySaloon.ViewModel.CategoryViewModel>
+
+@{
+    Layout = null;
+}
+<html lang="ru">
+<head>
+    @Html.Partial("_AdminHeadPartial")
+</head>
+
+@Html.Partial("_HeaderPartial")
+
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-right mb-3">
+            <a href="@Url.Action("Add", "AdminCategory")" class="btn btn-primary">Добавить категорию</a>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Название</th>
+            <th scope="col">Изображение</th>
+            <th scope="col">Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>@category.ImgSrc</td>
+                <td>
+                    <button class="btn btn-primary" onclick="location.href='@Url.Action("Update", "AdminCategory", new {id = category.Id})'">Редактировать</button>
+                    <button class="btn btn-danger" onclick="deleteCategory('@category.Id')">Удалить</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+</body>
+
+<script>
+    function editUser(id) {
+        window.location.href = 'user/update?id=' + id;
+    }
+
+    function deleteCategory(id) {
+        if (confirm('Вы уверены, что хотите удалить этоу категорию?')) {
+            window.location.href = '/user/delete/' + id;
+        }
+    }
+
+    function addUser() {
+        window.location.href = '/users/create';
+    }
+</script>

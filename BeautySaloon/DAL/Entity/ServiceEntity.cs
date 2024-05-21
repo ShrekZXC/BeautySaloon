@@ -10,5 +10,7 @@ public class ServiceEntity : BaseEntity
     
     public decimal Price { get; set; }
     
-    public int IdCatorgory { get; set; }
+    public Guid CategoryId { get; set; }
+    
+    public CategoryEntity Category { get; set; }
 }
