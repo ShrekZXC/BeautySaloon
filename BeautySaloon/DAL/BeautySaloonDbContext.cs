@@ -1,7 +1,4 @@
-﻿using BeautySaloon.Model;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 using BeautySaloon.DAL.Entity;
 
 namespace BeautySaloon.DAL;

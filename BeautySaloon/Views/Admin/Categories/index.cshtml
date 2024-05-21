@@ -31,7 +31,7 @@
         {
             <tr>
                 <td>@category.Name</td>
-                <td>@category.ImgSrc</td>
+                <td><img src="@category.ImgSrc" alt="@category.Name" width="100"/></td>
                 <td>
                     <button class="btn btn-primary" onclick="location.href='@Url.Action("Update", "AdminCategory", new {id = category.Id})'">Редактировать</button>
                     <button class="btn btn-danger" onclick="deleteCategory('@category.Id')">Удалить</button>

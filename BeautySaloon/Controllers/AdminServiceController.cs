@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BeautySaloon.Controllers;
 
 public class AdminServiceController(
+    ICategoryService categoryService,
     ILogger<AdminServiceController> logger,
     ICurrentUser currentUser,
     IUserSerivce userService,
@@ -16,6 +17,7 @@ public class AdminServiceController(
     IServiceService serviceService)
     : AdminBaseController(logger, currentUser, userService, mapper)
 {
+    private readonly ICategoryService _categoryService = categoryService;
     private readonly IServiceService _serviceService = serviceService ?? throw new ArgumentNullException(nameof(serviceService));
 
     [HttpGet]
@@ -50,7 +52,8 @@ public class AdminServiceController(
 
         return View("~/Views/Admin/service/add.cshtml", new ServiceViewModel
         {
-            Id = Guid.NewGuid()
+            Id = Guid.NewGuid(),
+            Categories = _mapper.Map<List<CategoryViewModel>>(_categoryService.GetAll())
         });
     }
     

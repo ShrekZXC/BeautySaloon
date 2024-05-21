@@ -11,4 +11,8 @@ public class ServiceModel
     public string ImageSrc { get; set; }
     
     public decimal Price { get; set; }
+    
+    public string CategoryId { get; set; }
+    
+    public CategoryModel Category { get; set; }
 }
