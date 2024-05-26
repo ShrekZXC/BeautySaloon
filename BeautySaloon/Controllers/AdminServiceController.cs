@@ -121,7 +121,7 @@ public class AdminServiceController(
     }
 
     [HttpPost]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete([FromBody] Guid id)
     {
         var accessResult = await CheckAdminAccess();
         if (accessResult != null)
@@ -131,7 +131,7 @@ public class AdminServiceController(
 
         await _serviceService.Delete(id);
 
-        return View("Index");
+        return Json(new { success = true });
     }
     
 }

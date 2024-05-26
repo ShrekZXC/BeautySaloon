@@ -56,9 +56,21 @@
 </body>
 
 <script>
-    function deleteService(id) {
-        if (confirm('Вы уверены, что хотите удалить эту услугу ?')) {
-            window.location.href = '/service/delete/' + id;
+    async function deleteService(id) {
+        if (confirm('Вы уверены, что хотите удалить услугу?')) {
+            const response = await fetch('@Url.Action("Delete", "AdminService")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(id)
+            });
+
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Ошибка при удалении услуги.');
+            }
         }
     }
 </script>
