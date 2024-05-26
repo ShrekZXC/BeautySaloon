@@ -37,7 +37,7 @@ public class ServiceService : IServiceService
 
     public List<ServiceModel> GetAll()
     {
-        var entities =  _dbRepository.GetAll<ServiceEntity>();
+        var entities =  _dbRepository.GetAll<ServiceEntity>().Include(x=>x.Category);
         var servicesModel = _mapper.Map<List<ServiceModel>>(entities).ToList();
 
         return servicesModel;

@@ -22,5 +22,7 @@ public class BeautySaloonProfile: Profile
         CreateMap<CategoryEntity, CategoryModel>().ReverseMap();
         CreateMap<CategoryModel, CategoryViewModel>().ReverseMap();
         CreateMap<RoleModel, RoleViewModel>().ReverseMap();
+        CreateMap<PromotionEntity, PromotionModel>().ReverseMap();
+        CreateMap<PromotionModel, PromotionViewModel>().ReverseMap();
     }
 }

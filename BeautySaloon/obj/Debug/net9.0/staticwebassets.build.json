@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "J6Rf6xHdwxh0B2xDCWXEsLnw0FApQabLieV0xx6oRCs=",
+  "Hash": "6DzdTGbVe7KVEBiM5YGBGJscXbW7XW0GuuRNh7SwMXo=",
   "Source": "BeautySaloon",
   "BasePath": "_content/BeautySaloon",
   "Mode": "Default",
@@ -1307,6 +1307,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\07\\0795\\stock-vector-file-formats-vector-icon-illustration-jpg-jpeg-2273723869.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\images\\11\\1105\\84ad4b16dd7fc3b8390012ff64aeeb51.jpg",
+      "SourceId": "BeautySaloon",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\",
+      "BasePath": "_content/BeautySaloon",
+      "RelativePath": "images/11/1105/84ad4b16dd7fc3b8390012ff64aeeb51.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\11\\1105\\84ad4b16dd7fc3b8390012ff64aeeb51.jpg"
     },
     {
       "Identity": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\images\\4E\\4E03\\error_тех_работы.jpg",

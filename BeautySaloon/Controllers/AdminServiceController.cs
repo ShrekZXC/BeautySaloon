@@ -67,7 +67,7 @@ public class AdminServiceController(
 
         await _serviceService.Create(_mapper.Map<ServiceModel>(serviceViewModel));
         
-        return Ok();
+        return await Index();
     }
 
     [HttpGet]

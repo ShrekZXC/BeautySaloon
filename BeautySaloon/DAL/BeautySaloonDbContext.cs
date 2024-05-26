@@ -20,6 +20,8 @@ public class BeautySaloonDbContext : DbContext
     public DbSet<RoleEntity> Roles { get; set; }
     
     public DbSet<CategoryEntity> Caregories { get; set; }
+    
+    public DbSet<PromotionEntity> Promotions { get; set; }
 
     public async Task<int> SaveChangesAsync()
     {
