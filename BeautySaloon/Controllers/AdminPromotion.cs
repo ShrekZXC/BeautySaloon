@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using AutoMapper;
 using BeautySaloon.BL.Auth;
+using BeautySaloon.BL.General;
 using BeautySaloon.Model;
 using BeautySaloon.Services.Interfaces;
 using BeautySaloon.ViewModel;
@@ -86,12 +87,24 @@ public class AdminPromotion : AdminBaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update(PromotionViewModel promotionViewModel)
+    public async Task<IActionResult> Update(PromotionViewModel promotionViewModel, IFormFile ImgSrc, string CurrentImageSrc)
     {
         var accessResult = await CheckAdminAccess();
         if (accessResult != null)
         {
             return accessResult;
+        }
+                
+        if (ImgSrc != null && ImgSrc.Length > 0)
+        {
+            WebFile webfile = new WebFile();
+            string filename = webfile.GetWebFilename(Request.Form.Files[0].FileName);
+            await webfile.UploadAndResizeImage(Request.Form.Files[0].OpenReadStream(), filename, 800, 600);
+            promotionViewModel.ImgSrc = filename;
+        }
+        else
+        {
+            promotionViewModel.ImgSrc = CurrentImageSrc;
         }
 
         var isUpdate = await _promotionService.Update(_mapper.Map<PromotionModel>(promotionViewModel));

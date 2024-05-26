@@ -8,4 +8,9 @@ public class PromoController : Controller
     {
         return View();
     }
+
+    public async Task<IActionResult> PromotionDetails(Guid id)
+    {
+        return Ok();
+    }
 }
