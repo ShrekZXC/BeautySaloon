@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using AutoMapper;
 using BeautySaloon.BL.Auth;
+using BeautySaloon.Exception;
 using BeautySaloon.Model;
 using BeautySaloon.Services.Interfaces;
 using BeautySaloon.ViewModel;
@@ -12,9 +13,12 @@ public class AdminUserController(
     ILogger<AdminBaseController> logger,
     ICurrentUser currentUser,
     IUserSerivce userService,
+    IRoleService roleService,
     IMapper mapper)
     : AdminBaseController(logger, currentUser, userService, mapper)
 {
+    private readonly IRoleService _roleService = roleService;
+    
     [HttpGet]
     public async Task<IActionResult> Index()
     {
@@ -27,6 +31,49 @@ public class AdminUserController(
         var users = _userService.GetAll();
 
         return View("~/Views/Admin/User/Index.cshtml", _mapper.Map<List<UserViewModel>>(users));
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> Add()
+    {
+        var accessResult = await CheckAdminAccess();
+        if (accessResult != null)
+        {
+            return accessResult;
+        }
+        
+        var userViewModel =new UserViewModel()
+        {
+            Id = Guid.NewGuid(),
+            Roles = _mapper.Map<List<RoleViewModel>>(_roleService.GetAll())
+        };
+
+        return View("~/Views/Admin/user/add.cshtml", userViewModel);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> Add(UserViewModel userViewModel)
+    {
+        var accessResult = await CheckAdminAccess();
+        if (accessResult != null)
+        {
+            return accessResult;
+        }
+        
+        try
+        {
+            var user = _mapper.Map<UserModel>(userViewModel);
+
+            await _userService.Create(user);
+        
+            return RedirectToAction("Index");
+        }
+        catch (DuplicateEmailException)
+        {
+            ModelState.TryAddModelError("Email", "Email уже существует");
+        }
+        
+        return View("~/Views/Admin/user/add.cshtml", userViewModel);
     }
     
     [HttpGet]
@@ -66,8 +113,7 @@ public class AdminUserController(
     }
     
     [HttpPost]
-    [Route("/admin/user/delete")]
-    public async Task<IActionResult> Deleteuser()
+    public async Task<IActionResult> Delete([FromBody] Guid id)
     {
         var accessResult = await CheckAdminAccess();
         if (accessResult != null)
@@ -75,8 +121,8 @@ public class AdminUserController(
             return accessResult;
         }
 
-        var users = _userService.GetAll();
+        await _userService.Delete(id);
 
-        return View("~/Views/Admin/User/Index.cshtml", _mapper.Map<List<UserViewModel>>(users));
+        return Json(new { success = true });
     }
 }

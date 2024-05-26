@@ -1,7 +1,7 @@
 ﻿@model BeautySaloon.ViewModel.ServiceViewModel
 
 @{
-    Layout = null;
+Layout = null;
 }
 <html lang="ru">
 
@@ -12,7 +12,7 @@
 <body>
 <div class="container mt-5">
     <h2>Редактирование услуги</h2>
-    <form id="addOrUpdateService" method="post" action=@Url.Action("Update","AdminService")>
+    <form id="addOrUpdateService" method="post" enctype="multipart/form-data" action=@Url.Action("Update","AdminService")>
         <div class="form-group">
             <label for="id">ID</label>
             <input type="text" class="form-control" id="id" name="id" readonly="" value="@Model.Id">
@@ -23,17 +23,33 @@
         </div>
         <div class="form-group">
             <label for="Description">Описание</label>
-            <input type="text" class="form-control" id="Description" name="Description" required value="@Model.Description">
+            <input type="text" class="form-control" id="Description" name="Description" value="@Model.Description">
         </div>
         <div class="form-group">
-            <label for="Price">Описание</label>
-            <input type="text" class="form-control" id="Price" name="Price" required value="@Model.Price">
+            <label for="Price">Цена</label>
+            <input type="text" class="form-control" id="Price" name="Price" required value="@Model.Price.ToString("F1")">
         </div>
         <div class="form-group">
+            <img src="@Model.ImageSrc" alt="@Model.ImageSrc" width="100"/>
+            <br>
             <label for="ImageSrc">Загрузить изображение</label>
-            <input type="file" class="form-control-file" id="ImageSrc" name="ImageSrc" required value="@Model.ImageSrc">
+            <input type="file" class="form-control-file" id="ImageSrc" name="ImageSrc">
+            <input type="hidden" name="CurrentImageSrc" value="@Model.ImageSrc" />
+        </div>
+        <div class="form-group">
+            <label for="CategoryId">Категория</label>
+            <select class="form-control" id="CategoryId" name="CategoryId">
+                @foreach (var category in Model.Categories)
+                {
+                <option value=@category.Id
+                        selected="@(category.Id == Model.CategoryId ? "selected" : null)">
+                    @category.Name
+                </option>
+                }
+            </select>
         </div>
         <button type="submit" class="btn btn-primary">Сохранить</button>
     </form>
 </div>
 </body>
+</html>

@@ -31,16 +31,46 @@
         <tbody>
         @foreach (var service in Model)
         {
-        <tr>
-            <th scope="row">@service.Id</th>
-            <td>@service.Name</td>
-            <td>@service.Description</td>
-            <td>@service.Price</td>
-            <td>@service.Category</td>
-            <td><img src="@service.ImageSrc" alt="@service.Name" width="100"/></td>
-        </tr>
+            <tr>
+                <th scope="row">@service.Id</th>
+                <td>@service.Name</td>
+                <td>@service.Description</td>
+                <td>@service.Price.ToString("F1")</td>
+                <td>@service.Category.Name</td>
+                <td><img src="@service.ImageSrc" alt="@service.Name" width="100"/></td>
+                <td>
+                    <button class="btn btn-primary"
+                            onclick="location.href='@Url.Action("Update", "AdminService", new {id = service.Id})'">
+                        Редактировать
+                    </button>
+                    <button class="btn btn-danger"
+                            onclick="deleteService('@service.Id')">
+                        Удалить
+                    </button>
+                </td>
+            </tr>
         }
         </tbody>
     </table>
 </div>
 </body>
+
+<script>
+    async function deleteService(id) {
+        if (confirm('Вы уверены, что хотите удалить услугу?')) {
+            const response = await fetch('@Url.Action("Delete", "AdminService")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(id)
+            });
+
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Ошибка при удалении услуги.');
+            }
+        }
+    }
+</script>

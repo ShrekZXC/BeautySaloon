@@ -4,5 +4,5 @@ public class RoleViewModel
 {
     public Guid Id;
 
-    public string Role;
+    public string Name;
 }

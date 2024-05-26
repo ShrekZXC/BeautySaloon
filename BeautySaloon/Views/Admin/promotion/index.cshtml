@@ -1,9 +1,66 @@
-﻿@{
-Layout = null;
+﻿@model List<BeautySaloon.ViewModel.PromotionViewModel>
+
+@{
+    Layout = null;
 }
 <html lang="ru">
-<head>
-    @Html.Partial("_AdminHeadPartial")
-</head>
+
+@Html.Partial("_AdminHeadPartial")
 
 @Html.Partial("_HeaderPartial")
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-right mb-3">
+            <a href="@Url.Action("Add", "AdminPromotion")" class="btn btn-primary">Создать акцию</a>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Название</th>
+            <th scope="col">Описание</th>
+            <th scope="col">Изображение</th>
+            <th scope="col">Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var promo in Model)
+        {
+            <tr>
+                <td>@promo.Id</td>
+                <td>@promo.Name</td>
+                <td>@promo.Description</td>
+                <td><img src="@promo.ImgSrc" alt="@promo.ImgSrc" width="100"/></td>
+                <td>
+                    <button class="btn btn-primary" onclick="location.href='@Url.Action("Update", "AdminPromotion", new {id = promo.Id})'">Редактировать</button>
+                    <button class="btn btn-danger" onclick="deletePromo('@promo.Id')">Удалить</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+</body>
+
+<script>
+    async function deletePromo(id) {
+        if (confirm('Вы уверены, что хотите удалить акцию?')) {
+            const response = await fetch('@Url.Action("Delete", "AdminPromotion")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(id)
+            });
+
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Ошибка при удалении акции.');
+            }
+        }
+    }
+</script>

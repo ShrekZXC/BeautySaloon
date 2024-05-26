@@ -37,18 +37,27 @@ public class ServiceService : IServiceService
 
     public List<ServiceModel> GetAll()
     {
-        var entities =  _dbRepository.GetAll<ServiceEntity>();
+        var entities =  _dbRepository.GetAll<ServiceEntity>().Include(x=>x.Category);
         var servicesModel = _mapper.Map<List<ServiceModel>>(entities).ToList();
 
         return servicesModel;
     }
 
-    public async Task Update(ServiceModel serviceModel)
+    public async Task<bool> Update(ServiceModel serviceModel)
     {
-        var entity = _mapper.Map<ServiceEntity>(serviceModel);
+        try
+        {
+            var entity = _mapper.Map<ServiceEntity>(serviceModel);
             
-        await _dbRepository.Update(entity);
-        await _dbRepository.SaveChangesAsync();
+            await _dbRepository.Update(entity);
+            await _dbRepository.SaveChangesAsync();
+            
+            return true;
+        }
+        catch (System.Exception e)
+        {
+            return false;
+        }
     }
 
     public async Task Delete(Guid serviceId)
