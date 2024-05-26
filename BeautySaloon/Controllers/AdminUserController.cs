@@ -113,8 +113,7 @@ public class AdminUserController(
     }
     
     [HttpPost]
-    [Route("/admin/user/delete")]
-    public async Task<IActionResult> Deleteuser()
+    public async Task<IActionResult> Delete([FromBody] Guid id)
     {
         var accessResult = await CheckAdminAccess();
         if (accessResult != null)
@@ -122,8 +121,8 @@ public class AdminUserController(
             return accessResult;
         }
 
-        var users = _userService.GetAll();
+        await _userService.Delete(id);
 
-        return View("~/Views/Admin/User/Index.cshtml", _mapper.Map<List<UserViewModel>>(users));
+        return Json(new { success = true });
     }
 }
