@@ -8,7 +8,7 @@ public interface IServiceService
 
     Task<ServiceModel> Get(Guid serviceId);
 
-    Task Update(ServiceModel serviceModel);
+    Task<bool> Update(ServiceModel serviceModel);
 
     List<ServiceModel> GetAll();
 
