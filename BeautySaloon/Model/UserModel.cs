@@ -18,5 +18,7 @@ public class UserModel
     
     public string Salt { get; set; }
     
-    public int IdRole { get; set; }
+    public RoleModel Role { get; set; }
+    
+    public Guid RoleId { get; set; }
 }

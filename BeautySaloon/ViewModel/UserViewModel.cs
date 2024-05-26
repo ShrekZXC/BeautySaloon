@@ -1,4 +1,6 @@
-﻿namespace BeautySaloon.ViewModel;
+﻿using BeautySaloon.Model;
+
+namespace BeautySaloon.ViewModel;
 
 public class UserViewModel
 {
@@ -17,5 +19,7 @@ public class UserViewModel
     public string Password { get; set; }
     public string Salt { get; set; }
     
-    public int IdRole { get; set; }
+    public RoleModel Role { get; set; }
+    
+    public Guid RoleId { get; set; }
 }

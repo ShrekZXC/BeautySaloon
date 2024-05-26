@@ -6,6 +6,7 @@ public class RegisterViewModel
 {
     [Required(ErrorMessage = "Поле 'Имя' обязательно.")]
     public string FirstName { get; set; }
+    
     [Required(ErrorMessage = "Поле 'Фамилия' обязательно.")]
     public string SecondName { get; set; }
 

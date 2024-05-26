@@ -12,7 +12,6 @@ public class AdminController : AdminBaseController
     }
     
     [HttpGet]
-    [Route("/admin")]
     public async Task<IActionResult> Index()
     {
         var accessResult = await CheckAdminAccess();

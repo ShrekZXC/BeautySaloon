@@ -19,8 +19,24 @@ build_property.MSBuildProjectDirectory = C:\Users\ShrekUser\RiderProjects\Beauty
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 9.0
 
+[C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/Categories/add.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2F0ZWdvcmllc1xhZGQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/Categories/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2F0ZWdvcmllc1xpbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5caW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/promotion/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5ccHJvbW90aW9uXGluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/schedule/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cc2NoZWR1bGVcaW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/service/add.cshtml]

@@ -30,7 +30,6 @@ public class AdminUserController(
     }
     
     [HttpGet]
-    [Route("/admin/user/update")]
     public async Task<IActionResult> UpdateUser(Guid id)
     {
         var accessResult = await CheckAdminAccess();
@@ -45,7 +44,6 @@ public class AdminUserController(
     }
     
     [HttpPost]
-    [Route("/admin/user/update")]
     public async Task<IActionResult> UpdateUser(UserViewModel userViewModel)
     {
         var accessResult = await CheckAdminAccess();
@@ -58,7 +56,7 @@ public class AdminUserController(
 
         if (isUpdate)
         {
-            return Redirect("/admin/user");
+            return await Index();
         }
         else
         {

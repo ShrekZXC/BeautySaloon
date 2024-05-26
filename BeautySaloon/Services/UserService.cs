@@ -68,7 +68,7 @@ public class UserService : IUserSerivce
     
     public List<UserModel> GetAll()
     {
-        var entity =  _dbRepository.GetAll<UserEntity>();
+        var entity =  _dbRepository.GetAll<UserEntity>().Include(x=>x.Role);
         var users = _mapper.Map<List<UserModel>>(entity).ToList();
 
         return users;

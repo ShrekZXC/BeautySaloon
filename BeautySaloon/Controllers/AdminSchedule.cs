@@ -26,8 +26,6 @@ public class AdminSchedule : AdminBaseController
             return accessResult;
         }
 
-        var users = _userService.GetAll();
-
-        return View("~/Views/Admin/promotion/Index.cshtml", _mapper.Map<List<UserViewModel>>(users));
+        return View("~/Views/Admin/schedule/Index.cshtml");
     }
 }

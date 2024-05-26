@@ -10,6 +10,7 @@
 @Html.Partial("_HeaderPartial")
 
 <body>
+<div class="container">
 <table class="table table-striped">
     <thead>
     <tr>
@@ -33,15 +34,16 @@
             <td>@user.LastName</td>
             <td>@user.Email</td>
             <td>@user.Phone</td>
-            <td>@user.IdRole</td>
+            <td>@user.Role.Role</td>
             <td>
-                <button class="btn btn-primary" onclick="location.href='@Url.Action("UpdateUser", "AdminUser", new { id = user.Id })'">Редактировать</button>
+                <button class="btn btn-primary" onclick="location.href='@Url.Action("UpdateUser", "AdminUser", new {id = user.Id})'">Редактировать</button>
                 <button class="btn btn-danger" onclick="deleteUser('@user.Id')">Удалить</button>
             </td>
         </tr>
     }
     </tbody>
 </table>
+</div>
 </body>
 
 <script>
