@@ -8,7 +8,6 @@ public class ServiceViewModel
     public string ImageSrc { get; set; }
     public decimal Price { get; set; }
     public string Category { get; set; }
-    
     public Guid CategoryId { get; set; }
     public List<CategoryViewModel> Categories { get; set; }
 }
