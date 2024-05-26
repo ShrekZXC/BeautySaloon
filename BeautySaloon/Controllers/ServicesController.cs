@@ -11,6 +11,7 @@ public class ServicesController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly IServiceService _serviceService;
     private readonly IMapper _mapper;
+
     public ServicesController(ILogger<HomeController> logger,
         IServiceService serviceService,
         IMapper mapper)
@@ -25,9 +26,9 @@ public class ServicesController : Controller
     public IActionResult Index()
     {
         var services = _serviceService.GetAll();
-        
+
         var serviceViewModel = _mapper.Map<List<ServiceViewModel>>(services);
-        
+
         return View(serviceViewModel);
     }
 
@@ -36,4 +37,11 @@ public class ServicesController : Controller
     {
         return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
     }
+
+    [HttpGet]
+    public async Task<IActionResult> ServiceDetails(Guid id)
+    {
+        return Ok();
+    }
+
 }

@@ -4,6 +4,8 @@
     ViewData["Title"] = "Services Page";
 }
 
+фильтр по услугам
+
 <div class="container">
     <div class="row">
         @foreach (var service in Model)
@@ -27,7 +29,7 @@
                         </ul>
                         <div class="info-price">
                             <span class="price">
-                                @service.Price
+                                @service.Price.ToString("F1")
                                 <small>₽</small>
                             </span>
                             <button class="add-to-cart">
