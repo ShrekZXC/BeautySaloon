@@ -53,6 +53,7 @@ builder.Services.AddTransient<IServiceService, ServiceService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<IPromotionService, PromotionService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IRoleService, RoleService>();
 
 var app = builder.Build();
 

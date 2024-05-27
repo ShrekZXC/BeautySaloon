@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using BeautySaloon.DAL.Entity;
 using BeautySaloon.Exception;
+using BeautySaloon.Model;
+using BeautySaloon.Services.Interfaces;
 using BeautySaloon.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,25 +15,25 @@ namespace BeautySaloon.Controllers
     {
         private readonly ILogger<AdminUserController> _logger;
         private readonly IMapper _mapper;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly IRoleService _roleService;
+        private readonly IUserService _userService;
 
         public AdminUserController(
+            IUserService userService, 
+            IRoleService roleService,
             ILogger<AdminUserController> logger,
-            IMapper mapper,
-            UserManager<ApplicationUser> userManager,
-            RoleManager<ApplicationRole> roleManager)
+            IMapper mapper)
         {
             _logger = logger;
             _mapper = mapper;
-            _userManager = userManager;
-            _roleManager = roleManager;
+            _userService = userService;
+            _roleService = roleService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var users = _userManager.Users.ToList();
+            var users = await _userService.GetAllUsers();
             var userViewModels = _mapper.Map<List<UserViewModel>>(users);
 
             return View("~/Views/Admin/User/Index.cshtml", userViewModels);
@@ -40,11 +42,9 @@ namespace BeautySaloon.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var userViewModel = new UserViewModel
-            {
-                Id = Guid.NewGuid(),
-                Roles = _mapper.Map<List<RoleViewModel>>(_roleManager.Roles.ToList())
-            };
+            var userViewModel = new UserViewModel();
+            var roles = await _roleService.GetAllRoles();
+            userViewModel.Roles = _mapper.Map<List<RoleViewModel>>(roles);
 
             return View("~/Views/Admin/User/Add.cshtml", userViewModel);
         }
@@ -52,24 +52,15 @@ namespace BeautySaloon.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(UserViewModel userViewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Вынести в бизнес логику
-                var user = new ApplicationUser
-                {
-                    Id = userViewModel.Id,
-                    UserName = userViewModel.Email,
-                    Email = userViewModel.Email,
-                    FirstName = userViewModel.FirstName,
-                    SecondName = userViewModel.SecondName,
-                    LastName = userViewModel.LastName
-                };
+                var user = _mapper.Map<UserModel>(userViewModel);
+            
+                var result = await _userService.RegisterUserAsync(user, userViewModel.Password, userViewModel.SelectedRole, false);
 
-                var result = await _userManager.CreateAsync(user, userViewModel.Password);
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, userViewModel.SelectedRole);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "AdminUser");
                 }
 
                 foreach (var error in result.Errors)
@@ -77,25 +68,23 @@ namespace BeautySaloon.Controllers
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-            catch (DuplicateEmailException)
-            {
-                ModelState.TryAddModelError("Email", "Email уже существует");
-            }
-
+            var roles = await _roleService.GetAllRoles();
+            userViewModel.Roles = _mapper.Map<List<RoleViewModel>>(roles);
             return View("~/Views/Admin/User/Add.cshtml", userViewModel);
         }
 
         [HttpGet]
         public async Task<IActionResult> UpdateUser(Guid id)
         {
-            var user = await _userManager.FindByIdAsync(id.ToString());
+            var user = await _userService.FindByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
-
+            var roles = await _roleService.GetAllRoles();
+            
             var userViewModel = _mapper.Map<UserViewModel>(user);
-            userViewModel.Roles = _mapper.Map<List<RoleViewModel>>(_roleManager.Roles.ToList());
+            userViewModel.Roles = _mapper.Map<List<RoleViewModel>>(roles);
 
             return View("~/Views/Admin/User/Update.cshtml", userViewModel);
         }
@@ -103,24 +92,16 @@ namespace BeautySaloon.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateUser(UserViewModel userViewModel)
         {
-            var user = await _userManager.FindByIdAsync(userViewModel.Id.ToString());
-            if (user == null)
+            var userModel = _mapper.Map<UserModel>(userViewModel);
+            var result = await _userService.UpdateUser(userModel);
+            
+            if (result == null)
             {
                 return NotFound();
             }
-
-            user.Email = userViewModel.Email;
-            user.FirstName = userViewModel.FirstName;
-            user.SecondName = userViewModel.SecondName;
-            user.LastName = userViewModel.LastName;
-
-            var result = await _userManager.UpdateAsync(user);
+            
             if (result.Succeeded)
             {
-                var roles = await _userManager.GetRolesAsync(user);
-                await _userManager.RemoveFromRolesAsync(user, roles);
-                await _userManager.AddToRoleAsync(user, userViewModel.SelectedRole);
-
                 return RedirectToAction("Index");
             }
 
@@ -135,13 +116,12 @@ namespace BeautySaloon.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete([FromBody] Guid id)
         {
-            var user = await _userManager.FindByIdAsync(id.ToString());
-            if (user == null)
+            var result = await _userService.DeleteUser(id);
+            if (result == null)
             {
                 return NotFound();
             }
-
-            var result = await _userManager.DeleteAsync(user);
+            
             if (result.Succeeded)
             {
                 return Json(new { success = true });

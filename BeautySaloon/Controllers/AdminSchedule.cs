@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeautySaloon.Controllers;
 
+[Authorize(Roles = "Admin")]
 public class AdminSchedule : Controller
 {
     private readonly ILogger<AdminSchedule> _logger;

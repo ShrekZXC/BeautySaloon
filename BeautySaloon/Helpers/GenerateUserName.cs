@@ -10,7 +10,7 @@ public static class GenerateUserName
         var transliteratedFirstName = translit.Transliterate(firstName);
         var transliteratedSecondName = translit.Transliterate(secondName);
 
-        var baseUserName = $"{transliteratedFirstName}.{transliteratedSecondName}".ToLower();
+        var baseUserName = $"{transliteratedFirstName}{transliteratedSecondName}".ToLower();
         var randomSuffix = new Random().Next(1000, 9999);
         return $"{baseUserName}{randomSuffix}";
     }

@@ -19,5 +19,7 @@ public class BeautySaloonProfile: Profile
         CreateMap<UserModel, ApplicationUser>().ReverseMap();
         CreateMap<RegisterViewModel, UserModel>().ReverseMap();
         CreateMap<LoginViewModel, UserModel>().ReverseMap();
+        CreateMap<RoleModel, ApplicationRole>().ReverseMap();
+        CreateMap<RoleViewModel, RoleModel>().ReverseMap();
     }
 }

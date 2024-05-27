@@ -11,6 +11,7 @@ namespace BeautySaloon.Controllers;
 
 public class AccountController : Controller
 {
+    private readonly string UserRole = "User";
     private readonly IMapper _mapper;
     private readonly IUserService _userService;
 
@@ -62,7 +63,7 @@ public class AccountController : Controller
         {
             var user = _mapper.Map<UserModel>(registerViewModel);
             
-            var result = await _userService.RegisterUserAsync(user, registerViewModel.Password);
+            var result = await _userService.RegisterUserAsync(user, registerViewModel.Password, UserRole);
 
             if (result.Succeeded)
             {
@@ -78,7 +79,7 @@ public class AccountController : Controller
         return View(registerViewModel);
     }
 
-    [HttpPost]
+    [HttpGet]
     [Authorize]
     public async Task<IActionResult> Logout()
     {

@@ -3,10 +3,12 @@ using BeautySaloon.BL;
 using BeautySaloon.Model;
 using BeautySaloon.Services.Interfaces;
 using BeautySaloon.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeautySaloon.Controllers;
 
+[Authorize(Roles = "Admin")]
 public class AdminCategoryController : Controller
 {
     private readonly ILogger<AdminCategoryController> _logger;

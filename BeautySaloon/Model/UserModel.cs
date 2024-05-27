@@ -7,7 +7,7 @@ public class UserModel
     public string SecondName { get; set; }
     public string? LastName { get; set; }
     public string Email { get; set; }
-    public string? Phone { get; set; }
+    public string? PhoneNumber { get; set; }
     public string SelectedRole { get; set; }
     public bool RememberMe { get; set; }
     public List<RoleModel> Roles { get; set; }
