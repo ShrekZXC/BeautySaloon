@@ -1,35 +1,37 @@
 ﻿using System.Diagnostics;
 using AutoMapper;
-using BeautySaloon.BL.Auth;
-using BeautySaloon.BL.General;
+using BeautySaloon.BL;
 using BeautySaloon.Model;
 using BeautySaloon.Services.Interfaces;
 using BeautySaloon.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeautySaloon.Controllers;
 
-public class AdminServiceController(
-    ICategoryService categoryService,
-    ILogger<AdminServiceController> logger,
-    ICurrentUser currentUser,
-    IUserSerivce userService,
-    IMapper mapper,
-    IServiceService serviceService)
-    : AdminBaseController(logger, currentUser, userService, mapper)
+[Authorize(Roles = "Admin")]
+public class AdminServiceController: Controller
 {
-    private readonly ICategoryService _categoryService = categoryService;
-    private readonly IServiceService _serviceService = serviceService ?? throw new ArgumentNullException(nameof(serviceService));
+    private readonly ICategoryService _categoryService;
+    private readonly ILogger<AdminServiceController> _logger;
+    private readonly IMapper _mapper;
+    private readonly IServiceService _serviceService;
 
-    [HttpGet]
+    public AdminServiceController(
+        ICategoryService categoryService,
+        ILogger<AdminServiceController> logger,
+        IMapper mapper,
+        IServiceService serviceService)
+    {
+        _categoryService = categoryService;
+        _logger = logger;
+        _mapper = mapper;
+        _serviceService = serviceService;
+    }
+
+[HttpGet]
     public async Task<IActionResult> Index()
     {
-        var accessResult = await CheckAdminAccess();
-        if (accessResult != null)
-        {
-            return accessResult;
-        }
-
         var viewModel = _mapper.Map<List<ServiceViewModel>>(_serviceService.GetAll());
 
         // Ваш код
@@ -40,12 +42,6 @@ public class AdminServiceController(
     [HttpGet]
     public async Task<IActionResult> Add()
     {
-        var accessResult = await CheckAdminAccess();
-        if (accessResult != null)
-        {
-            return accessResult;
-        }
-
         return View("~/Views/Admin/service/add.cshtml", new ServiceViewModel
         {
             Id = Guid.NewGuid(),
@@ -73,12 +69,6 @@ public class AdminServiceController(
     [HttpGet]
     public async Task<IActionResult> Update(Guid id)
     {
-        var accessResult = await CheckAdminAccess();
-        if (accessResult != null)
-        {
-            return accessResult;
-        }
-
         var service = await _serviceService.Get(id);
         var serviceViewModel = _mapper.Map<ServiceViewModel>(service);
         serviceViewModel.Categories = _mapper.Map<List<CategoryViewModel>>(_categoryService.GetAll());
@@ -89,12 +79,6 @@ public class AdminServiceController(
     [HttpPost]
     public async Task<IActionResult> Update(ServiceViewModel serviceViewModel, IFormFile ImageSrc, string CurrentImageSrc)
     {
-        var accessResult = await CheckAdminAccess();
-        if (accessResult != null)
-        {
-            return accessResult;
-        }
-        
         if (ImageSrc != null && ImageSrc.Length > 0)
         {
             WebFile webfile = new WebFile();
@@ -123,12 +107,6 @@ public class AdminServiceController(
     [HttpPost]
     public async Task<IActionResult> Delete([FromBody] Guid id)
     {
-        var accessResult = await CheckAdminAccess();
-        if (accessResult != null)
-        {
-            return accessResult;
-        }
-
         await _serviceService.Delete(id);
 
         return Json(new { success = true });

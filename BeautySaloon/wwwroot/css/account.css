@@ -1,0 +1,149 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Comfortaa", sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #4070f4;
+}
+
+.wrapper,
+.access-denied-wrapper {
+    position: relative;
+    max-width: 600px; /* увеличен максимальный размер */
+    width: 100%;
+    background: #fff;
+    padding: 40px; /* увеличено внутреннее отступы */
+    border-radius: 8px; /* увеличен радиус закругления */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* увеличена тень */
+}
+
+.wrapper h2,
+.access-denied-wrapper h2 {
+    position: relative;
+    font-size: 24px; /* увеличен размер шрифта */
+    font-weight: 700;
+    color: #333;
+}
+
+.wrapper h2::before,
+.access-denied-wrapper h2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 35px; /* увеличена ширина */
+    border-radius: 12px;
+    background: #4070f4;
+}
+
+.wrapper form,
+.access-denied-wrapper .text {
+    margin-top: 30px; /* увеличен верхний отступ */
+}
+
+.wrapper form .input-box,
+.access-denied-wrapper .text {
+    height: 60px; /* увеличена высота */
+    margin: 20px 0; /* увеличены внешние отступы */
+}
+
+form .input-box input {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    padding: 0 15px;
+    font-size: 18px; /* увеличен размер шрифта */
+    font-weight: 400;
+    color: #333;
+    border: 1.5px solid #C7BEBE;
+    border-bottom-width: 2.5px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.input-box input:focus {
+    border-color: #4070f4;
+}
+
+form .policy {
+    display: flex;
+    align-items: center;
+}
+
+form h3 {
+    color: #707070;
+    font-size: 16px; /* увеличен размер шрифта */
+    font-weight: 500;
+    margin-left: 10px;
+}
+
+.input-box.button input {
+    color: #fff;
+    letter-spacing: 1px;
+    border: none;
+    background: #4070f4;
+    cursor: pointer;
+}
+
+.input-box.button input:hover {
+    background: #0e4bf1;
+}
+
+form .text h3 {
+    color: #333;
+    width: 100%;
+    text-align: center;
+}
+
+form .text h3 a {
+    text-decoration: none;
+}
+
+form .text h3 a:hover {
+    text-decoration: underline;
+}
+
+form .field-validation-error {
+    color: #f31f1f;
+    font-size: 14px;
+}
+
+form .warning h3 {
+    text-align: left;
+}
+
+/* Specific styles for Access Denied page */
+.access-denied-wrapper .text {
+    margin-top: 30px; /* увеличен верхний отступ */
+    text-align: center;
+}
+
+.access-denied-wrapper .text p {
+    margin: 20px 0; /* увеличены внешние отступы */
+    font-size: 18px; /* увеличен размер шрифта */
+    color: #333;
+}
+
+.access-denied-wrapper .text h3 {
+    color: #333;
+    font-size: 20px; /* увеличен размер шрифта */
+}
+
+.access-denied-wrapper .text h3 a {
+    color: #4070f4;
+    text-decoration: none;
+}
+
+.access-denied-wrapper .text h3 a:hover {
+    text-decoration: underline;
+}

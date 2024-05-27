@@ -1,36 +1,33 @@
 ﻿using AutoMapper;
-using BeautySaloon.BL.Auth;
-using BeautySaloon.BL.General;
+using BeautySaloon.BL;
 using BeautySaloon.Model;
 using BeautySaloon.Services.Interfaces;
 using BeautySaloon.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeautySaloon.Controllers;
 
-public class AdminCategoryController : AdminBaseController
+[Authorize(Roles = "Admin")]
+public class AdminCategoryController : Controller
 {
+    private readonly ILogger<AdminCategoryController> _logger;
     private readonly ICategoryService _categoryService;
+    private readonly IMapper _mapper;
+
     public AdminCategoryController(
-        ILogger<AdminBaseController> logger,
-        ICurrentUser currentUser,
-        IUserSerivce userService,
+        ILogger<AdminCategoryController> logger,
         ICategoryService categoryService,
         IMapper mapper)
-        : base(logger, currentUser, userService, mapper)
     {
+        _logger = logger;
         _categoryService = categoryService;
+        _mapper = mapper;
     }
     
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var accessResult = await CheckAdminAccess();
-        if (accessResult != null)
-        {
-            return accessResult;
-        }
-
         var caregories = _mapper.Map<List<CategoryViewModel>>(_categoryService.GetAll());
 
         return View("~/Views/Admin/Categories/Index.cshtml", caregories);
@@ -45,12 +42,6 @@ public class AdminCategoryController : AdminBaseController
     [HttpGet]
     public async Task<IActionResult> Add()
     {
-        var accessResult = await CheckAdminAccess();
-        if (accessResult != null)
-        {
-            return accessResult;
-        }
-
         return View("~/Views/Admin/Categories/add.cshtml", new CategoryViewModel()
         {
             Id = Guid.NewGuid()

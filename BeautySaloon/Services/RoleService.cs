@@ -1,47 +1,28 @@
 ﻿using AutoMapper;
 using BeautySaloon.DAL.Entity;
-using BeautySaloon.DAL.Repository;
 using BeautySaloon.Model;
 using BeautySaloon.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace BeautySaloon.Services;
 
 public class RoleService : IRoleService
 {
-    private readonly IDbRepository _dbRepository;
+    private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly IMapper _mapper;
 
-    public RoleService(IDbRepository dbRepository, IMapper mapper)
+    
+    public RoleService(RoleManager<ApplicationRole> roleManager, IMapper mapper)
     {
-        _dbRepository = dbRepository;
+        _roleManager = roleManager;
         _mapper = mapper;
     }
     
-    public Task<Guid> Create(RoleModel roleModel)
+    public async Task<List<RoleModel>> GetAllRoles()
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<RoleModel> Get(Guid roleId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task Update(RoleModel roleModel)
-    {
-        throw new NotImplementedException();
-    }
-
-    public List<RoleModel> GetAll()
-    {
-        var entities =  _dbRepository.GetAll<RoleEntity>();
-        var rolesModel = _mapper.Map<List<RoleModel>>(entities).ToList();
-
+        var roles = await _roleManager.Roles.ToListAsync();
+        var rolesModel = _mapper.Map<List<RoleModel>>(roles);
         return rolesModel;
-    }
-
-    public Task Delete(Guid roleId)
-    {
-        throw new NotImplementedException();
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model BeautySaloon.ViewModel.UserViewModel
 
 @{
-    Layout = null;
+Layout = null;
 }
 <html lang="ru">
 
@@ -12,45 +12,44 @@
 <body>
 <div class="container mt-5">
     <h2>Создание пользователя</h2>
-    <form id="addService" method="post" action=@Url.Action("Add", "AdminUser") enctype="multipart/form-data">
-        <input type="hidden" name="Id" value="@Model.Id" />
+    <form id="addService" method="post" asp-action="Add" asp-controller="AdminUser" enctype="multipart/form-data">
         <div class="form-group">
             <label for="FirstName">Имя</label>
-            <input type="text" class="form-control" id="FirstName" name="FirstName">
+            <input type="text" class="form-control" id="FirstName" asp-for="FirstName">
+            @Html.ValidationMessageFor(model => model.FirstName)
         </div>
         <div class="form-group">
             <label for="SecondName">Фамилия</label>
-            <input type="text" class="form-control" id="SecondName" name="SecondName">
+            <input type="text" class="form-control" id="SecondName" asp-for="SecondName">
+            @Html.ValidationMessageFor(model => model.SecondName)
         </div>
         <div class="form-group">
             <label for="LastName">Отчество</label>
-            <input type="text" class="form-control" id="LastName" name="LastName">
+            <input type="text" class="form-control" id="LastName" asp-for="LastName">
+            @Html.ValidationMessageFor(model => model.LastName)
         </div>
         <div class="form-group">
             <label for="Email">Почта</label>
-            <input type="text" class="form-control" id="Email" name="Email">
+            <input type="text" class="form-control" id="Email" asp-for="Email">
             @Html.ValidationMessageFor(model => model.Email)
         </div>
         <div class="form-group">
-            <label for="Phone">Номер телефона</label>
-            <input type="text" class="form-control" id="Phone" name="Phone">
+            <label for="PhoneNumber">Номер телефона</label>
+            <input type="text" class="form-control" id="PhoneNumber" asp-for="PhoneNumber">
+            @Html.ValidationMessageFor(model => model.PhoneNumber)
         </div>
         <div class="form-group">
             <label for="Password">Пароль</label>
-            <input type="password" class="form-control" id="Password" name="Password">
+            <input type="password" class="form-control" id="Password" asp-for="Password">
+            @Html.ValidationMessageFor(model => model.Password)
         </div>
         <div class="form-group">
-            <label for="CategoryId">Роль</label>
-            <select class="form-control" id="RoleId" name="RoleId">
-                @foreach (var role in Model.Roles)
-                {
-                    <option value=@role.Id>
-                        @role.Name
-                    </option>
-                }
-            </select>
+            <label for="SelectedRole">Роль</label>
+            <select id ="SelectedRole" class="form-control" asp-for="SelectedRole" asp-items="@(new SelectList(Model.Roles, "Name", "Name"))"></select>
+            @Html.ValidationMessageFor(model => model.SelectedRole)
         </div>
         <button type="submit" class="btn btn-primary">Сохранить</button>
     </form>
 </div>
 </body>
+</html>

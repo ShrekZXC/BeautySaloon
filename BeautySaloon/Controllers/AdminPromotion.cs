@@ -1,36 +1,33 @@
 ﻿using System.Diagnostics;
 using AutoMapper;
-using BeautySaloon.BL.Auth;
-using BeautySaloon.BL.General;
+using BeautySaloon.BL;
 using BeautySaloon.Model;
 using BeautySaloon.Services.Interfaces;
 using BeautySaloon.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeautySaloon.Controllers;
 
-public class AdminPromotion : AdminBaseController
+[Authorize(Roles = "Admin")]
+public class AdminPromotion : Controller
 {
+    private readonly ILogger<AdminPromotion> _logger;
     private readonly IPromotionService _promotionService;
-    public AdminPromotion(ILogger<AdminBaseController> logger,
-        ICurrentUser currentUser,
-        IUserSerivce userService,
+    private readonly IMapper _mapper;
+
+    public AdminPromotion(ILogger<AdminPromotion> logger,
         IPromotionService promotionService,
-        IMapper mapper) :
-        base(logger, currentUser, userService, mapper)
+        IMapper mapper)
     {
+        _logger = logger;
         _promotionService = promotionService;
+        _mapper = mapper;
     }
 
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var accessResult = await CheckAdminAccess();
-        if (accessResult != null)
-        {
-            return accessResult;
-        }
-
         var promos = _promotionService.GetAll();
 
         var promoViewModel = _mapper.Map<List<PromotionViewModel>>(promos);
@@ -41,12 +38,6 @@ public class AdminPromotion : AdminBaseController
     [HttpGet]
     public async Task<IActionResult> Add()
     {
-        var accessResult = await CheckAdminAccess();
-        if (accessResult != null)
-        {
-            return accessResult;
-        }
-
         var promotionViewModel = new PromotionViewModel()
         {
             Id = Guid.NewGuid()
@@ -58,13 +49,6 @@ public class AdminPromotion : AdminBaseController
     [HttpPost]
     public async Task<IActionResult> Add(PromotionViewModel promotionViewModel)
     {
-        var accessResult = await CheckAdminAccess();
-        if (accessResult != null)
-        {
-            return accessResult;
-        }
-
-
         var promo = _mapper.Map<PromotionModel>(promotionViewModel);
 
         await _promotionService.Create(promo);
@@ -75,12 +59,6 @@ public class AdminPromotion : AdminBaseController
     [HttpGet]
     public async Task<IActionResult> Update(Guid id)
     {
-        var accessResult = await CheckAdminAccess();
-        if (accessResult != null)
-        {
-            return accessResult;
-        }
-
         var promo = await _promotionService.Get(id);
 
         return View("~/Views/Admin/promotion/update.cshtml", _mapper.Map<PromotionViewModel>(promo));
@@ -89,12 +67,6 @@ public class AdminPromotion : AdminBaseController
     [HttpPost]
     public async Task<IActionResult> Update(PromotionViewModel promotionViewModel, IFormFile ImgSrc, string CurrentImageSrc)
     {
-        var accessResult = await CheckAdminAccess();
-        if (accessResult != null)
-        {
-            return accessResult;
-        }
-                
         if (ImgSrc != null && ImgSrc.Length > 0)
         {
             WebFile webfile = new WebFile();
@@ -123,12 +95,6 @@ public class AdminPromotion : AdminBaseController
     [HttpPost]
     public async Task<IActionResult> Delete([FromBody] Guid id)
     {
-        var accessResult = await CheckAdminAccess();
-        if (accessResult != null)
-        {
-            return accessResult;
-        }
-
         await _promotionService.Delete(id);
 
         return Json(new {success = true});

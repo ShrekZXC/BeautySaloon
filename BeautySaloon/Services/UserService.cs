@@ -1,117 +1,122 @@
 ﻿using AutoMapper;
-using BeautySaloon.BL.Auth;
-using BeautySaloon.BL.General;
 using BeautySaloon.DAL.Entity;
-using BeautySaloon.DAL.Repository;
-using BeautySaloon.Exception;
+using BeautySaloon.Helpers;
 using BeautySaloon.Model;
 using BeautySaloon.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace BeautySaloon.Services;
 
-public class UserService : IUserSerivce
+public class UserService : IUserService
 {
-    private readonly Guid AdminId = new Guid("8c1e6b9f-7c66-4594-8f81-a5dffce769de");
-    private readonly IDbRepository _dbRepository;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly IMapper _mapper;
-    private readonly IEncrypt _encrypt;
-    private readonly IDbSession _dbSession;
 
-    public UserService(IDbRepository dbRepository, 
-        IMapper mapper,
-        IEncrypt encrypt,
-        IDbSession dbSession)
+    public UserService(
+        UserManager<ApplicationUser> userManager,
+        SignInManager<ApplicationUser> signInManager,
+        IMapper mapper)
     {
-        _dbRepository = dbRepository;
+        _userManager = userManager;
+        _signInManager = signInManager;
         _mapper = mapper;
-        _encrypt = encrypt;
-        _dbSession = dbSession;
     }
-    
-    public async Task ValidateEmail(string email)
-    {
-        var user = await GetByEmail(email);
-        if (user != null)
-            throw new DuplicateEmailException();
-    }
-    
-    public async Task<Guid> Create(UserModel userModel)
-    {
-        var entity = _mapper.Map<UserEntity>(userModel);
-        
-        using (var scope = Helpers.CreateTransactionScope())
-        {
-            await ValidateEmail(entity.Email);
-            scope.Complete();
-        }
-        
-        entity.Salt = Guid.NewGuid().ToString();
-        entity.Password = _encrypt.HashPassword(entity.Password, entity.Salt);
-        // Установите RoleId на нужное значение, например, для роли "Пользователь"
-        entity.RoleId = new Guid("425abb27-6970-41dc-8e54-ae8ffe3c3e0e");  // Замените на соответствующий GUID роли
 
-        var result = await _dbRepository.Add(entity);
-        await _dbSession.SetUserId(result);
-        await _dbRepository.SaveChangesAsync();
-            
+    public async Task<UserModel?> FindByIdAsync(Guid id)
+    {
+        var appUser = await _userManager.FindByIdAsync(id.ToString());
+        if (appUser == null)
+        {
+            return null;
+        }
+
+        var user = _mapper.Map<UserModel>(appUser);
+
+        return user;
+    }
+    
+    
+    public async Task<IdentityResult?> UpdateUser(UserModel userModel)
+    {
+        var appUser = await _userManager.FindByIdAsync(userModel.Id.ToString());
+        if (appUser == null)
+        {
+            return null;
+        }
+
+        appUser.FirstName = userModel.FirstName;
+        appUser.SecondName = userModel.SecondName;
+        appUser.LastName = userModel.LastName;
+        appUser.Email = userModel.Email;
+        appUser.PhoneNumber = userModel.PhoneNumber;
+        
+        var result = await _userManager.UpdateAsync(appUser);
+        if (result.Succeeded)
+        {
+            var roles = await _userManager.GetRolesAsync(appUser);
+            await _userManager.RemoveFromRolesAsync(appUser, roles);
+            await _userManager.AddToRoleAsync(appUser, userModel.SelectedRole);
+        }
+
         return result;
     }
 
-    public async Task<UserModel> Get(Guid Id)
+    public async Task<IdentityResult> DeleteUser(Guid id)
     {
-        var entity = await _dbRepository.Get<UserEntity>().FirstOrDefaultAsync(x => x.Id == Id);
-        var userModel = _mapper.Map<UserModel>(entity);
-
-        return userModel;
+        var user = await _userManager.FindByIdAsync(id.ToString());
+        if (user == null)
+        {
+            return null;
+        }
+        var result = await _userManager.DeleteAsync(user);
+        return result;
     }
-    
-    public List<UserModel> GetAll()
-    {
-        var entity =  _dbRepository.GetAll<UserEntity>().Include(x=>x.Role);
-        var users = _mapper.Map<List<UserModel>>(entity).ToList();
 
+    public async Task<List<UserModel>> GetAllUsers()
+    {
+        var appUsers = await _userManager.Users.ToListAsync();
+        var users = _mapper.Map<List<UserModel>>(appUsers);
+        foreach (var user in appUsers)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            users.FirstOrDefault(x=>x.Id == user.Id)!.SelectedRole = roles.FirstOrDefault()!;
+        }
         return users;
     }
 
-    public async Task<bool> Update(UserModel userModel)
+    public async Task<IdentityResult> RegisterUserAsync(UserModel userModel, string passsword, string roleName, bool isSigin = true)
     {
-        try
-        {
-            var entity = _mapper.Map<UserEntity>(userModel);
+        var user = _mapper.Map<ApplicationUser>(userModel);
+        user.UserName = GenerateUserName.Generate(user.FirstName, user.SecondName);
+        var result = await _userManager.CreateAsync(user, passsword);
             
-            await _dbRepository.Update(entity);
-            await _dbRepository.SaveChangesAsync();
-
-            return true;
-        }
-        catch (System.Exception ex)
+        if (result.Succeeded)
         {
-            return false;
+            var roleResult = await _userManager.AddToRoleAsync(user, roleName);
+            if (!roleResult.Succeeded)
+            {
+                return IdentityResult.Failed(roleResult.Errors.ToArray());
+            }
+
+            if (isSigin)
+            {
+                await _signInManager.SignInAsync(user, isPersistent: false);
+            }
         }
-    }
-
-    public async Task Delete(Guid userId)
-    {
-        var user = await _dbRepository.Get<UserEntity>().FirstOrDefaultAsync(x=>x.Id == userId);
-        if (user != null) await _dbRepository.Remove<UserEntity>(user);
-        await _dbRepository.SaveChangesAsync();
-    }
-
-    public async Task<bool> IsAdmin(Guid userId)
-    {        
-        var entity = await _dbRepository.Get<UserEntity>()
-            .Include(x=>x.Role)
-            .FirstOrDefaultAsync(x => x.Id == userId);
         
-        return entity != null && entity.Role.Id == AdminId;
+        return result;
     }
 
-    public async Task<UserModel> GetByEmail(string email)
+    public async Task<SignInResult> Login(UserModel userModel, string password)
     {
-        var entity = await _dbRepository.Get<UserEntity>().FirstOrDefaultAsync(x => x.Email == email);
-        var userModel = _mapper.Map<UserModel>(entity);
+        var user = _mapper.Map<ApplicationUser>(userModel);
+        return await _signInManager.PasswordSignInAsync(user.Email, password, userModel.RememberMe, false);
+    }
 
-        return userModel;
+    public async Task Logout()
+    {
+        await _signInManager.SignOutAsync();
     }
 }

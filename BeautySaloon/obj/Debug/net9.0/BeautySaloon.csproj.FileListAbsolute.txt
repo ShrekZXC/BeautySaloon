@@ -96,7 +96,6 @@ C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\obj\Debug\net9.0\refi
 C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\obj\Debug\net9.0\BeautySaloon.pdb
 C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\obj\Debug\net9.0\BeautySaloon.genruntimeconfig.cache
 C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\obj\Debug\net9.0\ref\BeautySaloon.dll
-C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\obj\Debug\net9.0\compressed\9ei4l5zzo3.gz
 C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\bin\Debug\net9.0\Humanizer.dll
 C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\bin\Debug\net9.0\Microsoft.CodeAnalysis.dll
@@ -167,3 +166,6 @@ C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\bin\Debug\net9.0\zh-H
 C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\bin\Debug\net9.0\MySqlConnector.dll
 C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\bin\Debug\net9.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\bin\Debug\net9.0\SixLabors.ImageSharp.dll
+C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\bin\Debug\net9.0\TranslitSharp.dll
+C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\obj\Debug\net9.0\compressed\q5zwpkzfej.gz
