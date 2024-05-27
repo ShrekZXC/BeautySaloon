@@ -38,8 +38,8 @@
                 <td>@user.SecondName</td>
                 <td>@user.LastName</td>
                 <td>@user.Email</td>
-                <td>@user.Phone</td>
-                <td>@user.Role.Name</td>
+                <td>@user.PhoneNumber</td>
+                <td>@user.SelectedRole</td>
                 <td>
                     <button class="btn btn-primary" onclick="location.href='@Url.Action("UpdateUser", "AdminUser", new {id = user.Id})'">Редактировать</button>
                     <button class="btn btn-danger" onclick="deleteUser('@user.Id')">Удалить</button>

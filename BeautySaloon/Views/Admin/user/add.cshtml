@@ -32,15 +32,15 @@
             @Html.ValidationMessageFor(model => model.Email)
         </div>
         <div class="form-group">
-            <label for="Phone">Номер телефона</label>
-            <input type="text" class="form-control" id="Phone" name="Phone">
+            <label for="PhoneNumber">Номер телефона</label>
+            <input type="text" class="form-control" id="PhoneNumber" name="PhoneNumber">
         </div>
         <div class="form-group">
             <label for="Password">Пароль</label>
             <input type="password" class="form-control" id="Password" name="Password">
         </div>
         <div class="form-group">
-            <label for="CategoryId">Роль</label>
+            <label for="RoleId">Роль</label>
             <select class="form-control" id="RoleId" name="RoleId">
                 @foreach (var role in Model.Roles)
                 {

@@ -1,128 +1,153 @@
-﻿using System.Diagnostics;
-using AutoMapper;
-using BeautySaloon.BL.Auth;
+﻿using AutoMapper;
+using BeautySaloon.DAL.Entity;
 using BeautySaloon.Exception;
-using BeautySaloon.Model;
-using BeautySaloon.Services.Interfaces;
 using BeautySaloon.ViewModel;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BeautySaloon.Controllers;
-
-public class AdminUserController(
-    ILogger<AdminBaseController> logger,
-    ICurrentUser currentUser,
-    IUserSerivce userService,
-    IRoleService roleService,
-    IMapper mapper)
-    : AdminBaseController(logger, currentUser, userService, mapper)
+namespace BeautySaloon.Controllers
 {
-    private readonly IRoleService _roleService = roleService;
-    
-    [HttpGet]
-    public async Task<IActionResult> Index()
+    [Authorize(Roles = "Admin")]
+    public class AdminUserController : Controller
     {
-        var accessResult = await CheckAdminAccess();
-        if (accessResult != null)
+        private readonly ILogger<AdminUserController> _logger;
+        private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
+
+        public AdminUserController(
+            ILogger<AdminUserController> logger,
+            IMapper mapper,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager)
         {
-            return accessResult;
+            _logger = logger;
+            _mapper = mapper;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
-        var users = _userService.GetAll();
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var users = _userManager.Users.ToList();
+            var userViewModels = _mapper.Map<List<UserViewModel>>(users);
 
-        return View("~/Views/Admin/User/Index.cshtml", _mapper.Map<List<UserViewModel>>(users));
-    }
-    
-    [HttpGet]
-    public async Task<IActionResult> Add()
-    {
-        var accessResult = await CheckAdminAccess();
-        if (accessResult != null)
-        {
-            return accessResult;
-        }
-        
-        var userViewModel =new UserViewModel()
-        {
-            Id = Guid.NewGuid(),
-            Roles = _mapper.Map<List<RoleViewModel>>(_roleService.GetAll())
-        };
-
-        return View("~/Views/Admin/user/add.cshtml", userViewModel);
-    }
-    
-    [HttpPost]
-    public async Task<IActionResult> Add(UserViewModel userViewModel)
-    {
-        var accessResult = await CheckAdminAccess();
-        if (accessResult != null)
-        {
-            return accessResult;
-        }
-        
-        try
-        {
-            var user = _mapper.Map<UserModel>(userViewModel);
-
-            await _userService.Create(user);
-        
-            return RedirectToAction("Index");
-        }
-        catch (DuplicateEmailException)
-        {
-            ModelState.TryAddModelError("Email", "Email уже существует");
-        }
-        
-        return View("~/Views/Admin/user/add.cshtml", userViewModel);
-    }
-    
-    [HttpGet]
-    public async Task<IActionResult> UpdateUser(Guid id)
-    {
-        var accessResult = await CheckAdminAccess();
-        if (accessResult != null)
-        {
-            return accessResult;
+            return View("~/Views/Admin/User/Index.cshtml", userViewModels);
         }
 
-        var user = await _userService.Get(id);
-
-        return View("~/Views/Admin/User/update.cshtml", _mapper.Map<UserViewModel>(user));
-    }
-    
-    [HttpPost]
-    public async Task<IActionResult> UpdateUser(UserViewModel userViewModel)
-    {
-        var accessResult = await CheckAdminAccess();
-        if (accessResult != null)
+        [HttpGet]
+        public async Task<IActionResult> Add()
         {
-            return accessResult;
+            var userViewModel = new UserViewModel
+            {
+                Id = Guid.NewGuid(),
+                Roles = _mapper.Map<List<RoleViewModel>>(_roleManager.Roles.ToList())
+            };
+
+            return View("~/Views/Admin/User/Add.cshtml", userViewModel);
         }
 
-        var isUpdate = await _userService.Update(_mapper.Map<UserModel>(userViewModel));
-
-        if (isUpdate)
+        [HttpPost]
+        public async Task<IActionResult> Add(UserViewModel userViewModel)
         {
-            return await Index();
+            try
+            {
+                // TODO: Вынести в бизнес логику
+                var user = new ApplicationUser
+                {
+                    Id = userViewModel.Id,
+                    UserName = userViewModel.Email,
+                    Email = userViewModel.Email,
+                    FirstName = userViewModel.FirstName,
+                    SecondName = userViewModel.SecondName,
+                    LastName = userViewModel.LastName
+                };
+
+                var result = await _userManager.CreateAsync(user, userViewModel.Password);
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, userViewModel.SelectedRole);
+                    return RedirectToAction("Index");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+            catch (DuplicateEmailException)
+            {
+                ModelState.TryAddModelError("Email", "Email уже существует");
+            }
+
+            return View("~/Views/Admin/User/Add.cshtml", userViewModel);
         }
-        else
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateUser(Guid id)
         {
-            return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var userViewModel = _mapper.Map<UserViewModel>(user);
+            userViewModel.Roles = _mapper.Map<List<RoleViewModel>>(_roleManager.Roles.ToList());
+
+            return View("~/Views/Admin/User/Update.cshtml", userViewModel);
         }
 
-    }
-    
-    [HttpPost]
-    public async Task<IActionResult> Delete([FromBody] Guid id)
-    {
-        var accessResult = await CheckAdminAccess();
-        if (accessResult != null)
+        [HttpPost]
+        public async Task<IActionResult> UpdateUser(UserViewModel userViewModel)
         {
-            return accessResult;
+            var user = await _userManager.FindByIdAsync(userViewModel.Id.ToString());
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.Email = userViewModel.Email;
+            user.FirstName = userViewModel.FirstName;
+            user.SecondName = userViewModel.SecondName;
+            user.LastName = userViewModel.LastName;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                await _userManager.RemoveFromRolesAsync(user, roles);
+                await _userManager.AddToRoleAsync(user, userViewModel.SelectedRole);
+
+                return RedirectToAction("Index");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View("~/Views/Admin/User/Update.cshtml", userViewModel);
         }
 
-        await _userService.Delete(id);
+        [HttpPost]
+        public async Task<IActionResult> Delete([FromBody] Guid id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+            {
+                return NotFound();
+            }
 
-        return Json(new { success = true });
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                return Json(new { success = true });
+            }
+
+            return Json(new { success = false, errors = result.Errors });
+        }
     }
 }

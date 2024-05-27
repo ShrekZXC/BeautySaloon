@@ -19,5 +19,7 @@ public class RegisterViewModel
     public string Password { get; set; }
     [Compare("Password", ErrorMessage = "Пароли не совпадают.")]
     public string ConfirmPassword { get; set; }
-    public string? Phone { get; set; }
+    public string? PhoneNumber { get; set; }
+    
+    public bool AgreeToTerms { get; set; }
 }
