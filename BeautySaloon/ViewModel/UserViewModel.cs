@@ -34,7 +34,7 @@ public class UserViewModel
     [Required(ErrorMessage = "Роль обязательна для выбора")]
     [Display(Name = "Роль")]
     public Guid RoleId { get; set; }
-    public string SelectedRole { get; set; }
+    public string? SelectedRole { get; set; }
     
     public bool RememberMe { get; set; }
     public List<RoleViewModel>? Roles { get; set; }

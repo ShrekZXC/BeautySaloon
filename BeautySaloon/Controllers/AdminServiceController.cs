@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BeautySaloon.Controllers;
 
 [Authorize(Roles = "Admin")]
-public class AdminServiceController: Controller
+public class AdminServiceController : Controller
 {
     private readonly ICategoryService _categoryService;
     private readonly ILogger<AdminServiceController> _logger;
@@ -29,7 +29,7 @@ public class AdminServiceController: Controller
         _serviceService = serviceService;
     }
 
-[HttpGet]
+    [HttpGet]
     public async Task<IActionResult> Index()
     {
         var viewModel = _mapper.Map<List<ServiceViewModel>>(_serviceService.GetAll());
@@ -37,8 +37,8 @@ public class AdminServiceController: Controller
         // Ваш код
         return View("~/Views/Admin/service/Index.cshtml", viewModel);
     }
-    
-        
+
+
     [HttpGet]
     public async Task<IActionResult> Add()
     {
@@ -48,8 +48,8 @@ public class AdminServiceController: Controller
             Categories = _mapper.Map<List<CategoryViewModel>>(_categoryService.GetAll())
         });
     }
-    
-        
+
+
     [HttpPost]
     public async Task<IActionResult> Add(ServiceViewModel serviceViewModel, IFormFile Image)
     {
@@ -62,7 +62,7 @@ public class AdminServiceController: Controller
         }
 
         await _serviceService.Create(_mapper.Map<ServiceModel>(serviceViewModel));
-        
+
         return await Index();
     }
 
@@ -75,9 +75,10 @@ public class AdminServiceController: Controller
 
         return View("~/Views/Admin/Service/update.cshtml", serviceViewModel);
     }
-    
+
     [HttpPost]
-    public async Task<IActionResult> Update(ServiceViewModel serviceViewModel, IFormFile ImageSrc, string CurrentImageSrc)
+    public async Task<IActionResult> Update(ServiceViewModel serviceViewModel, IFormFile ImageSrc,
+        string CurrentImageSrc)
     {
         if (ImageSrc != null && ImageSrc.Length > 0)
         {
@@ -109,7 +110,7 @@ public class AdminServiceController: Controller
     {
         await _serviceService.Delete(id);
 
-        return Json(new { success = true });
+        return Json(new {success = true});
     }
-    
+
 }

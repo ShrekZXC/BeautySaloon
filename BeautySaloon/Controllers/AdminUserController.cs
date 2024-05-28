@@ -85,6 +85,7 @@ namespace BeautySaloon.Controllers
             
             var userViewModel = _mapper.Map<UserViewModel>(user);
             userViewModel.Roles = _mapper.Map<List<RoleViewModel>>(roles);
+            userViewModel.SelectedRole = await _roleService.GetSelectedRole(id);
 
             return View("~/Views/Admin/User/Update.cshtml", userViewModel);
         }

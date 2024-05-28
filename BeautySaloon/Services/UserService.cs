@@ -86,7 +86,7 @@ public class UserService : IUserService
         return users;
     }
 
-    public async Task<IdentityResult> RegisterUserAsync(UserModel userModel, string passsword, string roleName, bool isSigin = true)
+    public async Task<IdentityResult> RegisterUserAsync(UserModel userModel, string passsword, string? roleName, bool isSigin = true)
     {
         var user = _mapper.Map<ApplicationUser>(userModel);
         user.UserName = GenerateUserName.Generate(user.FirstName, user.SecondName);

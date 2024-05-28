@@ -11,7 +11,7 @@ namespace BeautySaloon.Controllers;
 
 public class AccountController : Controller
 {
-    private readonly string UserRole = "User";
+    private readonly string? UserRole = "User";
     private readonly IMapper _mapper;
     private readonly IUserService _userService;
 
