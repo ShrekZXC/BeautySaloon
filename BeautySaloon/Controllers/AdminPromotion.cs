@@ -47,8 +47,15 @@ public class AdminPromotion : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add(PromotionViewModel promotionViewModel)
+    public async Task<IActionResult> Add(PromotionViewModel promotionViewModel, IFormFile ImgSrc)
     {
+        if (ImgSrc != null && ImgSrc.Length > 0)
+        {
+            WebFile webfile = new WebFile();
+            string filename = webfile.GetWebFilename(Request.Form.Files[0].FileName);
+            await webfile.UploadAndResizeImage(Request.Form.Files[0].OpenReadStream(), filename, 800, 600);
+            promotionViewModel.ImgSrc = filename;
+        }
         var promo = _mapper.Map<PromotionModel>(promotionViewModel);
 
         await _promotionService.Create(promo);
