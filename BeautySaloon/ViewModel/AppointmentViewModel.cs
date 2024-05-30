@@ -2,6 +2,7 @@
 
 public class AppointmentViewModel
 {
+    public Guid Id { get; set; }
     public Guid ClientId { get; set; }
     public UserViewModel Client { get; set; }
     public Guid MasterId { get; set; }
