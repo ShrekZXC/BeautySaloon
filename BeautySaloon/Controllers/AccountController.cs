@@ -11,12 +11,12 @@ namespace BeautySaloon.Controllers;
 
 public class AccountController : Controller
 {
-    private readonly string UserRole = "User";
+    private readonly string? UserRole = "User";
     private readonly IMapper _mapper;
     private readonly IUserService _userService;
 
     public AccountController(
-        IMapper mapper, 
+        IMapper mapper,
         IUserService userService)
     {
         _mapper = mapper;
@@ -38,13 +38,15 @@ public class AccountController : Controller
         {
             var user = _mapper.Map<UserModel>(loginViewModel);
             var result = await _userService.Login(user, loginViewModel.Password);
-            
+
             if (result.Succeeded)
             {
                 return RedirectToAction("Index", "Home");
             }
-            ModelState.AddModelError("", "Invalid login attempt.");
+
+            ModelState.AddModelError("", "Неверные данные для входа");
         }
+
         return View(loginViewModel);
     }
 
@@ -62,7 +64,7 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             var user = _mapper.Map<UserModel>(registerViewModel);
-            
+
             var result = await _userService.RegisterUserAsync(user, registerViewModel.Password, UserRole);
 
             if (result.Succeeded)
@@ -85,6 +87,13 @@ public class AccountController : Controller
     {
         await _userService.Logout();
         return RedirectToAction("Index", "Home");
+    }
+    
+    [HttpGet]
+    public IActionResult IsAuthenticated()
+    {
+        bool isAuthenticated = User.Identity is {IsAuthenticated: true};
+        return Json(new {isAuthenticated});
     }
 
     public IActionResult AccessDenied()

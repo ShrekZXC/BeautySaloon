@@ -1,0 +1,179 @@
+﻿@model List<BeautySaloon.ViewModel.WorkScheduleViewModel>
+
+@{
+    Layout = null;
+}
+<html lang="ru">
+<head>
+    @Html.Partial("_AdminHeadPartial")
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+@Html.Partial("_HeaderPartial")
+
+<body>
+<input type="hidden" id="workerId" value="@ViewBag.WorkerId" />
+<input type="hidden" id="workerName" value="@ViewBag.WorkerName" />
+<div class="container">
+    <div id="calendar"></div>
+</div>
+
+<!-- Модальное окно -->
+<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventModalLabel">Добавить событие</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="eventForm">
+                    <div class="form-group">
+                        <label for="userSelect">Пользователь</label>
+                        <select class="form-control" id="userSelect" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="startTime">Время начала</label>
+                        <input type="time" class="form-control" id="startTime" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="endTime">Время окончания</label>
+                        <input type="time" class="form-control" id="endTime" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-primary" id="saveEventButton">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var initialLocaleCode = 'ru';
+        var calendarEl = document.getElementById('calendar');
+        var workerId = document.getElementById('workerId').value;
+        var workerName = document.getElementById('workerName').value;
+
+        var events = @Html.Raw(Json.Serialize(
+            Model.Select(schedule => new
+            {
+                publicId = schedule.Id,
+                title = schedule.Worker.FirstName + " " + schedule.Worker.SecondName + " " + schedule.Worker.LastName,
+                start = schedule.WorkDate.ToString("yyyy-MM-dd") + "T" + schedule.StartTime,
+                end = schedule.WorkDate.ToString("yyyy-MM-dd") + "T" + schedule.EndTime
+            })
+                     ));
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: initialLocaleCode,
+        initialView: 'timeGridWeek',
+            headerToolbar: {
+                start: 'timeGridWeek',
+                center: 'title',
+                end: 'prev,next'
+            },
+            buttonText: {
+                today: 'Сегодня',
+                month: 'Месяц',
+                week: 'Неделя',
+                day: 'День',
+                list: 'Список'
+            },
+            weekText: 'Нед',
+            allDayText: 'Весь день',
+            moreLinkText: function(n) {
+                return '+ ещё ' + n;
+            },
+            titleFormat: function(date) {
+                    return workerName + ' - ' + date.start.marker.toLocaleDateString('ru', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    }) + ' - ' + date.end.marker.toLocaleDateString('ru', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+            },
+            noEventsText: 'Нет событий для отображения',
+            events: events,
+            dateClick: function(info) {
+                var dateStr = info.dateStr;
+                var startTime = prompt("Введите время начала работы (HH:MM):");
+                var endTime = prompt("Введите время окончания работы (HH:MM):");
+
+                if (startTime && endTime) {
+                    // Проверка на наличие событий в тот же день
+                    var existingEvent = events.find(event => event.start.startsWith(dateStr));
+                    if (existingEvent) {
+                        alert("На этот день уже запланировано событие.");
+                        return;
+                    }
+
+                    $.ajax({
+                        url: '@Url.Action("SaveSchedule", "AdminSchedule")',
+                        method: 'POST',
+                        data: {
+                            WorkerId: workerId,
+                            WorkDate: dateStr,
+                            StartTime: startTime,
+                            EndTime: endTime
+                        },
+                        success: function(data) {
+                            var newEvent = {
+                                id: data.id,
+                                title: data.title,
+                                start: data.start,
+                                end: data.end
+                            };
+                            calendar.addEvent(newEvent);
+                            calendar.refetchEvents(); // Перезагрузка событий календаря
+                        },
+                        error: function() {
+                            alert("Ошибка при сохранении данных");
+                        }
+                    });
+                }
+            },
+            eventClick: function(info) {
+            console.log(info);
+                var event = info.event;
+                var newStartTime = prompt("Введите новое время начала работы (HH:MM):", event.start.toISOString().substring(11, 16));
+                var newEndTime = prompt("Введите новое время окончания работы (HH:MM):", event.end.toISOString().substring(11, 16));
+
+                if (newStartTime && newEndTime) {
+                    $.ajax({
+                        url: '@Url.Action("UpdateSchedule", "AdminSchedule")',
+                        method: 'POST',
+                        data: {
+                            WorkerId: workerId,
+                            workScheduleId: event.extendedProps.publicId,
+                            StartTime: newStartTime,
+                            EndTime: newEndTime
+                        },
+                        success: function() {
+                        console.log("Succes нахуй");
+                            event.setStart(newStartTime)
+                            event.setEnd(newEndTime)
+                            calendar.refetchEvents(); // Перезагрузка событий календаря
+                        },
+                        error: function() {
+                            alert("Ошибка при обновлении данных");
+                        }
+                    });
+                }
+            }
+        });
+
+        calendar.render();
+    });
+</script>
+</html>

@@ -39,7 +39,9 @@
         </div>
         <div class="form-group">
             <label for="SelectedRole">Роль</label>
-            <select id ="SelectedRole" class="form-control" asp-for="SelectedRole" asp-items="@(new SelectList(Model.Roles, "Name", "Name"))"></select>
+            <select id ="SelectedRole" class="form-control" 
+                    asp-for="SelectedRole" 
+                    asp-items="@(new SelectList(Model.Roles, "Name", "Name"))"></select>
             @Html.ValidationMessageFor(model => model.SelectedRole)
         </div>
         <input type="hidden" name="Password" value="@Model.Password" />
