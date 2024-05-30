@@ -12,7 +12,7 @@ public class ServiceModel
     
     public decimal Price { get; set; }
     
-    public int Duration { get; set; } // Продолжительность в минутах
+    public int? Duration { get; set; }
     
     public string CategoryId { get; set; }
     

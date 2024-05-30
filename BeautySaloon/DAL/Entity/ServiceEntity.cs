@@ -10,7 +10,7 @@ public class ServiceEntity : BaseEntity
     
     public decimal Price { get; set; }
     
-    public int Duration { get; set; } // Продолжительность в минутах
+    public int? Duration { get; set; }
     
     public Guid CategoryId { get; set; }
     

@@ -13,7 +13,7 @@ namespace BeautySaloon.DAL
         public DbSet<ServiceEntity> Services { get; set; }
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<PromotionEntity> Promotions { get; set; }
-        public DbSet<AppointmentEntity> Appointments { get; set; }
+        public DbSet<WorkScheduletEntity> WorkSchedules { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,7 +22,7 @@ namespace BeautySaloon.DAL
             modelBuilder.Entity<ServiceEntity>().ToTable("Service");
             modelBuilder.Entity<CategoryEntity>().ToTable("Category");
             modelBuilder.Entity<PromotionEntity>().ToTable("Promotion");
-            modelBuilder.Entity<AppointmentEntity>().ToTable("Appointments");
+            modelBuilder.Entity<WorkScheduletEntity>().ToTable("WorkSchedule");
         }
 
         public async Task<int> SaveChangesAsync()

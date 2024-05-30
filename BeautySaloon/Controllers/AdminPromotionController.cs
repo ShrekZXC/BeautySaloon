@@ -10,13 +10,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace BeautySaloon.Controllers;
 
 [Authorize(Roles = "Admin")]
-public class AdminPromotion : Controller
+public class AdminPromotionController : Controller
 {
-    private readonly ILogger<AdminPromotion> _logger;
+    private readonly ILogger<AdminPromotionController> _logger;
     private readonly IPromotionService _promotionService;
     private readonly IMapper _mapper;
 
-    public AdminPromotion(ILogger<AdminPromotion> logger,
+    public AdminPromotionController(ILogger<AdminPromotionController> logger,
         IPromotionService promotionService,
         IMapper mapper)
     {

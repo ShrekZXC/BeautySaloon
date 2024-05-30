@@ -21,5 +21,9 @@ public class BeautySaloonProfile: Profile
         CreateMap<LoginViewModel, UserModel>().ReverseMap();
         CreateMap<RoleModel, ApplicationRole>().ReverseMap();
         CreateMap<RoleViewModel, RoleModel>().ReverseMap();
+        CreateMap<ApplicationUser, WorkerModel>().ReverseMap();
+        CreateMap<WorkerModel, WorkerViewModel>().ReverseMap();
+        CreateMap<WorkScheduletEntity, WorkScheduleModel>().ReverseMap();
+        CreateMap<WorkScheduleModel, WorkScheduleViewModel>().ReverseMap();
     }
 }

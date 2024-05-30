@@ -44,7 +44,7 @@ public class AccountController : Controller
                 return RedirectToAction("Index", "Home");
             }
 
-            ModelState.AddModelError("", "Invalid login attempt.");
+            ModelState.AddModelError("", "Неверные данные для входа");
         }
 
         return View(loginViewModel);
