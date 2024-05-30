@@ -79,6 +79,13 @@ body.dark
   opacity: 1;
 }
 
+.sidebar .text.nav-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px; /* Вы можете изменить это значение в зависимости от ваших требований */
+}
+
 .sidebar.close .text
 {
   opacity: 0;

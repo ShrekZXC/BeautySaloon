@@ -1,44 +1,152 @@
 ﻿@model List<BeautySaloon.ViewModel.ServiceViewModel>
 
 @{
-    ViewData["Title"] = "Services Page";
+ViewData["Title"] = "Services Page";
 }
-
-фильтр по услугам
 
 <div class="container">
     <div class="row">
         @foreach (var service in Model)
         {
-            <div class="col-md-3 mt-5">
-                <div class="service">
-                    <div class="image">
-                        <img src="@service.ImageSrc" alt="http://placehold.it/300x400">
-                    </div>
-                    <div class="info-service">
-                        <h3>@service.Name</h3>
+        <div class="col-md-3 mt-5">
+            <div class="service">
+                <div class="image">
+                    <img src="@service.ImageSrc" alt="http://placehold.it/300x400">
+                </div>
+                <div class="info-service">
+                    <h3>@service.Name</h3>
 
-                        <ul class="rating">
-                            <li>
-                                <i class='bx bxs-star'></i>
-                                <i class='bx bxs-star'></i>
-                                <i class='bx bxs-star'></i>
-                                <i class='bx bxs-star'></i>
-                                <i class='bx bxs-star-half'></i>
-                            </li>
-                        </ul>
-                        <div class="info-price">
+                    <ul class="rating">
+                        <li>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star-half'></i>
+                        </li>
+                    </ul>
+                    <div class="info-price">
                             <span class="price">
                                 @service.Price.ToString("F1")
                                 <small>₽</small>
                             </span>
-                            <button class="add-to-cart">
-                                <i class='bx bx-check'></i>
-                            </button>
-                        </div>
+                        <button class="add-to-cart"
+                                data-toggle="modal"
+                                data-target="#serviceModal"
+                                data-id="@service.Id"
+                                data-name="@service.Name"
+                                data-price="@service.Price"
+                                data-description="@service.Description">
+                            <i class='bx bx-check'></i>
+                        </button>
                     </div>
                 </div>
             </div>
+        </div>
         }
     </div>
 </div>
+
+<!-- Modal -->
+<div id="serviceModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Выбор услуги</h2>
+        <div id="serviceDetails">
+            <!-- Здесь будет динамически подгружаться информация о выбранной услуге -->
+        </div>
+        <button class="confirm-service">Подтвердить</button>
+    </div>
+</div>
+
+<style>
+    /* Стиль для модального окна */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    /* Стиль для модального контента */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 600px; /* Ограничение максимальной ширины */
+    }
+
+    /* Стиль для кнопки закрытия модального окна */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+
+<script>
+    // Получаем модальное окно
+    var modal = document.getElementById("serviceModal");
+
+    // Получаем кнопку, которая открывает модальное окно
+    var btns = document.querySelectorAll(".add-to-cart");
+
+    // Получаем элемент <span>, который закрывает модальное окно
+    var span = document.getElementsByClassName("close")[0];
+
+    // URL для проверки авторизации
+    var authCheckUrl = '@Url.Action("IsAuthenticated", "Account")';
+
+    // Перебираем все кнопки и добавляем обработчик событий
+    btns.forEach(function(btn) {
+        btn.onclick = function() {
+            // Проверяем авторизацию пользователя
+            fetch(authCheckUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.isAuthenticated) {
+                        // Пользователь авторизован, открываем модальное окно
+                        modal.style.display = "block";
+                        // Получаем информацию об услуге и подгружаем в модальное окно
+                        var serviceInfo = this.parentElement.parentElement;
+                        var serviceName = serviceInfo.querySelector("h3").innerText;
+                        var servicePrice = serviceInfo.querySelector(".price").innerText;
+                        document.getElementById("serviceDetails").innerHTML = `<p>Услуга: ${serviceName}</p><p>Цена: ${servicePrice}</p>`;
+                    } else {
+                        // Пользователь не авторизован, перенаправляем на страницу авторизации
+                        window.location.href = '@Url.Action("Login", "Account")';
+                    }
+                })
+                .catch(error => console.error('Ошибка:', error));
+        }
+    });
+
+    // Когда пользователь нажимает на <span> (x), закрыть модальное окно
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // Когда пользователь щелкает в любом месте за пределами модального окна, закрыть его
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
