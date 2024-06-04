@@ -1,7 +1,7 @@
 ﻿@model List<BeautySaloon.ViewModel.WorkScheduleViewModel>
 
 @{
-    Layout = null;
+Layout = null;
 }
 <html lang="ru">
 <head>
@@ -52,9 +52,6 @@
     </div>
 </div>
 
-
-</body>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var initialLocaleCode = 'ru';
@@ -63,18 +60,18 @@
         var workerName = document.getElementById('workerName').value;
 
         var events = @Html.Raw(Json.Serialize(
-            Model.Select(schedule => new
-            {
-                publicId = schedule.Id,
-                title = schedule.Worker.FirstName + " " + schedule.Worker.SecondName + " " + schedule.Worker.LastName,
-                start = schedule.WorkDate.ToString("yyyy-MM-dd") + "T" + schedule.StartTime,
-                end = schedule.WorkDate.ToString("yyyy-MM-dd") + "T" + schedule.EndTime
-            })
+        Model.Select(schedule => new
+        {
+        publicId = schedule.Id,
+        title = schedule.Worker.FirstName + " " + schedule.Worker.SecondName + " " + schedule.Worker.LastName,
+        start = schedule.WorkDate.ToString("yyyy-MM-dd") + "T" + schedule.StartTime,
+        end = schedule.WorkDate.ToString("yyyy-MM-dd") + "T" + schedule.EndTime
+        })
                      ));
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
             locale: initialLocaleCode,
-        initialView: 'timeGridWeek',
+            initialView: 'timeGridWeek',
             headerToolbar: {
                 start: 'timeGridWeek',
                 center: 'title',
@@ -93,58 +90,23 @@
                 return '+ ещё ' + n;
             },
             titleFormat: function(date) {
-                    return workerName + ' - ' + date.start.marker.toLocaleDateString('ru', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    }) + ' - ' + date.end.marker.toLocaleDateString('ru', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    });
+                return workerName + ' - ' + date.start.marker.toLocaleDateString('ru', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                }) + ' - ' + date.end.marker.toLocaleDateString('ru', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
             },
             noEventsText: 'Нет событий для отображения',
             events: events,
             dateClick: function(info) {
-                var dateStr = info.dateStr;
-                var startTime = prompt("Введите время начала работы (HH:MM):");
-                var endTime = prompt("Введите время окончания работы (HH:MM):");
-
-                if (startTime && endTime) {
-                    // Проверка на наличие событий в тот же день
-                    var existingEvent = events.find(event => event.start.startsWith(dateStr));
-                    if (existingEvent) {
-                        alert("На этот день уже запланировано событие.");
-                        return;
-                    }
-
-                    $.ajax({
-                        url: '@Url.Action("SaveSchedule", "AdminSchedule")',
-                        method: 'POST',
-                        data: {
-                            WorkerId: workerId,
-                            WorkDate: dateStr,
-                            StartTime: startTime,
-                            EndTime: endTime
-                        },
-                        success: function(data) {
-                            var newEvent = {
-                                id: data.id,
-                                title: data.title,
-                                start: data.start,
-                                end: data.end
-                            };
-                            calendar.addEvent(newEvent);
-                            calendar.refetchEvents(); // Перезагрузка событий календаря
-                        },
-                        error: function() {
-                            alert("Ошибка при сохранении данных");
-                        }
-                    });
-                }
+                const myModal = new bootstrap.Modal(document.getElementById('eventModal'));
+                myModal.show();
             },
             eventClick: function(info) {
-            console.log(info);
                 var event = info.event;
                 var newStartTime = prompt("Введите новое время начала работы (HH:MM):", event.start.toISOString().substring(11, 16));
                 var newEndTime = prompt("Введите новое время окончания работы (HH:MM):", event.end.toISOString().substring(11, 16));
@@ -160,7 +122,6 @@
                             EndTime: newEndTime
                         },
                         success: function() {
-                        console.log("Succes нахуй");
                             event.setStart(newStartTime)
                             event.setEnd(newEndTime)
                             calendar.refetchEvents(); // Перезагрузка событий календаря
@@ -176,4 +137,5 @@
         calendar.render();
     });
 </script>
+</body>
 </html>

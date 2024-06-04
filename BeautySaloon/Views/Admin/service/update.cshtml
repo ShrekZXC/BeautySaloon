@@ -30,6 +30,10 @@ Layout = null;
             <input type="text" class="form-control" id="Price" name="Price" required value="@Model.Price.ToString("F1")">
         </div>
         <div class="form-group">
+            <label for="Duration">Продолжительность сеанса (в минутах)</label>
+            <input type="text" class="form-control" id="Duration" name="Duration" value="@Model.Duration">
+        </div>
+        <div class="form-group">
             <img src="@Model.ImageSrc" alt="@Model.ImageSrc" width="100"/>
             <br>
             <label for="ImageSrc">Загрузить изображение</label>

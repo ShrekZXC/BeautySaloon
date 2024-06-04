@@ -25,6 +25,7 @@
             <th scope="col">Описание</th>
             <th scope="col">Цена</th>
             <th scope="col">Категория</th>
+            <th scope="col">Продолжительность</th>
             <th scope="col">Изображение</th>
         </tr>
         </thead>
@@ -37,6 +38,7 @@
                 <td>@service.Description</td>
                 <td>@service.Price.ToString("F1")</td>
                 <td>@service.Category.Name</td>
+                <td>@service.Duration минут</td>
                 <td><img src="@service.ImageSrc" alt="@service.Name" width="100"/></td>
                 <td>
                     <button class="btn btn-primary"
