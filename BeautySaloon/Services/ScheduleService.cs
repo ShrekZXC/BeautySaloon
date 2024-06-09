@@ -53,17 +53,28 @@ public class ScheduleService : IScheduleService
         var workScheduletEntities = await _dbRepository.Get<WorkScheduletEntity>()
             .Where(ws => ws.WorkerId == id)
             .Include(x=>x.Worker)
+            .Include(x=>x.Client)
+            .Include(x=>x.Service)
             .ToListAsync();
 
         return _mapper.Map<List<WorkScheduleModel>>(workScheduletEntities);
     }
 
-    public async Task<Guid> AddWorkScheduleAsync(WorkScheduleModel workScheduleModel)
+    public async Task<WorkScheduleModel> AddWorkScheduleAsync(WorkScheduleModel workScheduleModel)
     {
         var entity = _mapper.Map<WorkScheduletEntity>(workScheduleModel);
         var id = await _dbRepository.Add(entity);
         await _dbRepository.SaveChangesAsync();
-        return id;
+
+        workScheduleModel = new WorkScheduleModel();
+        var workScheduletEntity = await _dbRepository
+            .Get<WorkScheduletEntity>()
+            .Include(x=>x.Worker)
+            .Include(x=>x.Client)
+            .Include(x=>x.Service)
+            .FirstOrDefaultAsync(x => x.Id == id);
+        workScheduleModel = _mapper.Map<WorkScheduleModel>(workScheduletEntity);
+        return workScheduleModel;
     }
 
     public async Task UpdateWorkScheduleAsync(WorkScheduleModel workScheduleModel)

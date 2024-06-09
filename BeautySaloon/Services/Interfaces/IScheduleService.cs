@@ -10,7 +10,7 @@ public interface IScheduleService
 
     Task<List<WorkScheduleModel>> GetWorkSchedulesAsync(Guid id);
 
-    Task<Guid> AddWorkScheduleAsync(WorkScheduleModel workScheduleModel);
+    Task<WorkScheduleModel> AddWorkScheduleAsync(WorkScheduleModel workScheduleModel);
     
     Task UpdateWorkScheduleAsync(WorkScheduleModel workScheduleModel);
 }

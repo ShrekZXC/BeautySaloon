@@ -18,39 +18,7 @@ Layout = null;
     <div id="calendar"></div>
 </div>
 
-<!-- Модальное окно -->
-<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="eventModalLabel">Добавить событие</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="eventForm">
-                    <div class="form-group">
-                        <label for="userSelect">Пользователь</label>
-                        <select class="form-control" id="userSelect" required></select>
-                    </div>
-                    <div class="form-group">
-                        <label for="startTime">Время начала</label>
-                        <input type="time" class="form-control" id="startTime" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="endTime">Время окончания</label>
-                        <input type="time" class="form-control" id="endTime" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                <button type="button" class="btn btn-primary" id="saveEventButton">Сохранить</button>
-            </div>
-        </div>
-    </div>
-</div>
+@Html.Partial("_EventModalPartial")
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -63,7 +31,7 @@ Layout = null;
         Model.Select(schedule => new
         {
         publicId = schedule.Id,
-        title = schedule.Worker.FirstName + " " + schedule.Worker.SecondName + " " + schedule.Worker.LastName,
+        title = $"Клиент: {schedule.Client.FullName} Услуга: {schedule.Service.Name}",
         start = schedule.WorkDate.ToString("yyyy-MM-dd") + "T" + schedule.StartTime,
         end = schedule.WorkDate.ToString("yyyy-MM-dd") + "T" + schedule.EndTime
         })
@@ -103,8 +71,44 @@ Layout = null;
             noEventsText: 'Нет событий для отображения',
             events: events,
             dateClick: function(info) {
+            console.log(info);
+                loadServices();
+                loadClients(); // Загрузка пользователей перед показом модального окна
                 const myModal = new bootstrap.Modal(document.getElementById('eventModal'));
+                var dataFromModal;
                 myModal.show();
+                
+                document.getElementById('saveEventButton').addEventListener('click', function handleSaveClick() {
+                        const clientId = document.getElementById('userSelect').value;
+                        const serviceId = document.getElementById('serviceSelect').value;
+                        const startTime = document.getElementById('startTime').value;
+
+                        dataFromModal = {
+                            workerId: workerId,
+                            clientId: clientId,
+                            serviceId: serviceId,
+                            workDate: info.dateStr,
+                            startTime: startTime
+                        };
+                        console.log(dataFromModal);
+                        myModal.hide();
+                        document.getElementById('saveEventButton').removeEventListener('click', handleSaveClick);
+
+                    console.log(dataFromModal);
+                    $.ajax({
+                        url: '@Url.Action("SaveSchedule", "AdminSchedule")',
+                        method: 'POST',
+                        data: dataFromModal,
+                        success: function ()
+                        {
+                            calendar.refetchEvents();
+                        },
+                        error: function ()
+                        {
+                            alert("Ошибка при добавлении данных");
+                        }
+                    })
+                });
             },
             eventClick: function(info) {
                 var event = info.event;
@@ -135,6 +139,47 @@ Layout = null;
         });
 
         calendar.render();
+
+        function loadClients() {
+            $.ajax({
+                url: '@Url.Action("GetAllClients", "AdminSchedule")',
+                method: 'GET',
+                success: function(data) {
+                    var userSelect = document.getElementById('userSelect');
+                    userSelect.innerHTML = ''; // Очистка списка
+                    data.forEach(function(user) {
+                    console.log(user);
+                        var option = document.createElement('option');
+                        option.value = user.id;
+                        option.textContent = user.firstName + user.secondName + user.lastName;
+                        userSelect.appendChild(option);
+                    });
+                },
+                error: function() {
+                    alert("Ошибка при загрузке пользователей");
+                }
+            });
+        }
+
+        function loadServices() {
+            $.ajax({
+                url: '@Url.Action("GetAllService", "AdminSchedule")',
+                method: 'GET',
+                success: function(data) {
+                    var serviceSelect = document.getElementById('serviceSelect');
+                    serviceSelect.innerHTML = ''; // Очистка списка
+                    data.forEach(function(service) {
+                        var option = document.createElement('option');
+                        option.value = service.id;
+                        option.textContent = service.name;
+                        serviceSelect.appendChild(option);
+                    });
+                },
+                error: function() {
+                    alert("Ошибка при загрузке услуг");
+                }
+            });
+        }
     });
 </script>
 </body>
