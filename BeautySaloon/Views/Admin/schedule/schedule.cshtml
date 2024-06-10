@@ -5,9 +5,9 @@ Layout = null;
 }
 <html lang="ru">
 
-@await Html.PartialAsync("_AdminHeadPartial")
+@await Html.PartialAsync("Admin/_AdminHeadPartial")
 
-@await Html.PartialAsync("_HeaderPartial")
+@await Html.PartialAsync("Admin/_AdminHeaderPartial")
 
 <body>
 <input type="hidden" id="workerId" value="@ViewBag.WorkerId"/>
@@ -16,7 +16,7 @@ Layout = null;
     <div id="calendar"></div>
 </div>
 
-@await Html.PartialAsync("_EventModalPartial")
+@await Html.PartialAsync("Admin/_AdminScheduleEventModalPartial")
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

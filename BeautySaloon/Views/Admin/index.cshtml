@@ -2,12 +2,13 @@
   Layout = null;
 }
 <html lang="ru">
-<head>
-  @Html.Partial("_AdminHeadPartial")
-  </head>
+
+@await Html.PartialAsync("Admin/_AdminHeadPartial")
 
 <body>
-@Html.Partial("_HeaderPartial")
+
+@await Html.PartialAsync("Admin/_AdminHeaderPartial")
+
 <main>
 
   // Количество зарегистрированных пользователей

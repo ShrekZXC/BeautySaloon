@@ -4,9 +4,10 @@
 Layout = null;
 }
 <html lang="ru">
-    @Html.Partial("_AdminHeadPartial")
 
-@Html.Partial("_HeaderPartial")
+@await Html.PartialAsync("Admin/_AdminHeadPartial")
+
+@await Html.PartialAsync("Admin/_AdminHeaderPartial")
 
 <body>
 <div class="container">
@@ -26,16 +27,16 @@ Layout = null;
         <tbody>
         @foreach (var worker in Model)
         {
-        <tr>
-            <td>@worker.Id</td>
-            <td>@worker.SecondName @worker.FirstName @worker.LastName</td>
-            <td>
-                <form action="@Url.Action("SetUpSchedule", "AdminSchedule")" method="post">
-                    <input type="hidden" name="workerId" value="@worker.Id" />
-                    <button type="submit" class="btn btn-danger">Настроить расписание</button>
-                </form>
-            </td>
-        </tr>
+            <tr>
+                <td>@worker.Id</td>
+                <td>@worker.SecondName @worker.FirstName @worker.LastName</td>
+                <td>
+                    <form action="@Url.Action("SetUpSchedule", "AdminSchedule")" method="post">
+                        <input type="hidden" name="workerId" value="@worker.Id"/>
+                        <button type="submit" class="btn btn-danger">Настроить расписание</button>
+                    </form>
+                </td>
+            </tr>
         }
         </tbody>
     </table>
