@@ -36,6 +36,14 @@ public class UserService : IUserService
 
         return user;
     }
+
+    public async Task<List<ClientModel>> GetAllClients()
+    {
+        var appClients = await _userManager.GetUsersInRoleAsync("User");
+        var clietns = _mapper.Map<List<ApplicationUser>, List<ClientModel>>(appClients.ToList());
+
+        return clietns;
+    }
     
     
     public async Task<IdentityResult?> UpdateUser(UserModel userModel)

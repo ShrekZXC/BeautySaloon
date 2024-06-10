@@ -26,9 +26,35 @@ public class ScheduleService : IScheduleService
 
     public async Task<WorkScheduleModel> GetWorkScheduleById(Guid id)
     {
-        var entity = await _dbRepository.Get<WorkScheduletEntity>().FirstOrDefaultAsync(x => x.Id == id);
+        var entity = await _dbRepository
+            .Get<WorkScheduletEntity>()
+            .Include(x=>x.Service)
+            .Include(x=>x.Client)
+            .Include(x=>x.Worker)
+            .FirstOrDefaultAsync(x => x.Id == id);
         var workScheduleModel = _mapper.Map<WorkScheduleModel>(entity);
         return workScheduleModel;
+    }
+
+    public async Task<bool> DeleteById(Guid id)
+    {
+        try
+        {
+            var schedule = await _dbRepository.Get<WorkScheduletEntity>()
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (schedule != null)
+            {
+                await _dbRepository.Remove<WorkScheduletEntity>(schedule);
+                await _dbRepository.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+        catch (System.Exception e)
+        {
+            return false;
+        }
     }
 
     public async Task<List<WorkerModel>> GetAllWorkers()
@@ -53,31 +79,57 @@ public class ScheduleService : IScheduleService
         var workScheduletEntities = await _dbRepository.Get<WorkScheduletEntity>()
             .Where(ws => ws.WorkerId == id)
             .Include(x=>x.Worker)
+            .Include(x=>x.Client)
+            .Include(x=>x.Service)
             .ToListAsync();
 
         return _mapper.Map<List<WorkScheduleModel>>(workScheduletEntities);
     }
 
-    public async Task<Guid> AddWorkScheduleAsync(WorkScheduleModel workScheduleModel)
+    public async Task<WorkScheduleModel> AddWorkScheduleAsync(WorkScheduleModel workScheduleModel)
     {
         var entity = _mapper.Map<WorkScheduletEntity>(workScheduleModel);
         var id = await _dbRepository.Add(entity);
         await _dbRepository.SaveChangesAsync();
-        return id;
+
+        workScheduleModel = new WorkScheduleModel();
+        var workScheduletEntity = await _dbRepository
+            .Get<WorkScheduletEntity>()
+            .Include(x=>x.Worker)
+            .Include(x=>x.Client)
+            .Include(x=>x.Service)
+            .FirstOrDefaultAsync(x => x.Id == id);
+        workScheduleModel = _mapper.Map<WorkScheduleModel>(workScheduletEntity);
+        return workScheduleModel;
     }
 
-    public async Task UpdateWorkScheduleAsync(WorkScheduleModel workScheduleModel)
+    public async Task<WorkScheduleModel> UpdateWorkScheduleAsync(WorkScheduleModel workScheduleModel)
     {
         var entity = await _dbRepository.Get<WorkScheduletEntity>()
             .FirstOrDefaultAsync(x=>x.Id == workScheduleModel.Id);
 
         if (entity != null)
         {
+            entity.ClientId = workScheduleModel.ClientId;
+            entity.ServiceId = workScheduleModel.ServiceId;
             entity.StartTime = workScheduleModel.StartTime;
             entity.EndTime = workScheduleModel.EndTime;
 
             await _dbRepository.Update(entity);
             await _dbRepository.SaveChangesAsync();
+            
+            var workScheduletEntity = await _dbRepository
+                .Get<WorkScheduletEntity>()
+                .Include(x=>x.Worker)
+                .Include(x=>x.Client)
+                .Include(x=>x.Service)
+                .FirstOrDefaultAsync(x => x.Id == workScheduleModel.Id);
+            workScheduleModel = _mapper.Map<WorkScheduleModel>(workScheduletEntity);
+            return workScheduleModel;
+        }
+        else
+        {
+            return null;
         }
     }
 }

@@ -11,5 +11,6 @@ public interface IUserService
     Task<IdentityResult> DeleteUser(Guid id);
     Task<IdentityResult> RegisterUserAsync(UserModel userModel, string password, string? roleName, bool isSigin = true);
     Task<SignInResult> Login(UserModel userModel, string password);
+    Task<List<ClientModel>> GetAllClients();
     Task Logout();
 }

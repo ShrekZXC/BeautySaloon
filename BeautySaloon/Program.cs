@@ -56,6 +56,11 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddTransient<IScheduleService, ScheduleService>();
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+});
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

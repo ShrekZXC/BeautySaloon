@@ -1,6 +1,4 @@
-﻿@model BeautySaloon.ViewModel.EventViewModel
-
-<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+﻿<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -11,22 +9,24 @@
             </div>
             <div class="modal-body">
                 <form id="eventForm">
+                    <input type="hidden" id="eventId" name="eventId">
                     <div class="form-group">
-                        <label for="userSelect">Пользователь</label>
+                        <label for="userSelect">Клиент</label>
                         <select class="form-control" id="userSelect" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="serviceSelect">Услуга</label>
+                        <select class="form-control" id="serviceSelect" required></select>
                     </div>
                     <div class="form-group">
                         <label for="startTime">Время начала</label>
                         <input type="time" class="form-control" id="startTime" required>
                     </div>
-                    <div class="form-group">
-                        <label for="endTime">Время окончания</label>
-                        <input type="time" class="form-control" id="endTime" required>
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-secondary" id="closeEventButton" data-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-danger" id="deleteEventButton">Удалить</button>
                 <button type="button" class="btn btn-primary" id="saveEventButton">Сохранить</button>
             </div>
         </div>
