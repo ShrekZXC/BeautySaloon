@@ -1,24 +1,24 @@
-﻿<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-    <a href="@Url.Action("Index","Admin")" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-        <span class="fs-4">ПАНЕЛЬ АДМИНИСТРАТОРА</span>
-    </a>
+﻿<header class="d-flex flex-wrap justify-content-between py-3 mb-4 border-bottom">
+    <div class="d-flex align-items-center">
+        <a href="@Url.Action("Index", "Home")" class="d-flex align-items-center mb-3 mb-md-0 link-body-emphasis text-decoration-none">
+            <svg class="bi me-2" width="23" height="32"><use xlink:href="#bootstrap"></use></svg>
+            <i class='bx bxs-left-arrow-alt'></i>
+            <span class="fs-6">На сайт</span>
+        </a>
+        <a href="@Url.Action("Index", "Admin")" class="d-flex align-items-center mb-3 mb-md-0 me-4 link-body-emphasis text-decoration-none">
+            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+            <span class="fs-4">Панель Администратора</span>
+        </a>
+    </div>
 
-    <ul class="nav nav-pills">
-        <li class="nav-item"><a href=@Url.Action("Index", "AdminUser") class="nav-link 
-@(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminUser" ? "active" : "")
-">Пользователи</a></li>
-        <li class="nav-item"><a href=@Url.Action("Index", "AdminService") class="nav-link 
-@(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminService" ? "active" : "")
-">Услуги</a></li>
-        <li class="nav-item"><a href=@Url.Action("Index", "AdminPromotion") class="nav-link 
-@(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminPromotion" ? "active" : "")
-">Акций</a></li>
-        <li class="nav-item"><a href=@Url.Action("Index", "AdminSchedule") class="nav-link 
-@(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminSchedule" ? "active" : "")
-">Расписание</a></li>
-        <li class="nav-item"><a href=@Url.Action("Index", "AdminCategory") class="nav-link 
-@(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminCategory" ? "active" : "")
-">Категории</a></li>
+    <ul class="nav nav-pills ms-auto">
+        <li class="nav-item"><a href="@Url.Action("Index", "AdminUi")" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminUi" ? "active" : "")">Внешний вид</a></li>
+        <li class="nav-item"><a href="@Url.Action("Index", "AdminUser")" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminUser" ? "active" : "")">Пользователи</a></li>
+        <li class="nav-item"><a href="@Url.Action("Index", "AdminService")" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminService" ? "active" : "")">Услуги</a></li>
+        <li class="nav-item"><a href="@Url.Action("Index", "AdminPromotion")" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminPromotion" ? "active" : "")">Акций</a></li>
+        <li class="nav-item"><a href="@Url.Action("Index", "AdminSchedule")" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminSchedule" ? "active" : "")">Расписание</a></li>
+        <li class="nav-item"><a href="@Url.Action("Index", "AdminCategory")" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminCategory" ? "active" : "")">Категории</a></li>
     </ul>
+
+    <svg class="bi me-2" width="73" height="32"><use xlink:href="#bootstrap"></use></svg>
 </header>

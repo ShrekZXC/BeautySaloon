@@ -5,6 +5,17 @@ Layout = null;
 }
 <html lang="ru">
 
+<head>
+    <link rel="stylesheet" href="~/css/admin.css" />
+    <style>
+        /* Переопределяем увеличенный размер текста */
+        table td, th
+        {
+            font-size: 1em !important; /* Увеличивает размер шрифта на 20% */
+        }
+    </style>
+</head>
+
 @await Html.PartialAsync("Admin/_AdminHeadPartial")
 
 @await Html.PartialAsync("Admin/_AdminHeaderPartial")
