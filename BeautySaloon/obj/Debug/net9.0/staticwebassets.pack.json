@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\css\\account.css"
     },
     {
+      "Id": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\css\\admin.css",
+      "PackagePath": "staticwebassets\\css\\admin.css"
+    },
+    {
       "Id": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
@@ -27,6 +31,10 @@
     {
       "Id": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\images\\4E\\4E03\\error_тех_работы.jpg",
       "PackagePath": "staticwebassets\\images\\4E\\4E03\\error_тех_работы.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\images\\6C\\6C27\\PXL_20231216_100847298.MP.jpg",
+      "PackagePath": "staticwebassets\\images\\6C\\6C27\\PXL_20231216_100847298.MP.jpg"
     },
     {
       "Id": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\img\\logo.jpg",

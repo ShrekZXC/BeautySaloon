@@ -7,7 +7,7 @@ using BeautySaloon.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BeautySaloon.Controllers;
+namespace BeautySaloon.Controllers.Admin;
 
 [Authorize(Roles = "Admin")]
 public class AdminServiceController : Controller

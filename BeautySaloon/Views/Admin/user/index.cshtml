@@ -1,13 +1,13 @@
 @model List<BeautySaloon.ViewModel.UserViewModel>
 
 @{
-    Layout = null;
+Layout = null;
 }
 <html lang="ru">
 
-@Html.Partial("_AdminHeadPartial")
+@await Html.PartialAsync("Admin/_AdminHeadPartial")
 
-@Html.Partial("_HeaderPartial")
+@await Html.PartialAsync("Admin/_AdminHeaderPartial")
 
 <body>
 <div class="container">
@@ -16,35 +16,42 @@
             <a href="@Url.Action("Add", "AdminUser")" class="btn btn-primary">Создать пользователя</a>
         </div>
     </div>
-    <table class="table table-striped">
+    <table class="table table-striped table-sm">
         <thead>
         <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Имя</th>
-            <th scope="col">Фамилия</th>
-            <th scope="col">Отчество</th>
-            <th scope="col">Почта</th>
-            <th scope="col">Телефон</th>
-            <th scope="col">Роль</th>
-            <th scope="col">Действия</th>
+            <th scope="col" class="text-center">Id</th>
+            <th scope="col" class="text-center">Имя</th>
+            <th scope="col" class="text-center">Фамилия</th>
+            <th scope="col" class="text-center">Отчество</th>
+            <th scope="col" class="text-center">Почта</th>
+            <th scope="col" class="text-center">Телефон</th>
+            <th scope="col" class="text-center">Роль</th>
+            <th scope="col" class="text-center" style="width: 150px;">Действия</th>
         </tr>
         </thead>
         <tbody>
         @foreach (var user in Model)
         {
-            <tr>
-                <td>@user.Id</td>
-                <td>@user.FirstName</td>
-                <td>@user.SecondName</td>
-                <td>@user.LastName</td>
-                <td>@user.Email</td>
-                <td>@user.PhoneNumber</td>
-                <td>@user.SelectedRole</td>
-                <td>
-                    <button class="btn btn-primary" onclick="location.href='@Url.Action("UpdateUser", "AdminUser", new {id = user.Id})'">Редактировать</button>
-                    <button class="btn btn-danger" onclick="deleteUser('@user.Id')">Удалить</button>
-                </td>
-            </tr>
+        <tr>
+            <td class="text-center">@user.Id</td>
+            <td class="text-center">@user.FirstName</td>
+            <td class="text-center">@user.SecondName</td>
+            <td class="text-center">@user.LastName</td>
+            <td class="text-center">
+                <div class="description" title="@user.Email">
+                    @user.Email.Substring(0, Math.Min(20, user.Email.Length))
+                    @(user.Email.Length > 20 ? "..." : "")
+                </div>
+            </td>
+            <td class="text-center">@user.PhoneNumber</td>
+            <td class="text-center">@user.SelectedRole</td>
+            <td class="text-center">
+                <div class="d-flex flex-column">
+                    <button class="btn btn-primary mb-2 btn-custom" onclick="location.href='@Url.Action("UpdateUser", "AdminUser", new {id = user.Id})'">Редактировать</button>
+                    <button class="btn btn-danger btn-custom" onclick="deleteUser('@user.Id')">Удалить</button>
+                </div>
+            </td>
+        </tr>
         }
         </tbody>
     </table>
@@ -59,14 +66,15 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(id)
+                body: JSON.stringify({ id })
             });
 
             if (response.ok) {
-                location.reload(); 
+                location.reload();
             } else {
                 alert('Ошибка при удалении пользователя.');
             }
         }
     }
 </script>
+</html>

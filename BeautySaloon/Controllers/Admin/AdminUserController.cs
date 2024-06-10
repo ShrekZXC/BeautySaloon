@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
-using BeautySaloon.DAL.Entity;
-using BeautySaloon.Exception;
 using BeautySaloon.Model;
 using BeautySaloon.Services.Interfaces;
 using BeautySaloon.ViewModel;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BeautySaloon.Controllers
+namespace BeautySaloon.Controllers.Admin
 {
     [Authorize(Roles = "Admin")]
     public class AdminUserController : Controller

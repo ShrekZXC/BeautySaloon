@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "dyImCB/OMvAXZry1cF21LhDmdwwQgwymDlSIjsavfeY=",
+  "Hash": "VLbwhKjgGoEv31uh4mSZXOJz34uhFzTjRoJEYcmoThc=",
   "Source": "BeautySaloon",
   "BasePath": "_content/BeautySaloon",
   "Mode": "Default",
@@ -1024,6 +1024,25 @@
       "OriginalItemSpec": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\lib\\jquery\\dist\\jquery.min.js"
     },
     {
+      "Identity": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\obj\\Debug\\net9.0\\compressed\\x5u6tdd5o5.gz",
+      "SourceId": "BeautySaloon",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\",
+      "BasePath": "_content/BeautySaloon",
+      "RelativePath": "css/admin.css.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\css\\admin.css",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\css\\admin.css"
+    },
+    {
       "Identity": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\obj\\Debug\\net9.0\\compressed\\xo69o0kayr.gz",
       "SourceId": "BeautySaloon",
       "SourceType": "Discovered",
@@ -1252,6 +1271,25 @@
       "OriginalItemSpec": "wwwroot\\css\\account.css"
     },
     {
+      "Identity": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\css\\admin.css",
+      "SourceId": "BeautySaloon",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\",
+      "BasePath": "_content/BeautySaloon",
+      "RelativePath": "css/admin.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\admin.css"
+    },
+    {
       "Identity": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\css\\site.css",
       "SourceId": "BeautySaloon",
       "SourceType": "Discovered",
@@ -1345,6 +1383,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\4E\\4E03\\error_тех_работы.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\images\\6C\\6C27\\PXL_20231216_100847298.MP.jpg",
+      "SourceId": "BeautySaloon",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\",
+      "BasePath": "_content/BeautySaloon",
+      "RelativePath": "images/6C/6C27/PXL_20231216_100847298.MP.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\6C\\6C27\\PXL_20231216_100847298.MP.jpg"
     },
     {
       "Identity": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\img\\logo.jpg",

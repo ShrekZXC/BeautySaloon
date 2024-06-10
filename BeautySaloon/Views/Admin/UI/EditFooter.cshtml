@@ -1,0 +1,70 @@
+﻿@model BeautySaloon.DAL.Entity.FooterSettingsEntity
+
+@{
+Layout = null;
+}
+<html lang="ru">
+
+@await Html.PartialAsync("Admin/_AdminHeadPartial")
+
+@await Html.PartialAsync("Admin/_AdminHeaderPartial")
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center mb-3">
+            <h2>Настройки футера</h2>
+        </div>
+    </div>
+    <form method="post" enctype="multipart/form-data" asp-action="EditFooter">
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="socialMediaName" class="form-label">Название соцсети:</label>
+                <input type="text" id="socialMediaName" name="SocialMediaName" class="form-control" value="@Model.SocialMediaName" />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="socialMediaLink" class="form-label">Ссылка на соцсеть:</label>
+                <input type="text" id="socialMediaLink" name="SocialMediaLink" class="form-control" value="@Model.SocialMediaLink" />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="footerColor" class="form-label">Цвет футера:</label>
+                <input type="color" id="footerColor" name="FooterColor" class="form-control form-control-color" value="@Model.FooterColor" />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="workingHours" class="form-label">Время работы:</label>
+                <input type="text" id="workingHours" name="WorkingHours" class="form-control" value="@Model.WorkingHours" />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="phoneNumber" class="form-label">Номер телефона:</label>
+                <input type="text" id="phoneNumber" name="PhoneNumber" class="form-control" value="@Model.PhoneNumber" />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="email" class="form-label">Электронная почта:</label>
+                <input type="email" id="email" name="Email" class="form-control" value="@Model.Email" />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="backgroundImage" class="form-label">Выбор изображения заднего фона:</label>
+                <input type="file" id="backgroundImage" name="BackgroundImageFile" class="form-control" />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

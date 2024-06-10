@@ -4,6 +4,7 @@ using BeautySaloon.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeautySaloon.Migrations
 {
     [DbContext(typeof(BeautySaloonDbContext))]
-    partial class BeautySaloonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240610192945_AddHeaderSettings")]
+    partial class AddHeaderSettings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,45 +146,6 @@ namespace BeautySaloon.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Category", (string)null);
-                });
-
-            modelBuilder.Entity("BeautySaloon.DAL.Entity.FooterSettingsEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("BackgroundImage")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("FooterColor")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("SocialMediaLink")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("SocialMediaName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("WorkingHours")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FooterSettings", (string)null);
                 });
 
             modelBuilder.Entity("BeautySaloon.DAL.Entity.HeaderSettingsEntity", b =>
