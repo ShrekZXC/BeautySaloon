@@ -42,6 +42,12 @@ header a span{
     background-color: var(--primary-color-darkness) !important;
 }
 
+.nav-link:focus
+{
+    background-color: var(--primary-color-darkness) !important;
+    color: black /* Замените #your-desired-color на нужный цвет */
+}
+
 body {
     height: 100vh;
     background: var(--body-color);
@@ -97,3 +103,18 @@ table td, th
     margin-top: 15px;
 }
 
+.dropdown-item
+{
+    color: var(--header-text-color);
+    background-color: var(--primary-color);
+}
+.dropdown-item:hover
+{
+    color: var(--header-text-color);
+    background-color:  var(--primary-color-darkness);
+}
+
+.dropdown-menu
+{
+    --bs-dropdown-bg: var(--primary-color);
+}

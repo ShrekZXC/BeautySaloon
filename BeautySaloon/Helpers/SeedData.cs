@@ -3,6 +3,8 @@ using BeautySaloon.DAL.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+namespace BeautySaloon.Helpers;
+
 public static class SeedData
 {
     public static async Task Initialize(IServiceProvider serviceProvider)

@@ -79,8 +79,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cc2VydmljZVx1cGRhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/UI/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVUlcSW5kZXguY3NodG1s
+[C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/UI/EditBody.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVUlcRWRpdEJvZHkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/UI/EditFooter.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVUlcRWRpdEZvb3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/UI/EditHeader.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVUlcRWRpdEhlYWRlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/user/add.cshtml]
