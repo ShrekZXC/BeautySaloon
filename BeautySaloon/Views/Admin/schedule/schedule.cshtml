@@ -4,10 +4,8 @@
 Layout = null;
 }
 <html lang="ru">
-<head>
     @Html.Partial("_AdminHeadPartial")
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
+
 
 @Html.Partial("_HeaderPartial")
 
@@ -21,6 +19,13 @@ Layout = null;
 @Html.Partial("_EventModalPartial")
 
 <script>
+    const myModalEl = document.getElementById('eventModal')
+    const myModal = new bootstrap.Modal(myModalEl)
+    const deleteEventButton = $('#deleteEventButton');
+    const closeEventButton = $('#closeEventButton');
+    const saveEventButton = $('#saveEventButton');
+    
+    
     document.addEventListener('DOMContentLoaded', function() {
         var initialLocaleCode = 'ru';
         var calendarEl = document.getElementById('calendar');
@@ -28,13 +33,13 @@ Layout = null;
         var workerName = document.getElementById('workerName').value;
 
         var events = @Html.Raw(Json.Serialize(
-        Model.Select(schedule => new
-        {
-        publicId = schedule.Id,
-        title = $"Клиент: {schedule.Client.FullName} Услуга: {schedule.Service.Name}",
-        start = schedule.WorkDate.ToString("yyyy-MM-dd") + "T" + schedule.StartTime,
-        end = schedule.WorkDate.ToString("yyyy-MM-dd") + "T" + schedule.EndTime
-        })
+                         Model.Select(schedule => new
+                         {
+                             publicId = schedule.Id,
+                             title = $"Клиент: {schedule.Client.FullName} Услуга: {schedule.Service.Name}",
+                             start = schedule.WorkDate.ToString("yyyy-MM-dd") + "T" + schedule.StartTime,
+                             end = schedule.WorkDate.ToString("yyyy-MM-dd") + "T" + schedule.EndTime
+                         })
                      ));
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -71,18 +76,23 @@ Layout = null;
             noEventsText: 'Нет событий для отображения',
             events: events,
             dateClick: function(info) {
-            console.log(info);
+                deleteEventButton.hide();
                 loadServices();
                 loadClients(); // Загрузка пользователей перед показом модального окна
-                const myModal = new bootstrap.Modal(document.getElementById('eventModal'));
                 var dataFromModal;
                 myModal.show();
-                
-                document.getElementById('saveEventButton').addEventListener('click', function handleSaveClick() {
+
+                closeEventButton.click(function ()
+                {
+                    myModal.hide();
+                });
+
+                saveEventButton.click(function() {
+                    console.log("Нажатие на сохранение новой записи");
                         const clientId = document.getElementById('userSelect').value;
                         const serviceId = document.getElementById('serviceSelect').value;
                         const startTime = document.getElementById('startTime').value;
-
+                        
                         dataFromModal = {
                             workerId: workerId,
                             clientId: clientId,
@@ -90,18 +100,23 @@ Layout = null;
                             workDate: info.dateStr,
                             startTime: startTime
                         };
-                        console.log(dataFromModal);
                         myModal.hide();
                         document.getElementById('saveEventButton').removeEventListener('click', handleSaveClick);
-
-                    console.log(dataFromModal);
+                    
                     $.ajax({
                         url: '@Url.Action("SaveSchedule", "AdminSchedule")',
                         method: 'POST',
                         data: dataFromModal,
-                        success: function ()
+                        success: function (data )
                         {
-                            calendar.refetchEvents();
+                            var newEvent = {
+                                publicId: data.id,
+                                title: data.title,
+                                start: data.start,
+                                end: data.end
+                            };
+                            calendar.addEvent(newEvent);
+                            calendar.refetchEvents(); // Перезагрузка событий календаря
                         },
                         error: function ()
                         {
@@ -111,30 +126,87 @@ Layout = null;
                 });
             },
             eventClick: function(info) {
+            $('#eventId').val(info.event._def.extendedProps.publicId);
+            
+                deleteEventButton.show();
                 var event = info.event;
-                var newStartTime = prompt("Введите новое время начала работы (HH:MM):", event.start.toISOString().substring(11, 16));
-                var newEndTime = prompt("Введите новое время окончания работы (HH:MM):", event.end.toISOString().substring(11, 16));
+                loadServices();
+                loadClients();
+                loadInfoAboutSchedule(event._def.extendedProps.publicId);
 
-                if (newStartTime && newEndTime) {
+                deleteEventButton.click(function() {
+                    console.log("Нажатие");
+                        $.ajax({
+                            url: '@Url.Action("DeleteById", "AdminSchedule")',
+                            type: 'POST',
+                            data: {
+                                id: info.event._def.extendedProps.publicId
+                            },
+                            success: function(result) {
+                                if (result) {
+                                event.remove();
+                                calendar.refetchEvents();
+                                    alert('Событие успешно удалено');
+                                    myModal.hide();
+                                } else {
+                                    alert('Произошла ошибка при удалении события');
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                            console.log(error);
+                                alert('Произошла ошибка при удалении события');
+                            }
+                        });
+                    });
+
+                saveEventButton.click(function ()
+                {
+                console.log("Нажатие на сохранение изменений");
+                    var eventId = info.event._def.extendedProps.publicId;
+                    const clientId = document.getElementById('userSelect').value;
+                    const serviceId = document.getElementById('serviceSelect').value;
+                    const startTime = document.getElementById('startTime').value;
+
+                    var dataFromModal = {
+                        eventId: eventId,
+                        workerId: workerId,
+                        clientId: clientId,
+                        serviceId: serviceId,
+                        startTime: startTime
+                    };
+
                     $.ajax({
                         url: '@Url.Action("UpdateSchedule", "AdminSchedule")',
                         method: 'POST',
-                        data: {
-                            WorkerId: workerId,
-                            workScheduleId: event.extendedProps.publicId,
-                            StartTime: newStartTime,
-                            EndTime: newEndTime
-                        },
-                        success: function() {
-                            event.setStart(newStartTime)
-                            event.setEnd(newEndTime)
+                        data: dataFromModal,
+                        success: function (data )
+                        {
+                            var updateEvent = {
+                                publicId: data.id,
+                                title: data.title,
+                                start: data.start,
+                                end: data.end
+                            };
+                            event.setStart(updateEvent.start);
+                            event.setEnd(updateEvent.end);
+                            event.setProp('title',updateEvent.title);
                             calendar.refetchEvents(); // Перезагрузка событий календаря
+                            myModal.hide();
                         },
-                        error: function() {
-                            alert("Ошибка при обновлении данных");
+                        error: function ()
+                        {
+                            alert("Ошибка при добавлении данных");
                         }
-                    });
-                }
+                    })
+                    
+                });
+
+                closeEventButton.click(function ()
+                {
+                myModal.hide();
+                });
+                
+                myModal.show();
             }
         });
 
@@ -148,10 +220,9 @@ Layout = null;
                     var userSelect = document.getElementById('userSelect');
                     userSelect.innerHTML = ''; // Очистка списка
                     data.forEach(function(user) {
-                    console.log(user);
                         var option = document.createElement('option');
                         option.value = user.id;
-                        option.textContent = user.firstName + user.secondName + user.lastName;
+                        option.textContent = user.fullName;
                         userSelect.appendChild(option);
                     });
                 },
@@ -180,7 +251,46 @@ Layout = null;
                 }
             });
         }
+
+        function loadInfoAboutSchedule(scheduleId) {
+            $.ajax({
+                url: '@Url.Action("GetScheduleById", "AdminSchedule")',
+                method: 'GET',
+                data: {
+                    scheduleId: scheduleId
+                },
+                success: function(data) {
+                    var userSelect = document.getElementById('userSelect');
+                    for (var i = 0; i < userSelect.options.length; i++) {
+                        if (userSelect.options[i].value === data.client.id) {
+                            userSelect.options[i].selected = true;
+                            break;
+                        }
+                    }
+
+                    // Заполнение поля "Услуга"
+                    var serviceSelect = document.getElementById('serviceSelect');
+                    for (var i = 0; i < serviceSelect.options.length; i++) {
+                        if (serviceSelect.options[i].value === data.service.id) {
+                            serviceSelect.options[i].selected = true;
+                            break;
+                        }
+                    }
+
+                    // Заполнение поля "Время начала"
+                    var startTimeInput = document.getElementById('startTime');
+                    startTimeInput.value = data.startTime;
+                },
+                error: function() {
+                    alert("Ошибка при загрузке услуг");
+                }
+            });
+        }
+
+
     });
+
+
 </script>
 </body>
 </html>

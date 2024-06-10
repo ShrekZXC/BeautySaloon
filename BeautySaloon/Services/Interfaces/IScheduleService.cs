@@ -12,5 +12,7 @@ public interface IScheduleService
 
     Task<WorkScheduleModel> AddWorkScheduleAsync(WorkScheduleModel workScheduleModel);
     
-    Task UpdateWorkScheduleAsync(WorkScheduleModel workScheduleModel);
+    Task<WorkScheduleModel> UpdateWorkScheduleAsync(WorkScheduleModel workScheduleModel);
+
+    Task<bool> DeleteById(Guid id);
 }

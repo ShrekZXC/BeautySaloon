@@ -57,6 +57,14 @@ public class AdminScheduleController : Controller
         return Task.FromResult(Json(servicesViewModel));
     }
 
+    [HttpGet]
+    public async Task<JsonResult> GetScheduleById(Guid scheduleId)
+    {
+        var scheduleModel = await _scheduleService.GetWorkScheduleById(scheduleId);
+        var scheduleViewModel = _mapper.Map<WorkScheduleViewModel>(scheduleModel);
+        return Json(scheduleViewModel);
+    }
+
     [HttpPost]
     public async Task<IActionResult> SetUpSchedule(Guid workerId)
     {
@@ -69,7 +77,7 @@ public class AdminScheduleController : Controller
     }
     
     [HttpPost]
-    public async Task<IActionResult> SaveSchedule(Guid workerId, Guid clientId, Guid serviceId, DateTime workDate, string startTime)
+    public async Task<IActionResult> SaveSchedule(Guid workerId, Guid clientId, Guid serviceId, string workDate, string startTime)
     {
         if (workerId == Guid.Empty || string.IsNullOrEmpty(startTime))
         {
@@ -84,7 +92,7 @@ public class AdminScheduleController : Controller
                 WorkerId = workerId,
                 ClientId = clientId,
                 ServiceId = serviceId,
-                WorkDate = workDate,
+                WorkDate = DateTime.Parse(workDate, null, System.Globalization.DateTimeStyles.RoundtripKind),
                 StartTime = TimeSpan.Parse(startTime),
                 EndTime = TimeSpan.Parse(startTime).Add(TimeSpan.FromMinutes((double) service.Duration!))
             };
@@ -104,27 +112,38 @@ public class AdminScheduleController : Controller
             return StatusCode(500, "Internal server error");
         }
     }
+
+    [HttpPost]
+    public async Task<bool> DeleteById(Guid id)
+    {
+        var isDelete = await _scheduleService.DeleteById(id);
+        return isDelete;
+    }
     
     [HttpPost]
-    public async Task<IActionResult> UpdateSchedule(Guid workerId, Guid workScheduleId, string startTime, string endTime)
+    public async Task<IActionResult> UpdateSchedule(Guid eventId, Guid workerId, Guid clientId, Guid serviceId, string startTime)
     {
-        if (workerId == Guid.Empty || workScheduleId == Guid.Empty || string.IsNullOrEmpty(startTime) || string.IsNullOrEmpty(endTime))
-        {
-            return BadRequest("Invalid input");
-        }
-
         try
         {
+            var service = await _serviceService.Get(serviceId);
             var schedule = new WorkScheduleModel()
             {
-                Id = workScheduleId,
+                Id = eventId,
                 WorkerId = workerId,
+                ClientId = clientId,
+                ServiceId = serviceId,
                 StartTime = TimeSpan.Parse(startTime),
-                EndTime = TimeSpan.Parse(endTime)
+                EndTime = TimeSpan.Parse(startTime).Add(TimeSpan.FromMinutes((double) service.Duration!))
             };
 
-            await _scheduleService.UpdateWorkScheduleAsync(schedule);
-            return Ok();
+            var scheduleResult = await _scheduleService.UpdateWorkScheduleAsync(schedule);
+            return Ok(new
+            {
+                id = scheduleResult.Id,
+                title = $"Клиент: {scheduleResult.Client.SecondName} {scheduleResult.Client.FirstName} {scheduleResult.Client.LastName} Услуга: {scheduleResult.Service.Name}",
+                start = scheduleResult.WorkDate.ToString("yyyy-MM-dd") + "T" + scheduleResult.StartTime,
+                end = scheduleResult.WorkDate.ToString("yyyy-MM-dd") + "T" + scheduleResult.EndTime
+            });
         }
         catch (System.Exception ex)
         {
