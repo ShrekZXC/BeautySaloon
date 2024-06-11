@@ -29,7 +29,7 @@ public class CategoryService : ICategoryService
 
     public async Task<CategoryModel> Get(Guid categoryId)
     {
-        var entity = await _dbRepository.Get<ServiceEntity>().FirstOrDefaultAsync(x => x.Id == categoryId);
+        var entity = await _dbRepository.Get<CategoryEntity>().FirstOrDefaultAsync(x => x.Id == categoryId);
         var categoryModel = _mapper.Map<CategoryModel>(entity);
 
         return categoryModel;
@@ -43,12 +43,21 @@ public class CategoryService : ICategoryService
         return categoriesModel;
     }
 
-    public async Task Update(CategoryModel categoryModel)
+    public async Task<bool> Update(CategoryModel categoryModel)
     {
-        var entity = _mapper.Map<CategoryEntity>(categoryModel);
+        try
+        {
+            var entity = _mapper.Map<CategoryEntity>(categoryModel);
             
-        await _dbRepository.Update(entity);
-        await _dbRepository.SaveChangesAsync();
+            await _dbRepository.Update(entity);
+            await _dbRepository.SaveChangesAsync();
+
+            return true;
+        }
+        catch (System.Exception exception)
+        {
+            return false;
+        }
     }
 
     public async Task Delete(Guid categoryId)

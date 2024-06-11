@@ -1,7 +1,7 @@
 ﻿@model BeautySaloon.ViewModel.UserViewModel
 
 @{
-    Layout = null;
+Layout = null;
 }
 <html lang="ru">
 
@@ -9,44 +9,51 @@
 
 @await Html.PartialAsync("Admin/_AdminHeaderPartial")
 
-
 <body>
 <div class="container mt-5">
-    <h2>Редактирование пользователя</h2>
-    <form id="editUserForm" method="post" action=@Url.Action("UpdateUser","AdminUser")>
-        <div class="form-group">
-            <label for="id">ID</label>
-            <input type="text" class="form-control" id="id" name="id" readonly value="@Model.Id">
+    <form id="editUserForm" method="post" action=@Url.Action("UpdateUser", "AdminUser") class="bordered-form">
+        <h2>Редактирование пользователя</h2>
+        <input type="hidden" name="Id" value="@Model.Id"/>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="FirstName" class="form-label">Имя</label>
+                <input type="text" class="form-control" id="FirstName" name="FirstName" required value="@Model.FirstName">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="FirstName">Имя</label>
-            <input type="text" class="form-control" id="FirstName" name="FirstName" required value="@Model.FirstName">
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="SecondName" class="form-label">Фамилия</label>
+                <input type="text" class="form-control" id="SecondName" name="SecondName" required value="@Model.SecondName">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="SecondName">Фамилия</label>
-            <input type="text" class="form-control" id="SecondName" name="SecondName" required value="@Model.SecondName">
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="LastName" class="form-label">Отчество</label>
+                <input type="text" class="form-control" id="LastName" name="LastName" value="@Model.LastName">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="LastName">Отчество</label>
-            <input type="text" class="form-control" id="LastName" name="LastName" value="@Model.LastName">
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="Email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="Email" name="Email" required value="@Model.Email">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="Email">Email</label>
-            <input type="email" class="form-control" id="Email" name="Email" required value="@Model.Email">
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="PhoneNumber" class="form-label">Телефон</label>
+                <input type="tel" class="form-control" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="PhoneNumber">Телефон</label>
-            <input type="tel" class="form-control" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber">
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="SelectedRole" class="form-label">Роль</label>
+                <select id="SelectedRole" class="form-control" asp-for="SelectedRole" asp-items="@(new SelectList(Model.Roles, "Name", "Name"))"></select>
+                @Html.ValidationMessageFor(model => model.SelectedRole)
+            </div>
         </div>
-        <div class="form-group">
-            <label for="SelectedRole">Роль</label>
-            <select id ="SelectedRole" class="form-control" 
-                    asp-for="SelectedRole" 
-                    asp-items="@(new SelectList(Model.Roles, "Name", "Name"))"></select>
-            @Html.ValidationMessageFor(model => model.SelectedRole)
-        </div>
-        <input type="hidden" name="Password" value="@Model.Password" />
-        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <input type="hidden" name="Password" value="@Model.Password"/>
+        <button type="submit" class="btn btn-primary btn-submit">Сохранить</button>
     </form>
 </div>
 </body>
+</html>

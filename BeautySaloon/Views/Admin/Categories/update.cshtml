@@ -1,7 +1,7 @@
-﻿@model BeautySaloon.ViewModel.PromotionViewModel
+﻿@model BeautySaloon.ViewModel.CategoryViewModel
 
 @{
-Layout = null;
+    Layout = null;
 }
 <html lang="ru">
 
@@ -11,19 +11,13 @@ Layout = null;
 
 <body>
 <div class="container mt-5">
-    <form id="updatePromo" method="post" action=@Url.Action("Update", "AdminPromotion") enctype="multipart/form-data" class="bordered-form">
-        <h2>Редактирование акции</h2>
+    <form id="updateCategory" method="post" action=@Url.Action("Update", "AdminCategory") enctype="multipart/form-data" class="bordered-form">
+        <h2>Обновление категории</h2>
         <input type="hidden" name="Id" value="@Model.Id"/>
         <div class="row mb-3">
             <div class="col-12">
                 <label for="Name" class="form-label">Название</label>
-                <input type="text" class="form-control" id="Name" name="Name" required value="@Model.Name">
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-12">
-                <label for="Description" class="form-label">Описание</label>
-                <input type="text" class="form-control" id="Description" name="Description" value="@Model.Description">
+                <input type="text" class="form-control" id="Name" name="Name" value="@Model.Name">
             </div>
         </div>
         <div class="row mb-3">

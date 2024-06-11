@@ -1,7 +1,7 @@
 ﻿@model BeautySaloon.ViewModel.PromotionViewModel
 
 @{
-Layout = null;
+    Layout = null;
 }
 <html lang="ru">
 
@@ -11,22 +11,32 @@ Layout = null;
 
 <body>
 <div class="container mt-5">
-    <h2>Добавление категории</h2>
-    <form id="addService" method="post" action=@Url.Action("Add", "AdminPromotion") enctype="multipart/form-data">
+    <form id="addService" method="post" action=@Url.Action("Add", "AdminPromotion") enctype="multipart/form-data" class="bordered-form">
+        <h2>Добавление акции</h2>
         <input type="hidden" name="Id" value="@Model.Id" />
-        <div class="form-group">
-            <label for="Name">Название</label>
-            <input type="text" class="form-control" id="Name" name="Name">
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="Name" class="form-label">Название</label>
+                <input type="text" class="form-control" id="Name" name="Name" value="@Model.Name">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="Name">Описание</label>
-            <input type="text" class="form-control" id="Description" name="Description">
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="Description" class="form-label">Описание</label>
+                <input type="text" class="form-control" id="Description" name="Description" value="@Model.Description">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="ImgSrc">Загрузить изображение</label>
-            <input type="file" class="form-control-file" id="ImgSrc" name="ImgSrc">
+        <div class="row mb-3">
+            <div class="col-12">
+                <img src="@Model.ImgSrc" alt="@Model.ImgSrc" width="100"/>
+                <br>
+                <label for="ImgSrc" class="form-label">Загрузить изображение</label>
+                <input type="file" class="form-control" id="ImgSrc" name="ImgSrc">
+                <input type="hidden" name="CurrentImageSrc" value="@Model.ImgSrc" />
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <button type="submit" class="btn btn-primary btn-submit">Сохранить</button>
     </form>
 </div>
 </body>
+</html>
