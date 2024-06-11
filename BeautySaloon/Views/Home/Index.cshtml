@@ -2,6 +2,106 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+
+@if (Model.MainSettings != null)
+{
+    if (Model.MainSettings != null)
+    {
+        if (!string.IsNullOrEmpty(Model.MainSettings.ColorBackgroundHeader))
+        {
+            <style>
+                header
+                {
+                    background-color: @Model.MainSettings.ColorBackgroundHeader !important;
+                }
+            </style>
+        }
+
+        if (!string.IsNullOrEmpty(Model.MainSettings.ColorTextHeader))
+        {
+            <style>
+                header
+                {
+                    color: @Model.MainSettings.ColorTextHeader;
+                }
+            </style>
+        }
+
+        if (!string.IsNullOrEmpty(Model.MainSettings.BackgroundImageHeader))
+        {
+            <style>
+                header
+                {
+                    background-image: url('@Model.MainSettings.BackgroundImageHeader');
+                }
+            </style>
+        }
+
+        if (!string.IsNullOrEmpty(Model.MainSettings.ColorBackgroundMain))
+        {
+            <style>
+                main
+                {
+                    background-color: @Model.MainSettings.ColorBackgroundMain;
+                }
+                body
+                {
+                background-color: @Model.MainSettings.ColorBackgroundMain;
+                }
+            </style>
+        }
+
+        if (!string.IsNullOrEmpty(Model.MainSettings.ColorMainText))
+        {
+            <style>
+                .main-text
+                {
+                    color: @Model.MainSettings.ColorMainText;
+                }
+            </style>
+        }
+
+        if (!string.IsNullOrEmpty(Model.MainSettings.MainBackgroundImage))
+        {
+            <style>
+                .main-background
+                {
+                    background-image: url('@Model.MainSettings.MainBackgroundImage');
+                }
+            </style>
+        }
+
+        if (!string.IsNullOrEmpty(Model.MainSettings.ColorFooterText))
+        {
+            <style>
+                footer
+                {
+                    color: @Model.MainSettings.ColorFooterText;
+                }
+            </style>
+        }
+
+        if (!string.IsNullOrEmpty(Model.MainSettings.BackgroundImageFooter))
+        {
+            <style>
+                footer
+                {
+                    background-image: url('@Model.MainSettings.BackgroundImageFooter');
+                }
+            </style>
+        }
+
+        if (!string.IsNullOrEmpty(Model.MainSettings.ColorBackgroundFooter))
+        {
+            <style>
+                footer
+                {
+                    background-color: @Model.MainSettings.ColorBackgroundFooter;
+                }
+            </style>
+        }
+    }
+}
 <style>
     .btn-custom {
         background-color: #695CFEFF;
@@ -12,86 +112,87 @@
         border-color: #574BA3;
     }
 </style>
-<body>
-<header class="bg-white text-dark text-center py-5">
-    <h1>Название салона</h1>
+
+<header class="text-center py-5 mb-5">
+    <h1>@Model?.MainSettings?.SiteName</h1>
 </header>
 
-<section class="container my-5 text-center">
-    <p class="lead">КАКОЙ ТО ТЕКСТ КРАСИВЫЙ</p>
-    <a href="@Url.Action("Index", "Services")" class="btn btn-primary btn-lg btn-custom">Записаться сейчас</a>
-</section>
+<main>
+    <section class="container text-center">
+        <p class="lead">@Model?.MainSettings?.MainText</p>
+        <a href="@Url.Action("Index", "Services")" class="btn btn-primary btn-lg btn-custom">Записаться сейчас</a>
+    </section>
 
-<section class="container my-5">
-    <h2>АКЦИИ</h2>
-    <div id="promotionsCarousel" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            @foreach (var promotion in Model.PromotionsViewModel)
+    <section class="container my-5">
+        <h2>АКЦИИ</h2>
+        <div id="promotionsCarousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                @foreach (var promotion in Model.PromotionsViewModel)
+                {
+                    var isActive = promotion == Model.PromotionsViewModel.First() ? "active" : "";
+                    <div class="carousel-item @isActive">
+                        <div class="card">
+                            <img src="@promotion.ImgSrc" class="card-img-top" alt="@promotion.Name">
+                            <div class="card-body">
+                                <h5 class="card-title">@promotion.Name</h5>
+                                <p class="card-text">@promotion.Description</p>
+                                <a href="@Url.Action("PromotionDetails", "Promo", new { id = promotion.Id })" class="btn btn-primary btn-custom">Подробнее</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <a class="carousel-control-prev" href="#promotionsCarousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#promotionsCarousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </section>
+
+    <section class="container my-5">
+        <h2>Наши услуги</h2>
+        <div class="row">
+            @foreach (var service in Model.CategoriesViewModel)
             {
-                var isActive = promotion == Model.PromotionsViewModel.First() ? "active" : "";
-                <div class="carousel-item @isActive">
-                    <div class="card">
-                        <img src="@promotion.ImgSrc" class="card-img-top" alt="@promotion.Name">
+                <div class="col-md-3"> <!-- Измените col-md-3 в зависимости от количества карточек и их ширины -->
+                    <div class="card mb-4">
+                        <img src="@service.ImgSrc" class="card-img-top" alt="@service.Name">
                         <div class="card-body">
-                            <h5 class="card-title">@promotion.Name</h5>
-                            <p class="card-text">@promotion.Description</p>
-                            <a href="@Url.Action("PromotionDetails", "Promo", new { id = promotion.Id })" class="btn btn-primary btn-custom">Подробнее</a>
+                            <h5 class="card-title">@service.Name</h5>
+                            <a href="@Url.Action("ServiceDetails", "Services", new { id = service.Id })" class="btn btn-primary btn-custom">Подробнее</a>
                         </div>
                     </div>
                 </div>
             }
         </div>
-        <a class="carousel-control-prev" href="#promotionsCarousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#promotionsCarousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-</section>
-
-<section class="container my-5">
-    <h2>Наши услуги</h2>
-    <div class="row">
-        @foreach (var service in Model.CategoriesViewModel)
-        {
-            <div class="col-md-3"> <!-- Измените col-md-3 в зависимости от количества карточек и их ширины -->
-                <div class="card mb-4">
-                    <img src="@service.ImgSrc" class="card-img-top" alt="@service.Name">
-                    <div class="card-body">
-                        <h5 class="card-title">@service.Name</h5>
-                        <a href="@Url.Action("ServiceDetails", "Services", new { id = service.Id })" class="btn btn-primary btn-custom">Подробнее</a>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-</section>
+    </section>
 
 
-<section class="container my-5">
-    <h2>Полезная информация</h2>
-    <a href="#" class="btn btn-secondary">Перейти</a>
-</section>
+    <section class="container my-5">
+        <h2>Полезная информация</h2>
+        <a href="#" class="btn btn-secondary">Перейти</a>
+    </section>
 
-<section class="container my-5">
-    <iframe src="https://yandex.ru/map-widget/v1/?ll=92.796786%2C55.993656&mode=whatshere&whatshere%5Bpoint%5D=92.796786%2C55.993656&whatshere%5Bzoom%5D=17&z=17"
-            width="100%"
-            height="400"
-            frameborder="1"
-            allowfullscreen="true"
-            style="position:relative;">
-    </iframe>
-</section>
+    <section class="container my-5">
+        <iframe src="https://yandex.ru/map-widget/v1/?ll=92.796786%2C55.993656&mode=whatshere&whatshere%5Bpoint%5D=92.796786%2C55.993656&whatshere%5Bzoom%5D=17&z=17"
+                width="100%"
+                height="400"
+                frameborder="1"
+                allowfullscreen="true"
+                style="position:relative;">
+        </iframe>
+    </section>
+</main>
 
-<footer class="bg-dark text-white text-center py-3">
+<footer class="text-center py-3">
     <p>Контакты: 
         <a href="https://vk.com" class="text-white">ВК</a>, 
         <a href="https://telegram.org" class="text-white">Телеграм</a></p>
     <p>Телефон: +7 (123) 456-78-90 | Почта: info@example.com</p>
     <p>Время работы: Пн-Пт 9:00 - 18:00</p>
 </footer>
-</body>
 

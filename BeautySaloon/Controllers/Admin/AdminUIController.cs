@@ -17,51 +17,87 @@ namespace BeautySaloon.Controllers.Admin
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditHeader()
+        public async Task<IActionResult> EditMain()
         {
-            var headerSettings = await _dbRepository.Get<HeaderSettingsEntity>().FirstOrDefaultAsync();
-            return View("~/Views/Admin/UI/EditHeader.cshtml", headerSettings ?? new HeaderSettingsEntity());
+            var headerSettings = await _dbRepository.Get<MainSettingsEntity>().FirstOrDefaultAsync();
+            return View("~/Views/Admin/UI/EditMain.cshtml", headerSettings ?? new MainSettingsEntity());
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditHeader(HeaderSettingsEntity model, IFormFile BackgroundImageFile)
+        public async Task<IActionResult> EditMain(MainSettingsEntity model, IFormFile? HeaderBackgroundImageFile,
+            IFormFile? MainBackgroundImageFile, IFormFile? FooterBackgroundImageFile)
         {
             if (ModelState.IsValid)
             {
-                if (BackgroundImageFile != null && BackgroundImageFile.Length > 0)
+                if (HeaderBackgroundImageFile != null && HeaderBackgroundImageFile.Length > 0)
                 {
-                    var fileName = Path.GetFileName(BackgroundImageFile.FileName);
+                    var fileName = Path.GetFileName(HeaderBackgroundImageFile.FileName);
                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
-                        await BackgroundImageFile.CopyToAsync(stream);
+                        await HeaderBackgroundImageFile.CopyToAsync(stream);
                     }
 
-                    model.BackgroundImage = $"/images/{fileName}";
+                    model.BackgroundImageHeader = $"/images/{fileName}";
                 }
 
-                var headerSettings = await _dbRepository.Get<HeaderSettingsEntity>().FirstOrDefaultAsync();
-                if (headerSettings == null)
+                if (MainBackgroundImageFile != null && MainBackgroundImageFile.Length > 0)
+                {
+                    var fileName = Path.GetFileName(MainBackgroundImageFile.FileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await MainBackgroundImageFile.CopyToAsync(stream);
+                    }
+
+                    model.MainBackgroundImage = $"/images/{fileName}";
+                }
+
+                if (FooterBackgroundImageFile != null && FooterBackgroundImageFile.Length > 0)
+                {
+                    var fileName = Path.GetFileName(FooterBackgroundImageFile.FileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await FooterBackgroundImageFile.CopyToAsync(stream);
+                    }
+
+                    model.BackgroundImageFooter = $"/images/{fileName}";
+                }
+
+                var settings = await _dbRepository.Get<MainSettingsEntity>().FirstOrDefaultAsync();
+                if (settings == null)
                 {
                     await _dbRepository.Add(model);
                 }
                 else
                 {
-                    headerSettings.SiteName = model.SiteName;
-                    headerSettings.ColorHeader = model.ColorHeader;
-                    headerSettings.BackgroundImage = model.BackgroundImage;
-                    await _dbRepository.Update(headerSettings);
+                    settings.SiteName = model.SiteName;
+                    settings.ColorBackgroundHeader = model.ColorBackgroundHeader;
+                    settings.ColorTextHeader = model.ColorTextHeader;
+                    settings.BackgroundImageHeader = model.BackgroundImageHeader;
+                    settings.MainText = model.MainText;
+                    settings.ColorMainText = model.ColorMainText;
+                    settings.MainBackgroundImage = model.MainBackgroundImage;
+                    settings.ColorFooterText = model.ColorFooterText;
+                    settings.BackgroundImageFooter = model.BackgroundImageFooter;
+                    settings.ColorBackgroundMain = model.ColorBackgroundMain;
+                    settings.ColorBackgroundFooter = model.ColorBackgroundFooter;
+                    await _dbRepository.Update(settings);
                 }
 
                 await _dbRepository.SaveChangesAsync();
-                return RedirectToAction("EditHeader");
+                return RedirectToAction("EditMain");
             }
 
-            return View("~/Views/Admin/UI/EditHeader.cshtml", model);
+            return View("~/Views/Admin/UI/EditMain.cshtml", model);
         }
 
-[HttpGet]
+
+        [HttpGet]
         public async Task<IActionResult> EditFooter()
         {
             var footerSettings = await _dbRepository.Get<FooterSettingsEntity>().FirstOrDefaultAsync();

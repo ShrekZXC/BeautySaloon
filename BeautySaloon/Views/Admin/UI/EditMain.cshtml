@@ -1,0 +1,98 @@
+﻿@model BeautySaloon.DAL.Entity.MainSettingsEntity
+
+@{
+Layout = null;
+}
+<html lang="ru">
+
+@await Html.PartialAsync("Admin/_AdminHeadPartial")
+
+@await Html.PartialAsync("Admin/_AdminHeaderPartial")
+
+<body>
+<div class="container">
+    <form method="post" enctype="multipart/form-data" asp-action="EditMain" class="bordered-form">
+        
+        <h2>Настройки заголовка</h2>
+
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="headerBackgroundImage" class="form-label">Изображение фона заголовка:</label>
+                <input type="file" id="headerBackgroundImage" name="HeaderBackgroundImageFile" class="form-control"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="siteName" class="form-label">Название сайта:</label>
+                <input type="text" id="siteName" name="SiteName" class="form-control" value="@Model.SiteName"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="colorBackgroundHeader" class="form-label">Цвет фона заголовка:</label>
+                <input type="color" id="colorBackgroundHeader" name="ColorBackgroundHeader" class="form-control form-control-color" value="@Model.ColorBackgroundHeader"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="colorTextHeader" class="form-label">Цвет текста заголовка:</label>
+                <input type="color" id="colorTextHeader" name="ColorTextHeader" class="form-control form-control-color" value="@Model.ColorTextHeader"/>
+            </div>
+        </div>
+
+        <h2>Настройка основного блока</h2>
+
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="mainBackgroundImage" class="form-label">Изображение фона основного текста:</label>
+                <input type="file" id="mainBackgroundImage" name="MainBackgroundImageFile" class="form-control"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="mainText" class="form-label">Основной текст:</label>
+                <input type="text" id="mainText" name="MainText" class="form-control" value="@Model.MainText"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="colorMainText" class="form-label">Цвет основного текста:</label>
+                <input type="color" id="colorMainText" name="ColorMainText" class="form-control form-control-color" value="@Model.ColorMainText"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="ColorBackgroundMain" class="form-label">Цвет общего фона:</label>
+                <input type="color" id="colorBackground" name="ColorBackgroundMain" class="form-control form-control-color" value="@Model.ColorBackgroundMain"/>
+            </div>
+        </div>
+
+        <h2>Настройка подвала</h2>
+
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="footerBackgroundImage" class="form-label">Изображение фона подвала:</label>
+                <input type="file" id="footerBackgroundImage" name="FooterBackgroundImageFile" class="form-control"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="colorFooterText" class="form-label">Цвет текста в подвале:</label>
+                <input type="color" id="colorFooterText" name="ColorFooterText" class="form-control form-control-color" value="@Model.ColorFooterText"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="colorBackgroundFooter" class="form-label">Цвет фона подвала:</label>
+                <input type="color" id="colorBackgroundFooter" name="colorBackgroundFooter" class="form-control form-control-color" value="@Model.ColorBackgroundFooter"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

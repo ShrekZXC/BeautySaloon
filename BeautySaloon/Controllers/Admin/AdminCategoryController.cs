@@ -69,4 +69,11 @@ public class AdminCategoryController : Controller
 
         return await Index();
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        await _categoryService.Delete(id);
+        return Ok();
+    }
 }

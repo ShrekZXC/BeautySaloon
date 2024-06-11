@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "VLbwhKjgGoEv31uh4mSZXOJz34uhFzTjRoJEYcmoThc=",
+  "Hash": "iz6d4OMHBuTwTe0j4SjWoUujheLjjXXDXbaRGS/HXes=",
   "Source": "BeautySaloon",
   "BasePath": "_content/BeautySaloon",
   "Mode": "Default",
@@ -1402,6 +1402,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\6C\\6C27\\PXL_20231216_100847298.MP.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\images\\84ad4b16dd7fc3b8390012ff64aeeb51.jpg",
+      "SourceId": "BeautySaloon",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\",
+      "BasePath": "_content/BeautySaloon",
+      "RelativePath": "images/84ad4b16dd7fc3b8390012ff64aeeb51.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\84ad4b16dd7fc3b8390012ff64aeeb51.jpg"
     },
     {
       "Identity": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\img\\logo.jpg",

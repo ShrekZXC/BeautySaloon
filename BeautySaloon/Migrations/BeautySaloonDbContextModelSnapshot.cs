@@ -184,27 +184,48 @@ namespace BeautySaloon.Migrations
                     b.ToTable("FooterSettings", (string)null);
                 });
 
-            modelBuilder.Entity("BeautySaloon.DAL.Entity.HeaderSettingsEntity", b =>
+            modelBuilder.Entity("BeautySaloon.DAL.Entity.MainSettingsEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("BackgroundImage")
-                        .IsRequired()
+                    b.Property<string>("BackgroundImageFooter")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("ColorHeader")
-                        .IsRequired()
+                    b.Property<string>("BackgroundImageHeader")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ColorBackgroundFooter")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ColorBackgroundHeader")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ColorBackgroundMain")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ColorFooterText")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ColorMainText")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ColorTextHeader")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("MainBackgroundImage")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("MainText")
                         .HasColumnType("longtext");
 
                     b.Property<string>("SiteName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.ToTable("HeaderSettings", (string)null);
+                    b.ToTable("MainSettings", (string)null);
                 });
 
             modelBuilder.Entity("BeautySaloon.DAL.Entity.PromotionEntity", b =>
