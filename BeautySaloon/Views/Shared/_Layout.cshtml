@@ -11,9 +11,17 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
 </head>
 
+<style>
+    .main-header
+    {
+        background-color: white !important;
+        background-image: none  !important;
+    }
+</style>
+
 <body>
 <nav class="sidebar close">
-    <header>
+    <header class="main-header">
         <div class="image-text">
             <span class="image">
                 <img src="img\logo.png" alt="logo">
@@ -117,11 +125,7 @@
 
 </nav>
 
-<section class="home">
-<main>
-            @RenderBody()
-        </main>
-</section>
+@RenderBody()
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

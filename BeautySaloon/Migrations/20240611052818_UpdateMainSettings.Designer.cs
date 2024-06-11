@@ -4,6 +4,7 @@ using BeautySaloon.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeautySaloon.Migrations
 {
     [DbContext(typeof(BeautySaloonDbContext))]
-    partial class BeautySaloonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240611052818_UpdateMainSettings")]
+    partial class UpdateMainSettings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -191,36 +194,43 @@ namespace BeautySaloon.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("BackgroundImageFooter")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("BackgroundImageHeader")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("ColorBackgroundFooter")
+                    b.Property<string>("ColorBackground")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("ColorBackgroundHeader")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ColorBackgroundMain")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("ColorFooterText")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("ColorMainText")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("ColorTextHeader")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("MainBackgroundImage")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("MainText")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("SiteName")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");

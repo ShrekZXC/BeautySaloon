@@ -4,6 +4,7 @@ using BeautySaloon.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeautySaloon.Migrations
 {
     [DbContext(typeof(BeautySaloonDbContext))]
-    partial class BeautySaloonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240611051006_UpdateHeaderSettings")]
+    partial class UpdateHeaderSettings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -184,48 +187,31 @@ namespace BeautySaloon.Migrations
                     b.ToTable("FooterSettings", (string)null);
                 });
 
-            modelBuilder.Entity("BeautySaloon.DAL.Entity.MainSettingsEntity", b =>
+            modelBuilder.Entity("BeautySaloon.DAL.Entity.HeaderSettingsEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("BackgroundImageFooter")
+                    b.Property<string>("BackgroundImage")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("BackgroundImageHeader")
+                    b.Property<string>("ColorBackground")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("ColorBackgroundFooter")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ColorBackgroundHeader")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ColorBackgroundMain")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ColorFooterText")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ColorMainText")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ColorTextHeader")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("MainBackgroundImage")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("MainText")
+                    b.Property<string>("ColorText")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("SiteName")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.ToTable("MainSettings", (string)null);
+                    b.ToTable("HeaderSettings", (string)null);
                 });
 
             modelBuilder.Entity("BeautySaloon.DAL.Entity.PromotionEntity", b =>

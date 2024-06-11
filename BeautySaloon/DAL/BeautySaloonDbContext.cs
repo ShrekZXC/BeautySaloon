@@ -14,7 +14,7 @@ namespace BeautySaloon.DAL
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<PromotionEntity> Promotions { get; set; }
         public DbSet<WorkScheduletEntity> WorkSchedules { get; set; }
-        public DbSet<HeaderSettingsEntity> HeaderSettings { get; set; }
+        public DbSet<MainSettingsEntity> MainSettings { get; set; }
         public DbSet<FooterSettingsEntity> FooterSettings { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace BeautySaloon.DAL
             modelBuilder.Entity<CategoryEntity>().ToTable("Category");
             modelBuilder.Entity<PromotionEntity>().ToTable("Promotion");
             modelBuilder.Entity<WorkScheduletEntity>().ToTable("WorkSchedule");
-            modelBuilder.Entity<HeaderSettingsEntity>().ToTable("HeaderSettings");
+            modelBuilder.Entity<MainSettingsEntity>().ToTable("MainSettings");
             modelBuilder.Entity<FooterSettingsEntity>().ToTable("FooterSettings");
         }
 
