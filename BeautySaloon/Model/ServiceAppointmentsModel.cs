@@ -1,6 +1,6 @@
 ﻿namespace BeautySaloon.Model;
 
-public class WorkScheduleModel
+public class ServiceAppointmentsModel
 {
     public Guid Id { get; set; }
     public Guid WorkerId { get; set; }

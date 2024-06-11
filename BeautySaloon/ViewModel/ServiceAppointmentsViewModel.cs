@@ -2,7 +2,7 @@
 
 namespace BeautySaloon.ViewModel;
 
-public class WorkScheduleViewModel
+public class ServiceAppointmentsViewModel
 {
     public Guid Id { get; set; }
     public Guid WorkerId { get; set; }

@@ -15,7 +15,7 @@
         <li class="nav-item"><a href="@Url.Action("Index", "AdminUser")" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminUser" ? "active" : "")">Пользователи</a></li>
         <li class="nav-item"><a href="@Url.Action("Index", "AdminService")" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminService" ? "active" : "")">Услуги</a></li>
         <li class="nav-item"><a href="@Url.Action("Index", "AdminPromotion")" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminPromotion" ? "active" : "")">Акции</a></li>
-        <li class="nav-item"><a href="@Url.Action("Index", "AdminSchedule")" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminSchedule" ? "active" : "")">Расписание</a></li>
+        <li class="nav-item"><a href="@Url.Action("Index", "ServiceAppointments")" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "ServiceAppointments" ? "active" : "")">Записи</a></li>
         <li class="nav-item"><a href="@Url.Action("Index", "AdminCategory")" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminCategory" ? "active" : "")">Категории</a></li>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle @(ViewContext.RouteData.Values["controller"]?.ToString() == "AdminUi" ? "active" : "")" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

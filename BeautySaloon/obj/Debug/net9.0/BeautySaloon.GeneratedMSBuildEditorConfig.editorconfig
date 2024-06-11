@@ -63,12 +63,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5ccHJvbW90aW9uXHVwZGF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/schedule/index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cc2NoZWR1bGVcaW5kZXguY3NodG1s
+[C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/ServiceAppointments/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU2VydmljZUFwcG9pbnRtZW50c1xpbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/schedule/schedule.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cc2NoZWR1bGVcc2NoZWR1bGUuY3NodG1s
+[C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/ServiceAppointments/ServiceAppointment.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU2VydmljZUFwcG9pbnRtZW50c1xTZXJ2aWNlQXBwb2ludG1lbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/ServiceAppointments/ServiceAppointments.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU2VydmljZUFwcG9pbnRtZW50c1xTZXJ2aWNlQXBwb2ludG1lbnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/ShrekUser/RiderProjects/BeautySaloon/BeautySaloon/Views/Admin/service/add.cshtml]

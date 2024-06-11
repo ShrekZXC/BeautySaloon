@@ -9,13 +9,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BeautySaloon.Services;
 
-public class ScheduleService : IScheduleService
+public class ServiceAppointmentService : IServiceAppointmentService
 {
     private readonly IDbRepository _dbRepository;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IMapper _mapper;
     
-    public ScheduleService(
+    public ServiceAppointmentService(
         UserManager<ApplicationUser> userManager, 
         IMapper mapper, IDbRepository dbRepository)
     {
@@ -24,28 +24,43 @@ public class ScheduleService : IScheduleService
         _dbRepository = dbRepository;
     }
 
-    public async Task<WorkScheduleModel> GetWorkScheduleById(Guid id)
+    public async Task<List<ServiceAppointmentsModel>> GetAllServiceAppointments()
+    {
+        var serviceAppointments = await
+            _dbRepository
+                .GetAll<ServiceAppointmentsEntity>()
+                .Include(x=>x.Service)
+                .Include(x=>x.Client)
+                .Include(x=>x.Worker)
+                .ToListAsync();
+
+        var getAllServiceAppointmentsModel = _mapper.Map<List<ServiceAppointmentsModel>>(serviceAppointments);
+        
+        return getAllServiceAppointmentsModel;
+    }
+
+    public async Task<ServiceAppointmentsModel> GeServiceAppointmentById(Guid id)
     {
         var entity = await _dbRepository
-            .Get<WorkScheduletEntity>()
+            .Get<ServiceAppointmentsEntity>()
             .Include(x=>x.Service)
             .Include(x=>x.Client)
             .Include(x=>x.Worker)
             .FirstOrDefaultAsync(x => x.Id == id);
-        var workScheduleModel = _mapper.Map<WorkScheduleModel>(entity);
+        var workScheduleModel = _mapper.Map<ServiceAppointmentsModel>(entity);
         return workScheduleModel;
     }
 
-    public async Task<bool> DeleteById(Guid id)
+    public async Task<bool> DeleteServiceAppointmentById(Guid id)
     {
         try
         {
-            var schedule = await _dbRepository.Get<WorkScheduletEntity>()
+            var schedule = await _dbRepository.Get<ServiceAppointmentsEntity>()
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (schedule != null)
             {
-                await _dbRepository.Remove<WorkScheduletEntity>(schedule);
+                await _dbRepository.Remove<ServiceAppointmentsEntity>(schedule);
                 await _dbRepository.SaveChangesAsync();
                 return true;
             }
@@ -74,58 +89,58 @@ public class ScheduleService : IScheduleService
         return workers;
     }
 
-    public async Task<List<WorkScheduleModel>> GetWorkSchedulesAsync(Guid id)
+    public async Task<List<ServiceAppointmentsModel>> GetServiceAppointmentsByWorkerIdAsync(Guid id)
     {
-        var workScheduletEntities = await _dbRepository.Get<WorkScheduletEntity>()
+        var workScheduletEntities = await _dbRepository.Get<ServiceAppointmentsEntity>()
             .Where(ws => ws.WorkerId == id)
             .Include(x=>x.Worker)
             .Include(x=>x.Client)
             .Include(x=>x.Service)
             .ToListAsync();
 
-        return _mapper.Map<List<WorkScheduleModel>>(workScheduletEntities);
+        return _mapper.Map<List<ServiceAppointmentsModel>>(workScheduletEntities);
     }
 
-    public async Task<WorkScheduleModel> AddWorkScheduleAsync(WorkScheduleModel workScheduleModel)
+    public async Task<ServiceAppointmentsModel> AddServiceAppointmentAsync(ServiceAppointmentsModel serviceAppointmentsModel)
     {
-        var entity = _mapper.Map<WorkScheduletEntity>(workScheduleModel);
+        var entity = _mapper.Map<ServiceAppointmentsEntity>(serviceAppointmentsModel);
         var id = await _dbRepository.Add(entity);
         await _dbRepository.SaveChangesAsync();
 
-        workScheduleModel = new WorkScheduleModel();
+        serviceAppointmentsModel = new ServiceAppointmentsModel();
         var workScheduletEntity = await _dbRepository
-            .Get<WorkScheduletEntity>()
+            .Get<ServiceAppointmentsEntity>()
             .Include(x=>x.Worker)
             .Include(x=>x.Client)
             .Include(x=>x.Service)
             .FirstOrDefaultAsync(x => x.Id == id);
-        workScheduleModel = _mapper.Map<WorkScheduleModel>(workScheduletEntity);
-        return workScheduleModel;
+        serviceAppointmentsModel = _mapper.Map<ServiceAppointmentsModel>(workScheduletEntity);
+        return serviceAppointmentsModel;
     }
 
-    public async Task<WorkScheduleModel> UpdateWorkScheduleAsync(WorkScheduleModel workScheduleModel)
+    public async Task<ServiceAppointmentsModel> UpdateServiceAppointmentAsync(ServiceAppointmentsModel serviceAppointmentsModel)
     {
-        var entity = await _dbRepository.Get<WorkScheduletEntity>()
-            .FirstOrDefaultAsync(x=>x.Id == workScheduleModel.Id);
+        var entity = await _dbRepository.Get<ServiceAppointmentsEntity>()
+            .FirstOrDefaultAsync(x=>x.Id == serviceAppointmentsModel.Id);
 
         if (entity != null)
         {
-            entity.ClientId = workScheduleModel.ClientId;
-            entity.ServiceId = workScheduleModel.ServiceId;
-            entity.StartTime = workScheduleModel.StartTime;
-            entity.EndTime = workScheduleModel.EndTime;
+            entity.ClientId = serviceAppointmentsModel.ClientId;
+            entity.ServiceId = serviceAppointmentsModel.ServiceId;
+            entity.StartTime = serviceAppointmentsModel.StartTime;
+            entity.EndTime = serviceAppointmentsModel.EndTime;
 
             await _dbRepository.Update(entity);
             await _dbRepository.SaveChangesAsync();
             
             var workScheduletEntity = await _dbRepository
-                .Get<WorkScheduletEntity>()
+                .Get<ServiceAppointmentsEntity>()
                 .Include(x=>x.Worker)
                 .Include(x=>x.Client)
                 .Include(x=>x.Service)
-                .FirstOrDefaultAsync(x => x.Id == workScheduleModel.Id);
-            workScheduleModel = _mapper.Map<WorkScheduleModel>(workScheduletEntity);
-            return workScheduleModel;
+                .FirstOrDefaultAsync(x => x.Id == serviceAppointmentsModel.Id);
+            serviceAppointmentsModel = _mapper.Map<ServiceAppointmentsModel>(workScheduletEntity);
+            return serviceAppointmentsModel;
         }
         else
         {
