@@ -13,7 +13,7 @@ namespace BeautySaloon.DAL
         public DbSet<ServiceEntity> Services { get; set; }
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<PromotionEntity> Promotions { get; set; }
-        public DbSet<ServiceAppointmentsEntity> WorkSchedules { get; set; }
+        public DbSet<ServiceAppointmentsEntity> ServiceAppointments { get; set; }
         public DbSet<MainSettingsEntity> MainSettings { get; set; }
         public DbSet<FooterSettingsEntity> FooterSettings { get; set; }
         
