@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "wxy4ZASKPJk3JCuBSpP/9BHDjTrAOrnrQ308VQbX2/c=",
+  "Hash": "iHadCOCJ/p1bMVwR9IqheZq2oLw0fki4H6ZYZBRbnBg=",
   "Source": "BeautySaloon",
   "BasePath": "_content/BeautySaloon",
   "Mode": "Default",
@@ -1347,6 +1347,25 @@
       "OriginalItemSpec": "wwwroot\\images\\07\\0795\\stock-vector-file-formats-vector-icon-illustration-jpg-jpeg-2273723869.jpg"
     },
     {
+      "Identity": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\images\\0C\\0C9E\\5i9FuSRnyZU.jpg",
+      "SourceId": "BeautySaloon",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\",
+      "BasePath": "_content/BeautySaloon",
+      "RelativePath": "images/0C/0C9E/5i9FuSRnyZU.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\0C\\0C9E\\5i9FuSRnyZU.jpg"
+    },
+    {
       "Identity": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\images\\11\\1105\\84ad4b16dd7fc3b8390012ff64aeeb51.jpg",
       "SourceId": "BeautySaloon",
       "SourceType": "Discovered",
@@ -1459,6 +1478,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\istockphoto-1367756031-612x612.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\img\\favicon.png",
+      "SourceId": "BeautySaloon",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\",
+      "BasePath": "_content/BeautySaloon",
+      "RelativePath": "img/favicon.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\favicon.png"
     },
     {
       "Identity": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\img\\logo.jpg",

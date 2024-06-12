@@ -10,7 +10,7 @@ public interface ICategoryService
 
     Task<bool> Update(CategoryModel categoryModel);
 
-    List<CategoryModel> GetAll();
+    Task<List<CategoryModel>> GetAll();
 
-    Task Delete(Guid categoryId);
+    Task<bool> Delete(Guid categoryId);
 }

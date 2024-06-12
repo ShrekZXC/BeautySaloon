@@ -25,6 +25,10 @@
       "PackagePath": "staticwebassets\\images\\07\\0795\\stock-vector-file-formats-vector-icon-illustration-jpg-jpeg-2273723869.jpg"
     },
     {
+      "Id": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\images\\0C\\0C9E\\5i9FuSRnyZU.jpg",
+      "PackagePath": "staticwebassets\\images\\0C\\0C9E\\5i9FuSRnyZU.jpg"
+    },
+    {
       "Id": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\images\\11\\1105\\84ad4b16dd7fc3b8390012ff64aeeb51.jpg",
       "PackagePath": "staticwebassets\\images\\11\\1105\\84ad4b16dd7fc3b8390012ff64aeeb51.jpg"
     },
@@ -47,6 +51,10 @@
     {
       "Id": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\images\\istockphoto-1367756031-612x612.jpg",
       "PackagePath": "staticwebassets\\images\\istockphoto-1367756031-612x612.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\img\\favicon.png",
+      "PackagePath": "staticwebassets\\img\\favicon.png"
     },
     {
       "Id": "C:\\Users\\ShrekUser\\RiderProjects\\BeautySaloon\\BeautySaloon\\wwwroot\\img\\logo.jpg",

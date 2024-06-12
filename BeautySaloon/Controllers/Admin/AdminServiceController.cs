@@ -71,13 +71,14 @@ public class AdminServiceController : Controller
     {
         var service = await _serviceService.Get(id);
         var serviceViewModel = _mapper.Map<ServiceViewModel>(service);
-        serviceViewModel.Categories = _mapper.Map<List<CategoryViewModel>>(_categoryService.GetAll());
+        serviceViewModel.Categories = _mapper.Map<List<CategoryViewModel>>(await _categoryService.GetAll());
 
         return View("~/Views/Admin/Service/update.cshtml", serviceViewModel);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update(ServiceViewModel serviceViewModel, IFormFile ImageSrc,
+    public async Task<IActionResult> Update(ServiceViewModel serviceViewModel,
+        IFormFile ImageSrc,
         string CurrentImageSrc)
     {
         if (ImageSrc != null && ImageSrc.Length > 0)
@@ -96,7 +97,7 @@ public class AdminServiceController : Controller
 
         if (isUpdate)
         {
-            return await Index();
+            return RedirectToAction("Index");
         }
         else
         {

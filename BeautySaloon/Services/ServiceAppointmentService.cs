@@ -51,6 +51,18 @@ public class ServiceAppointmentService : IServiceAppointmentService
         return workScheduleModel;
     }
 
+    public async Task<List<ServiceAppointmentsModel>> GetAllServiceAppointmentsByClientId(Guid id)
+    {
+        var workScheduletEntities = await _dbRepository.Get<ServiceAppointmentsEntity>()
+            .Where(ws => ws.ClientId == id)
+            .Include(x=>x.Worker)
+            .Include(x=>x.Client)
+            .Include(x=>x.Service)
+            .ToListAsync();
+
+        return _mapper.Map<List<ServiceAppointmentsModel>>(workScheduletEntities);
+    }
+
     public async Task<bool> DeleteServiceAppointmentById(Guid id)
     {
         try
