@@ -33,7 +33,7 @@ ViewData["Title"] = "Services Page";
     #fullCalendar {
         max-width: 100%;
         margin: 0 auto;
-        font-size: 0.8em; /* Уменьшаем общий размер шрифта */
+        font-size: 1em; /* Уменьшаем общий размер шрифта */
     }
 
     .fc-toolbar {
@@ -128,7 +128,7 @@ ViewData["Title"] = "Services Page";
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Первое модальное окно -->
 <div id="serviceModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
@@ -180,7 +180,6 @@ ViewData["Title"] = "Services Page";
     </div>
 </div>
 
-
 <script>
     // Получаем модальное окно
     var modal = document.getElementById("serviceModal");
@@ -188,14 +187,16 @@ ViewData["Title"] = "Services Page";
     var btns = document.querySelectorAll(".add-to-cart");
     // Получаем элемент <span>, который закрывает модальное окно
     var span = document.getElementsByClassName("close")[0];
-    // Получает элемент календаря
+    // Получаем элемент календаря
     const calendarEl = document.getElementById('fullCalendar');
     // Ставим календарю русский язык
     const initialLocaleCode = 'ru';
     // Выбранный воркер
     var selectedWorkerId;
-    // 
-    var secondModal = document.getElementById('modal2');
+    // Получаем второе модальное окно
+    var secondModalEl = document.getElementById('modal2');
+    var secondModal = new bootstrap.Modal(secondModalEl);
+    var serviceId;
 
     // URL для проверки авторизации
     var authCheckUrl = '@Url.Action("IsAuthenticated", "Account")';
@@ -211,6 +212,7 @@ ViewData["Title"] = "Services Page";
                 .then(response => response.json())
                 .then(data => {
                     if (data.isAuthenticated) {
+                        serviceId = btn.getAttribute('data-id');
                         // Пользователь авторизован, открываем модальное окно
                         modal.style.display = "block";
                         // Получаем информацию об услуге и подгружаем в модальное окно
@@ -218,7 +220,7 @@ ViewData["Title"] = "Services Page";
                         var serviceName = serviceInfo.querySelector("h3").innerText;
                         var servicePrice = serviceInfo.querySelector(".price").innerText;
                         document.getElementById("serviceDetails").innerHTML = `<p>Услуга: ${serviceName}</p><p>Цена: ${servicePrice}</p>`;
-                        
+
                     } else {
                         // Пользователь не авторизован, перенаправляем на страницу авторизации
                         window.location.href = '@Url.Action("Login", "Account")';
@@ -287,22 +289,72 @@ ViewData["Title"] = "Services Page";
             method: 'POST',
             data: {workerId: selectedWorkerId},
             success: function (data) {
-            data.forEach(event => {
-                const newEvent = {
-                    publicId: event.id,
-                    title: "Занято",
-                    start: event.startTime,
-                    end: event.endTime
-                };
-                events.push(newEvent);
-                calendar.addEvent(newEvent);
-                calendar.refetchEvents();
+                data.forEach(event => {
+                    const newEvent = {
+                        publicId: event.id,
+                        title: event.title,
+                        start: event.startTime,
+                        end: event.endTime
+                    };
+                    events.push(newEvent);
+                    calendar.addEvent(newEvent);
+                    calendar.refetchEvents();
                 });
             },
             error: function () {
                 alert("Ошибка при добавлении данных");
             }
         });
+
+        function handleDateClick(info) {
+            secondModal.show();
+            document.getElementById('saveTimeButton').onclick = function () {
+                const startTime = document.getElementById('startTime').value;
+                console.log(info);
+                console.log("Выбранное время начала: " + startTime);
+
+                const dataFromModal = {
+                    workerId: selectedWorkerId,
+                    serviceId: serviceId,
+                    workDate: info.dateStr,
+                    startTime: startTime
+                };
+
+                console.log(dataFromModal);
+
+                $.ajax({
+                    url: '@Url.Action("SaveServiceAppointment", "ServiceAppointments")',
+                    method: 'POST',
+                    data: {
+                        workerId: selectedWorkerId,
+                        serviceId: serviceId,
+                        workDate: info.dateStr,
+                        startTime: startTime
+                    },
+                    success: function (data) {
+                        const newEvent = {
+                            publicId: data.id,
+                            title: data.title,
+                            start: data.start,
+                            end: data.end
+                        };
+                        calendar.addEvent(newEvent);
+                        calendar.refetchEvents();
+                        alert("Запись успешно добавлена!");
+                        secondModal.hide();
+                    },
+                    error: function (xhr) {
+                        if (xhr.status === 400) {
+                            alert(xhr.responseText); // Показываем сообщение об ошибке, полученное от сервера
+                        } else {
+                            alert("Ошибка при добавлении данных");
+                        }
+                    }
+                });
+
+                secondModal.hide();
+            };
+        }
 
         var modalContent = document.querySelector(".modal-content");
         modalContent.style.height = "auto";
@@ -364,47 +416,4 @@ ViewData["Title"] = "Services Page";
 
         calendar.render();
     };
-
-    function handleDateClick(info) {
-        secondModal.style.display="block";
-
-        /* closeEventButton.off('click').on('click', () => myModal.hide());
-        saveEventButton.off('click').on('click', () => {
-            const clientId = document.getElementById('userSelect').value;
-            const serviceId = document.getElementById('serviceSelect').value;
-            const startTime = document.getElementById('startTime').value;
-
-            const dataFromModal = {
-                workerId: workerId,
-                clientId: clientId,
-                serviceId: serviceId,
-                workDate: info.dateStr,
-                startTime: startTime
-            };
-
-            myModal.hide();
-
-            $.ajax({
-                url: '@Url.Action("SaveServiceAppointment", "AdminServiceAppointments")',
-                method: 'POST',
-                data: dataFromModal,
-                success: function (data) {
-                    const newEvent = {
-                        publicId: data.id,
-                        title: data.title,
-                        start: data.start,
-                        end: data.end
-                    };
-                    calendar.addEvent(newEvent);
-                    calendar.refetchEvents();
-                },
-                error: function () {
-                    alert("Ошибка при добавлении данных");
-                }
-            });
-        }); */
-    }
-
 </script>
-
-
