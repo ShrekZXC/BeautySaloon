@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Diagnostics;
+using AutoMapper;
 using BeautySaloon.BL;
 using BeautySaloon.Model;
 using BeautySaloon.Services.Interfaces;
@@ -32,13 +33,6 @@ public class AdminCategoryController : Controller
 
         return View("~/Views/Admin/Categories/Index.cshtml", caregories);
     }
-    
-    [HttpGet]
-    public async Task<IActionResult> Update(Guid categoryId)
-    {
-        return Ok();
-    }
-    
     [HttpGet]
     public async Task<IActionResult> Add()
     {
@@ -48,10 +42,42 @@ public class AdminCategoryController : Controller
         });
     }
     
-    [HttpPost]
-    public async Task<IActionResult> Update(CategoryViewModel categoryViewModel)
+    [HttpGet]
+    public async Task<IActionResult> Update(Guid id)
     {
-        return Ok();
+        var category = await _categoryService.Get(id);
+        var categoryViewModel = _mapper.Map<CategoryViewModel>(category);
+        
+        return View("~/Views/Admin/Categories/update.cshtml", categoryViewModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Update(CategoryViewModel categoryViewModel, IFormFile ImageSrc,
+        string CurrentImageSrc)
+    {
+        if (ImageSrc != null && ImageSrc.Length > 0)
+        {
+            WebFile webfile = new WebFile();
+            string filename = webfile.GetWebFilename(Request.Form.Files[0].FileName);
+            await webfile.UploadAndResizeImage(Request.Form.Files[0].OpenReadStream(), filename, 800, 600);
+            categoryViewModel.ImgSrc = filename;
+        }
+        else
+        {
+            categoryViewModel.ImgSrc = CurrentImageSrc;
+        }
+
+        var isUpdate = await _categoryService.Update(_mapper.Map<CategoryModel>(categoryViewModel));
+
+        if (isUpdate)
+        {
+            return await Index();
+        }
+        else
+        {
+            return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
+        }
+
     }
     
     [HttpPost]

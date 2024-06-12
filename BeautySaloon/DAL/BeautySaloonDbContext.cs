@@ -13,7 +13,7 @@ namespace BeautySaloon.DAL
         public DbSet<ServiceEntity> Services { get; set; }
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<PromotionEntity> Promotions { get; set; }
-        public DbSet<WorkScheduletEntity> WorkSchedules { get; set; }
+        public DbSet<ServiceAppointmentsEntity> ServiceAppointments { get; set; }
         public DbSet<MainSettingsEntity> MainSettings { get; set; }
         public DbSet<FooterSettingsEntity> FooterSettings { get; set; }
         
@@ -24,7 +24,7 @@ namespace BeautySaloon.DAL
             modelBuilder.Entity<ServiceEntity>().ToTable("Service");
             modelBuilder.Entity<CategoryEntity>().ToTable("Category");
             modelBuilder.Entity<PromotionEntity>().ToTable("Promotion");
-            modelBuilder.Entity<WorkScheduletEntity>().ToTable("WorkSchedule");
+            modelBuilder.Entity<ServiceAppointmentsEntity>().ToTable("WorkSchedule");
             modelBuilder.Entity<MainSettingsEntity>().ToTable("MainSettings");
             modelBuilder.Entity<FooterSettingsEntity>().ToTable("FooterSettings");
         }

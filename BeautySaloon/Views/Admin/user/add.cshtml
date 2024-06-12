@@ -9,47 +9,60 @@ Layout = null;
 
 @await Html.PartialAsync("Admin/_AdminHeaderPartial")
 
-
 <body>
 <div class="container mt-5">
-    <h2>Создание пользователя</h2>
-    <form id="addService" method="post" asp-action="Add" asp-controller="AdminUser" enctype="multipart/form-data">
-        <div class="form-group">
-            <label for="FirstName">Имя</label>
-            <input type="text" class="form-control" id="FirstName" asp-for="FirstName">
-            @Html.ValidationMessageFor(model => model.FirstName)
+    <form id="addService" method="post" asp-action="Add" asp-controller="AdminUser" enctype="multipart/form-data" class="bordered-form">
+        <h2>Создание пользователя</h2>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="FirstName" class="form-label">Имя</label>
+                <input type="text" class="form-control" id="FirstName" asp-for="FirstName">
+                @Html.ValidationMessageFor(model => model.FirstName)
+            </div>
         </div>
-        <div class="form-group">
-            <label for="SecondName">Фамилия</label>
-            <input type="text" class="form-control" id="SecondName" asp-for="SecondName">
-            @Html.ValidationMessageFor(model => model.SecondName)
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="SecondName" class="form-label">Фамилия</label>
+                <input type="text" class="form-control" id="SecondName" asp-for="SecondName">
+                @Html.ValidationMessageFor(model => model.SecondName)
+            </div>
         </div>
-        <div class="form-group">
-            <label for="LastName">Отчество</label>
-            <input type="text" class="form-control" id="LastName" asp-for="LastName">
-            @Html.ValidationMessageFor(model => model.LastName)
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="LastName" class="form-label">Отчество</label>
+                <input type="text" class="form-control" id="LastName" asp-for="LastName">
+                @Html.ValidationMessageFor(model => model.LastName)
+            </div>
         </div>
-        <div class="form-group">
-            <label for="Email">Почта</label>
-            <input type="text" class="form-control" id="Email" asp-for="Email">
-            @Html.ValidationMessageFor(model => model.Email)
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="Email" class="form-label">Почта</label>
+                <input type="text" class="form-control" id="Email" asp-for="Email">
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
         </div>
-        <div class="form-group">
-            <label for="PhoneNumber">Номер телефона</label>
-            <input type="text" class="form-control" id="PhoneNumber" asp-for="PhoneNumber">
-            @Html.ValidationMessageFor(model => model.PhoneNumber)
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="PhoneNumber" class="form-label">Номер телефона</label>
+                <input type="text" class="form-control" id="PhoneNumber" asp-for="PhoneNumber">
+                @Html.ValidationMessageFor(model => model.PhoneNumber)
+            </div>
         </div>
-        <div class="form-group">
-            <label for="Password">Пароль</label>
-            <input type="password" class="form-control" id="Password" asp-for="Password">
-            @Html.ValidationMessageFor(model => model.Password)
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="Password" class="form-label">Пароль</label>
+                <input type="password" class="form-control" id="Password" asp-for="Password">
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
         </div>
-        <div class="form-group">
-            <label for="SelectedRole">Роль</label>
-            <select id ="SelectedRole" class="form-control" asp-for="SelectedRole" asp-items="@(new SelectList(Model.Roles, "Name", "Name"))"></select>
-            @Html.ValidationMessageFor(model => model.SelectedRole)
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="SelectedRole" class="form-label">Роль</label>
+                <select id="SelectedRole" class="form-control" asp-for="SelectedRole" asp-items="@(new SelectList(Model.Roles, "Name", "Name"))"></select>
+                @Html.ValidationMessageFor(model => model.SelectedRole)
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <button type="submit" class="btn btn-primary btn-submit">Сохранить</button>
     </form>
 </div>
 </body>

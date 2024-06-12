@@ -11,48 +11,57 @@ Layout = null;
 
 <body>
 <div class="container mt-5">
-    <h2>Редактирование услуги</h2>
-    <form id="addOrUpdateService" method="post" enctype="multipart/form-data" action=@Url.Action("Update","AdminService")>
-        <div class="form-group">
-            <label for="id">ID</label>
-            <input type="text" class="form-control" id="id" name="id" readonly="" value="@Model.Id">
+    <form id="addOrUpdateService" method="post" action=@Url.Action("Update", "AdminService") enctype="multipart/form-data" class="bordered-form">
+        <h2>Редактирование услуги</h2>
+        <input type="hidden" name="Id" value="@Model.Id"/>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="Name" class="form-label">Название</label>
+                <input type="text" class="form-control" id="Name" name="Name" required value="@Model.Name">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="Name">Название</label>
-            <input type="text" class="form-control" id="Name" name="Name" required value="@Model.Name">
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="Description" class="form-label">Описание</label>
+                <input type="text" class="form-control" id="Description" name="Description" value="@Model.Description">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="Description">Описание</label>
-            <input type="text" class="form-control" id="Description" name="Description" value="@Model.Description">
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="Price" class="form-label">Цена</label>
+                <input type="text" class="form-control" id="Price" name="Price" required value="@Model.Price.ToString("F1")">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="Price">Цена</label>
-            <input type="text" class="form-control" id="Price" name="Price" required value="@Model.Price.ToString("F1")">
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="Duration" class="form-label">Продолжительность сеанса (в минутах)</label>
+                <input type="text" class="form-control" id="Duration" name="Duration" value="@Model.Duration">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="Duration">Продолжительность сеанса (в минутах)</label>
-            <input type="text" class="form-control" id="Duration" name="Duration" value="@Model.Duration">
+        <div class="row mb-3">
+            <div class="col-12">
+                <img src="@Model.ImageSrc" alt="@Model.ImageSrc" width="100"/>
+                <br>
+                <label for="ImageSrc" class="form-label">Загрузить изображение</label>
+                <input type="file" class="form-control" id="ImageSrc" name="ImageSrc">
+                <input type="hidden" name="CurrentImageSrc" value="@Model.ImageSrc" />
+            </div>
         </div>
-        <div class="form-group">
-            <img src="@Model.ImageSrc" alt="@Model.ImageSrc" width="100"/>
-            <br>
-            <label for="ImageSrc">Загрузить изображение</label>
-            <input type="file" class="form-control-file" id="ImageSrc" name="ImageSrc">
-            <input type="hidden" name="CurrentImageSrc" value="@Model.ImageSrc" />
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="CategoryId" class="form-label">Категория</label>
+                <select class="form-control" id="CategoryId" name="CategoryId">
+                    @foreach (var category in Model.Categories)
+                    {
+                    <option value=@category.Id
+                            selected="@(category.Id == Model.CategoryId ? "selected" : null)">
+                        @category.Name
+                    </option>
+                    }
+                </select>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="CategoryId">Категория</label>
-            <select class="form-control" id="CategoryId" name="CategoryId">
-                @foreach (var category in Model.Categories)
-                {
-                <option value=@category.Id
-                        selected="@(category.Id == Model.CategoryId ? "selected" : null)">
-                    @category.Name
-                </option>
-                }
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <button type="submit" class="btn btn-primary btn-submit">Сохранить</button>
     </form>
 </div>
 </body>

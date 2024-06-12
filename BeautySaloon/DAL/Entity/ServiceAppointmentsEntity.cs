@@ -1,6 +1,6 @@
 ﻿namespace BeautySaloon.DAL.Entity;
 
-public class WorkScheduletEntity : BaseEntity
+public class ServiceAppointmentsEntity : BaseEntity
 {
     public Guid WorkerId { get; set; }
     public DateTime WorkDate { get; set; }

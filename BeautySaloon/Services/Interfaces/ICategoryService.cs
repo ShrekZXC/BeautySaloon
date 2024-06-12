@@ -8,7 +8,7 @@ public interface ICategoryService
 
     Task<CategoryModel> Get(Guid categoryId);
 
-    Task Update(CategoryModel categoryModel);
+    Task<bool> Update(CategoryModel categoryModel);
 
     List<CategoryModel> GetAll();
 

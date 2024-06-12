@@ -23,8 +23,8 @@ public class BeautySaloonProfile: Profile
         CreateMap<RoleViewModel, RoleModel>().ReverseMap();
         CreateMap<ApplicationUser, WorkerModel>().ReverseMap();
         CreateMap<WorkerModel, WorkerViewModel>().ReverseMap();
-        CreateMap<WorkScheduletEntity, WorkScheduleModel>().ReverseMap();
-        CreateMap<WorkScheduleModel, WorkScheduleViewModel>().ReverseMap();
+        CreateMap<ServiceAppointmentsEntity, ServiceAppointmentsModel>().ReverseMap();
+        CreateMap<ServiceAppointmentsModel, ServiceAppointmentsViewModel>().ReverseMap();
         CreateMap<ApplicationUser, ClientModel>().ReverseMap();
         CreateMap<ClientModel, ClientViewModel>().ForMember(x => x.FullName, src => src.MapFrom(
             x => $"{x.SecondName} {x.FirstName} {x.LastName}"));
