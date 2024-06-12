@@ -4,6 +4,87 @@
 ViewData["Title"] = "Services Page";
 }
 
+<style>
+    .modal-backdrop.show {
+        z-index: 1040 !important;
+    }
+    /* Стиль для модального окна */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1050 !important;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    #modal2 {
+        z-index: 1060 !important;
+    }
+
+    #calendar {
+        display: none;
+    }
+
+    #fullCalendar {
+        max-width: 100%;
+        margin: 0 auto;
+        font-size: 0.8em; /* Уменьшаем общий размер шрифта */
+    }
+
+    .fc-toolbar {
+        font-size: 0.8em; /* Уменьшаем размер шрифта в панели инструментов */
+    }
+
+    .fc-event {
+        font-size: 0.7em; /* Уменьшаем размер шрифта в событиях */
+    }
+
+    /* Стиль для модального контента */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 100%;
+        max-width: 900px; /* Ограничение максимальной ширины */
+        position: relative; /* Относительное позиционирование для центрации */
+    }
+
+    /* Стиль для кнопки закрытия модального окна */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* Стили для календаря */
+    #calendar {
+        display: none;
+    }
+
+    #fullCalendar {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .large-text {
+        font-size: 18px; !important; /* Увеличенный размер текста */
+    }
+</style>
+
 <div class="container">
     <div class="row">
         @foreach (var service in Model)
@@ -51,67 +132,76 @@ ViewData["Title"] = "Services Page";
 <div id="serviceModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
-        <h2>Выбор услуги</h2>
-        <div id="serviceDetails">
-            <!-- Здесь будет динамически подгружаться информация о выбранной услуге -->
+        <form>
+            <h2>Выбор услуги</h2>
+
+            <div id="serviceDetails">
+                <!-- Здесь будет динамически подгружаться информация о выбранной услуге -->
+            </div>
+
+            <div id="workerSelection">
+                <label for="workerSelect">Выберите работника:</label>
+                <select id="workerSelect" class="form-control large-text"></select>
+            </div>
+
+            <!-- Скрытое поле для хранения id выбранного работника -->
+            <input type="hidden" id="selectedWorkerId" name="selectedWorkerId" />
+
+
+            <button type="button" id="next" class="btn btn-primary large-text confirm-worker  mt-3">Далее</button>
+        </form>
+
+        <div id="calendar" class="container" style="display:none;">
+            <div id="fullCalendar"></div>
         </div>
-        <button class="confirm-service">Подтвердить</button>
     </div>
 </div>
 
-<style>
-    /* Стиль для модального окна */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgb(0, 0, 0);
-        background-color: rgba(0, 0, 0, 0.4);
-    }
+<!-- Второе модальное окно с выбором времени -->
+<div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="modal2Label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal2Label">Выбор Времени</h5>
+            </div>
+            <div class="modal-body">
+                <form id="timeForm">
+                    <div class="form-group">
+                        <label for="startTime">Время начала</label>
+                        <input type="time" class="form-control" id="startTime" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="closeTimeButton" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="saveTimeButton">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-    /* Стиль для модального контента */
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-        max-width: 600px; /* Ограничение максимальной ширины */
-    }
-
-    /* Стиль для кнопки закрытия модального окна */
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
-</style>
 
 <script>
     // Получаем модальное окно
     var modal = document.getElementById("serviceModal");
-
-    // Получаем кнопку, которая открывает модальное окно
+    // Получаем кнопки, которые открывают модальное окно
     var btns = document.querySelectorAll(".add-to-cart");
-
     // Получаем элемент <span>, который закрывает модальное окно
     var span = document.getElementsByClassName("close")[0];
+    // Получает элемент календаря
+    const calendarEl = document.getElementById('fullCalendar');
+    // Ставим календарю русский язык
+    const initialLocaleCode = 'ru';
+    // Выбранный воркер
+    var selectedWorkerId;
+    // 
+    var secondModal = document.getElementById('modal2');
 
     // URL для проверки авторизации
     var authCheckUrl = '@Url.Action("IsAuthenticated", "Account")';
+
+    // Загружаем работников
+    loadWorkers();
 
     // Перебираем все кнопки и добавляем обработчик событий
     btns.forEach(function(btn) {
@@ -128,12 +218,13 @@ ViewData["Title"] = "Services Page";
                         var serviceName = serviceInfo.querySelector("h3").innerText;
                         var servicePrice = serviceInfo.querySelector(".price").innerText;
                         document.getElementById("serviceDetails").innerHTML = `<p>Услуга: ${serviceName}</p><p>Цена: ${servicePrice}</p>`;
+                        
                     } else {
                         // Пользователь не авторизован, перенаправляем на страницу авторизации
                         window.location.href = '@Url.Action("Login", "Account")';
                     }
                 })
-                .catch(error => console.error('Ошибка:', error));
+                .catch(error => console.log('Ошибка:', error));
         }
     });
 
@@ -146,7 +237,174 @@ ViewData["Title"] = "Services Page";
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
+            document.getElementById("workerSelection").style.display = "block";
+            document.getElementById("next").style.display ="block";
+            document.getElementById("calendar").style.display = "none";
+            document.getElementById("selectedWorkerId").value = "";
+            selectedWorkerId = "";
         }
     }
+
+    // Загрузка работников
+    function loadWorkers() {
+        var workerSelect = document.getElementById("workerSelect");
+        // Пример списка работников
+
+        $.ajax({
+            url: '@Url.Action("GetAllWorkers", "Services")',
+            method: 'GET',
+            success: function (data) {
+                var workers = data;
+                workers.forEach(worker => {
+                    var option = document.createElement("option");
+                    option.value = worker.id;
+                    option.text = `${worker.firstName} ${worker.secondName} ${worker.lastName}`;
+                    workerSelect.add(option);
+                });
+                selectedWorkerId = workerSelect.value;
+            },
+            error: function () {
+                alert("Ошибка при добавлении данных");
+            }
+        });
+
+        // Обработчик изменения выбора в списке работников
+        workerSelect.onchange = function() {
+            selectedWorkerId = workerSelect.value;
+            document.getElementById("selectedWorkerId").value = selectedWorkerId;
+        };
+    }
+
+    // Обработчик для кнопки "Далее"
+    document.querySelector(".confirm-worker").onclick = function() {
+        document.getElementById("workerSelection").style.display = "none";
+        document.getElementById("next").style.display ="none";
+        document.getElementById("calendar").style.display = "block";
+        let events = [];
+
+        $.ajax({
+            url: '@Url.Action("GetAllServiceAppointmentByWorkerId", "ServiceAppointments")',
+            method: 'POST',
+            data: {workerId: selectedWorkerId},
+            success: function (data) {
+            data.forEach(event => {
+                const newEvent = {
+                    publicId: event.id,
+                    title: "Занято",
+                    start: event.startTime,
+                    end: event.endTime
+                };
+                events.push(newEvent);
+                calendar.addEvent(newEvent);
+                calendar.refetchEvents();
+                });
+            },
+            error: function () {
+                alert("Ошибка при добавлении данных");
+            }
+        });
+
+        var modalContent = document.querySelector(".modal-content");
+        modalContent.style.height = "auto";
+        modalContent.style.maxHeight = "90%";
+
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            events: events,
+            height: 450,
+            locale: initialLocaleCode,
+            initialView: 'timeGridWeek',
+            headerToolbar: {
+                start: 'timeGridWeek',
+                center: 'title',
+                end: 'prev,next'
+            },
+            buttonText: {
+                today: 'Сегодня',
+                month: 'Месяц',
+                week: 'Неделя',
+                day: 'День',
+                list: 'Список'
+            },
+            nowIndicator: true,
+            businessHours: true,
+            weekText: 'Нед',
+            allDayText: 'Весь день',
+            moreLinkText: n => `+ ещё ${n}`,
+            eventMouseEnter: function(info) {
+                const tooltip = new bootstrap.Tooltip(info.el, {
+                    title: info.event.title,
+                    placement: 'top',
+                    trigger: 'hover',
+                    container: 'body',
+                    html: true,
+                    template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+                });
+                // Сохраняем ссылку на тултип в элементе, чтобы можно было его удалить позже
+                info.el._tooltip = tooltip;
+            },
+            eventMouseLeave: function(info) {
+                // Удаляем тултип при уходе курсора
+                if (info.el._tooltip) {
+                    info.el._tooltip.dispose();
+                    delete info.el._tooltip;
+                }
+            },
+            titleFormat: date => `$${date.start.marker.toLocaleDateString('ru', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            })} - ${date.end.marker.toLocaleDateString('ru', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            })}`,
+            noEventsText: 'Нет событий для отображения',
+            dateClick: handleDateClick
+        });
+
+        calendar.render();
+    };
+
+    function handleDateClick(info) {
+        secondModal.style.display="block";
+
+        /* closeEventButton.off('click').on('click', () => myModal.hide());
+        saveEventButton.off('click').on('click', () => {
+            const clientId = document.getElementById('userSelect').value;
+            const serviceId = document.getElementById('serviceSelect').value;
+            const startTime = document.getElementById('startTime').value;
+
+            const dataFromModal = {
+                workerId: workerId,
+                clientId: clientId,
+                serviceId: serviceId,
+                workDate: info.dateStr,
+                startTime: startTime
+            };
+
+            myModal.hide();
+
+            $.ajax({
+                url: '@Url.Action("SaveServiceAppointment", "AdminServiceAppointments")',
+                method: 'POST',
+                data: dataFromModal,
+                success: function (data) {
+                    const newEvent = {
+                        publicId: data.id,
+                        title: data.title,
+                        start: data.start,
+                        end: data.end
+                    };
+                    calendar.addEvent(newEvent);
+                    calendar.refetchEvents();
+                },
+                error: function () {
+                    alert("Ошибка при добавлении данных");
+                }
+            });
+        }); */
+    }
+
 </script>
+
 

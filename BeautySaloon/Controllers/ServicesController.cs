@@ -10,15 +10,17 @@ public class ServicesController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IServiceService _serviceService;
+    private readonly IUserService _userService;
     private readonly IMapper _mapper;
 
     public ServicesController(ILogger<HomeController> logger,
         IServiceService serviceService,
-        IMapper mapper)
+        IMapper mapper, IUserService userService)
     {
         _logger = logger;
         _serviceService = serviceService;
         _mapper = mapper;
+        _userService = userService;
     }
 
     [HttpGet]
@@ -36,6 +38,14 @@ public class ServicesController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
+    }
+
+    [HttpGet]
+    public async Task<JsonResult> GetAllWorkers()
+    {
+        var workersModel = await _userService.GetAllWorkers();
+        var workersViewModel = _mapper.Map<List<WorkerViewModel>>(workersModel);
+        return Json(workersViewModel);
     }
 
     [HttpGet]
