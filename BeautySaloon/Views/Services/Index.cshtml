@@ -219,6 +219,7 @@ ViewData["Title"] = "Services Page";
                     calendar.addEvent(newEvent);
                     calendar.refetchEvents();
                 });
+                console.log(events);
             },
             error: function () {
                 alert("Ошибка при добавлении данных");

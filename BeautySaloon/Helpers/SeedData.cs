@@ -29,12 +29,12 @@ public static class SeedData
 
         var adminUser = new ApplicationUser
         {
-            FirstName = "Дмитрий",
-            SecondName = "Богатырев",
-            LastName = "Федорович",
+            FirstName = "Алеся",
+            SecondName = "Ковыряева",
+            LastName = "Алексеевна",
             PhoneNumber = "+79501032393",
-            UserName = "dima.bogatyrev.2001@gmail.com",
-            Email = "dima.bogatyrev.2001@gmail.com",
+            UserName = "Alesya@gmail.com",
+            Email = "Alesya.2002@gmail.com",
             EmailConfirmed = true,
             PhoneNumberConfirmed = true
         };

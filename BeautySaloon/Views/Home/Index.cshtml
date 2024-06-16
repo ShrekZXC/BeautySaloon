@@ -129,33 +129,50 @@
 
     <section class="container my-5">
         <h2>АКЦИИ</h2>
-        <div id="promotionsCarousel" class="carousel slide" data-ride="carousel">
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                @for (var i = 0; i < Model.PromotionsViewModel.Count; i++)
+                {
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")" aria-current="@(i == 0 ? "true" : "false")" aria-label="Slide @(i + 1)"></button>
+                }
+            </div>
             <div class="carousel-inner">
                 @foreach (var promotion in Model.PromotionsViewModel)
                 {
-                    var isActive = promotion == Model.PromotionsViewModel.First() ? "active" : "";
-                    <div class="carousel-item @isActive">
-                        <div class="card">
-                            <img src="@promotion.ImgSrc" class="card-img-top" alt="@promotion.Name">
-                            <div class="card-body">
-                                <h5 class="card-title">@promotion.Name</h5>
-                                <p class="card-text">@promotion.Description</p>
-                                <a href="@Url.Action("PromotionDetails", "Promo", new { id = promotion.Id })" class="btn btn-primary btn-custom">Подробнее</a>
-                            </div>
-                        </div>
+                var isActive = promotion == Model.PromotionsViewModel.First() ? "active" : "";
+                <div class="carousel-item @isActive">
+                    <img src="@promotion.ImgSrc" class="d-block w-100" alt="@promotion.Name">
+                    <div class="carousel-caption d-none d-md-block text-bg">
+                        <h5>@promotion.Name</h5>
+                        <p>@promotion.Description</p>
                     </div>
+                </div>
                 }
             </div>
-            <a class="carousel-control-prev" href="#promotionsCarousel" role="button" data-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#promotionsCarousel" role="button" data-slide="next">
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
     </section>
+
+    <style>
+        .text-bg {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .carousel-caption h5, .carousel-caption p {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+    </style>
+
+
 
     <section class="container my-5">
         <h2>Наши услуги</h2>
@@ -178,7 +195,11 @@
 
     <section class="container my-5">
         <h2>Полезная информация</h2>
-        <a href="#" class="btn btn-secondary">Перейти</a>
+        <div class="info-block">
+            <p>Добро пожаловать в наш салон красоты! Мы предлагаем широкий спектр услуг, включая стрижки, окрашивание, маникюр, педикюр и уход за кожей. Наши опытные специалисты помогут вам создать идеальный образ и подчеркнуть вашу природную красоту.</p>
+            <p>Запишитесь на консультацию или процедуру по телефону +7 (123) 456-78-90 или через наш сайт. Мы всегда рады видеть вас!</p>
+            <p>Время работы: с понедельника по пятницу с 10:00 до 20:00, суббота и воскресенье с 10:00 до 18:00.</p>
+        </div>
     </section>
 
     <section class="container my-5">

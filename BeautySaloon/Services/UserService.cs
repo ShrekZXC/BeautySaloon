@@ -109,7 +109,7 @@ public class UserService : IUserService
     public async Task<IdentityResult> RegisterUserAsync(UserModel userModel, string passsword, string? roleName, bool isSigin = true)
     {
         var user = _mapper.Map<ApplicationUser>(userModel);
-        user.UserName = GenerateUserName.Generate(user.FirstName, user.SecondName);
+        user.UserName = userModel.Email;
         var result = await _userManager.CreateAsync(user, passsword);
             
         if (result.Succeeded)

@@ -91,11 +91,12 @@ public class ServiceAppointmentService : IServiceAppointmentService
 
         foreach (var user in users)
         {
-            if (await _userManager.IsInRoleAsync(user, "Worker"))
+            if (await _userManager.IsInRoleAsync(user, "User"))
             {
-                // Добавляем пользователя в список работников
-                workers.Add(_mapper.Map<WorkerModel>(user));
+                continue;
             }
+            // Добавляем пользователя в список работников
+            workers.Add(_mapper.Map<WorkerModel>(user));
         }
 
         return workers;
