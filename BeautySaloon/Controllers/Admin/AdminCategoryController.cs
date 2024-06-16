@@ -29,7 +29,7 @@ public class AdminCategoryController : Controller
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var caregories = _mapper.Map<List<CategoryViewModel>>(_categoryService.GetAll());
+        var caregories = _mapper.Map<List<CategoryViewModel>>(await _categoryService.GetAll());
 
         return View("~/Views/Admin/Categories/Index.cshtml", caregories);
     }
@@ -52,10 +52,11 @@ public class AdminCategoryController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update(CategoryViewModel categoryViewModel, IFormFile ImageSrc,
+    public async Task<IActionResult> Update(CategoryViewModel categoryViewModel,
+        IFormFile ImgSrc,
         string CurrentImageSrc)
     {
-        if (ImageSrc != null && ImageSrc.Length > 0)
+        if (ImgSrc != null && ImgSrc.Length > 0)
         {
             WebFile webfile = new WebFile();
             string filename = webfile.GetWebFilename(Request.Form.Files[0].FileName);
@@ -71,7 +72,7 @@ public class AdminCategoryController : Controller
 
         if (isUpdate)
         {
-            return await Index();
+            return RedirectToAction("Index");
         }
         else
         {
@@ -93,13 +94,20 @@ public class AdminCategoryController : Controller
 
         await _categoryService.Create(_mapper.Map<CategoryModel>(categoryViewModel));
 
-        return await Index();
+        return RedirectToAction("Index");
     }
 
     [HttpPost]
     public async Task<IActionResult> Delete(Guid id)
     {
-        await _categoryService.Delete(id);
-        return Ok();
+        var isDeleted = await _categoryService.Delete(id);
+        if (isDeleted)
+        {
+            return RedirectToAction("Index");
+        }
+        else
+        {
+            return BadRequest();
+        }
     }
 }

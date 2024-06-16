@@ -35,9 +35,9 @@ public class CategoryService : ICategoryService
         return categoryModel;
     }
 
-    public List<CategoryModel> GetAll()
+    public async Task<List<CategoryModel>> GetAll()
     {
-        var entities =  _dbRepository.GetAll<CategoryEntity>();
+        var entities = await  _dbRepository.GetAll<CategoryEntity>().ToListAsync();
         var categoriesModel = _mapper.Map<List<CategoryModel>>(entities).ToList();
 
         return categoriesModel;
@@ -60,10 +60,20 @@ public class CategoryService : ICategoryService
         }
     }
 
-    public async Task Delete(Guid categoryId)
+    public async Task<bool> Delete(Guid categoryId)
     {
-        var entity = await _dbRepository.Get<CategoryEntity>().FirstOrDefaultAsync(x => x.Id == categoryId);
-        if (entity != null) await _dbRepository.Remove<CategoryEntity>(entity);
-        await _dbRepository.SaveChangesAsync();
+        var entity = await _dbRepository.Get<CategoryEntity>()
+            .FirstOrDefaultAsync(x => x.Id == categoryId);
+
+        if (entity != null)
+        {
+            await _dbRepository.Remove<CategoryEntity>(entity);
+            await _dbRepository.SaveChangesAsync();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

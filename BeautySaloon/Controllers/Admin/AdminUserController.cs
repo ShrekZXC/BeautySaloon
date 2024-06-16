@@ -112,20 +112,17 @@ namespace BeautySaloon.Controllers.Admin
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete([FromBody] Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _userService.DeleteUser(id);
-            if (result == null)
-            {
-                return NotFound();
-            }
-            
             if (result.Succeeded)
             {
-                return Json(new { success = true });
+                return RedirectToAction("Index");
             }
-
-            return Json(new { success = false, errors = result.Errors });
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }

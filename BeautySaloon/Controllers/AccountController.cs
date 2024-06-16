@@ -14,13 +14,17 @@ public class AccountController : Controller
     private readonly string? UserRole = "User";
     private readonly IMapper _mapper;
     private readonly IUserService _userService;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IServiceAppointmentService _serviceAppointmentService;
 
     public AccountController(
         IMapper mapper,
-        IUserService userService)
+        IUserService userService, UserManager<ApplicationUser> userManager, IServiceAppointmentService serviceAppointmentService)
     {
         _mapper = mapper;
         _userService = userService;
+        _userManager = userManager;
+        _serviceAppointmentService = serviceAppointmentService;
     }
 
     [HttpGet]
@@ -94,6 +98,21 @@ public class AccountController : Controller
     {
         bool isAuthenticated = User.Identity is {IsAuthenticated: true};
         return Json(new {isAuthenticated});
+    }
+
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> Profile()
+    {
+        var appUser = await _userManager.GetUserAsync(User);
+        var user = await _userService.FindByIdAsync(appUser.Id);
+
+        var profile = _mapper.Map<ProfileViewModel>(user);
+        var appointments = await _serviceAppointmentService.GetAllServiceAppointmentsByClientId(appUser.Id);
+
+        profile.Appointments = _mapper.Map<List<ServiceAppointmentsViewModel>>(appointments);
+
+        return View(profile);
     }
 
     public IActionResult AccessDenied()

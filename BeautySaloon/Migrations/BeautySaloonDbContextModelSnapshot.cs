@@ -133,7 +133,6 @@ namespace BeautySaloon.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("ImgSrc")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
@@ -249,39 +248,7 @@ namespace BeautySaloon.Migrations
                     b.ToTable("Promotion", (string)null);
                 });
 
-            modelBuilder.Entity("BeautySaloon.DAL.Entity.ServiceEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImageSrc")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("Service", (string)null);
-                });
-
-            modelBuilder.Entity("BeautySaloon.DAL.Entity.WorkScheduletEntity", b =>
+            modelBuilder.Entity("BeautySaloon.DAL.Entity.ServiceAppointmentsEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -314,6 +281,38 @@ namespace BeautySaloon.Migrations
                     b.HasIndex("WorkerId");
 
                     b.ToTable("WorkSchedule", (string)null);
+                });
+
+            modelBuilder.Entity("BeautySaloon.DAL.Entity.ServiceEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageSrc")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Service", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -419,18 +418,7 @@ namespace BeautySaloon.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BeautySaloon.DAL.Entity.ServiceEntity", b =>
-                {
-                    b.HasOne("BeautySaloon.DAL.Entity.CategoryEntity", "Category")
-                        .WithMany("Services")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("BeautySaloon.DAL.Entity.WorkScheduletEntity", b =>
+            modelBuilder.Entity("BeautySaloon.DAL.Entity.ServiceAppointmentsEntity", b =>
                 {
                     b.HasOne("BeautySaloon.DAL.Entity.ApplicationUser", "Client")
                         .WithMany()
@@ -455,6 +443,17 @@ namespace BeautySaloon.Migrations
                     b.Navigation("Service");
 
                     b.Navigation("Worker");
+                });
+
+            modelBuilder.Entity("BeautySaloon.DAL.Entity.ServiceEntity", b =>
+                {
+                    b.HasOne("BeautySaloon.DAL.Entity.CategoryEntity", "Category")
+                        .WithMany("Services")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

@@ -17,6 +17,7 @@ Layout = null;
 
         <div class="row mb-3">
             <div class="col-12">
+                <input type="hidden" name="CurrentHeaderBackgroundImage" value="@Model.BackgroundImageHeader" />
                 <label for="headerBackgroundImage" class="form-label">Изображение фона заголовка:</label>
                 <input type="file" id="headerBackgroundImage" name="HeaderBackgroundImageFile" class="form-control"/>
             </div>
@@ -44,6 +45,7 @@ Layout = null;
 
         <div class="row mb-3">
             <div class="col-12">
+                <input type="hidden" name="CurrentMainBackgroundImage" value="@Model.MainBackgroundImage" />
                 <label for="mainBackgroundImage" class="form-label">Изображение фона основного текста:</label>
                 <input type="file" id="mainBackgroundImage" name="MainBackgroundImageFile" class="form-control"/>
             </div>
@@ -71,6 +73,7 @@ Layout = null;
 
         <div class="row mb-3">
             <div class="col-12">
+                <input type="hidden" name="CurrentBackgroundImageFooter" value="@Model.BackgroundImageFooter" />
                 <label for="footerBackgroundImage" class="form-label">Изображение фона подвала:</label>
                 <input type="file" id="footerBackgroundImage" name="FooterBackgroundImageFile" class="form-control"/>
             </div>

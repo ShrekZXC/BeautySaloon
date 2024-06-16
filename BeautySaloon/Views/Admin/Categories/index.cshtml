@@ -27,7 +27,7 @@ Layout = null;
         <tbody>
         @foreach (var category in Model)
         {
-        <tr>
+        <tr id="row-@category.Id">
             <td class="text-center">@category.Name</td>
             <td class="text-center"><img src="@category.ImgSrc" alt="@category.Name" width="100"/></td>
             <td class="text-center">
@@ -44,21 +44,24 @@ Layout = null;
 </body>
 
 <script>
-    async function deleteUser(id) {
-        if (confirm('Вы уверены, что хотите удалить эту категорию')) {
-            const response = await fetch('@Url.Action("Delete", "AdminCategory")', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ id })
+    async function deleteCategory(id) {
+        console.log(id);
+        if (confirm('Вы уверены, что хотите удалить эту категорию')) 
+        {
+            $.ajax({
+            url: '@Url.Action("Delete", "AdminCategory")', 
+            method: 'POST', 
+            data: {id: id},
+            success()
+            {
+                $('#row-' + id).remove();
+            },
+                error: function (data)
+                {
+                alert('Произошла ошибка при удалении события');
+                }
             });
-
-            if (response.ok) {
-                location.reload();
-            } else {
-                alert('Ошибка при удалении пользователя.');
-            }
         }
     }
+
 </script>

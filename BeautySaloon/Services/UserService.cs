@@ -3,6 +3,7 @@ using BeautySaloon.DAL.Entity;
 using BeautySaloon.Helpers;
 using BeautySaloon.Model;
 using BeautySaloon.Services.Interfaces;
+using BeautySaloon.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -44,8 +45,19 @@ public class UserService : IUserService
 
         return clietns;
     }
-    
-    
+
+
+    public async Task<List<WorkerModel>> GetAllWorkers()
+    {
+        var workerUsers = await _userManager.GetUsersInRoleAsync("Worker");
+        var adminUsers = await _userManager.GetUsersInRoleAsync("Admin");
+        
+        var appClients = workerUsers.Concat(adminUsers).Distinct().ToList();
+        var workers = _mapper.Map<List<WorkerModel>>(appClients);
+
+        return workers;
+    }
+
     public async Task<IdentityResult?> UpdateUser(UserModel userModel)
     {
         var appUser = await _userManager.FindByIdAsync(userModel.Id.ToString());
@@ -97,7 +109,7 @@ public class UserService : IUserService
     public async Task<IdentityResult> RegisterUserAsync(UserModel userModel, string passsword, string? roleName, bool isSigin = true)
     {
         var user = _mapper.Map<ApplicationUser>(userModel);
-        user.UserName = GenerateUserName.Generate(user.FirstName, user.SecondName);
+        user.UserName = userModel.Email;
         var result = await _userManager.CreateAsync(user, passsword);
             
         if (result.Succeeded)

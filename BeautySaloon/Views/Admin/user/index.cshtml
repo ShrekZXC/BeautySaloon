@@ -32,7 +32,7 @@ Layout = null;
         <tbody>
         @foreach (var user in Model)
         {
-        <tr>
+            <tr id="row-@user.Id">
             <td class="text-center">@user.Id</td>
             <td class="text-center">@user.FirstName</td>
             <td class="text-center">@user.SecondName</td>
@@ -60,20 +60,21 @@ Layout = null;
 
 <script>
     async function deleteUser(id) {
-        if (confirm('Вы уверены, что хотите удалить этого пользователя?')) {
-            const response = await fetch('@Url.Action("Delete", "AdminUser")', {
+        if (confirm('Вы уверены, что хотите удалить этого пользователя'))
+        {
+            $.ajax({
+                url: '@Url.Action("Delete", "AdminUser")',
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
+                data: {id: id},
+                success()
+                {
+                    $('#row-' + id).remove();
                 },
-                body: JSON.stringify({ id })
+                error: function (data)
+                {
+                    alert('Произошла ошибка при удалении события');
+                }
             });
-
-            if (response.ok) {
-                location.reload();
-            } else {
-                alert('Ошибка при удалении пользователя.');
-            }
         }
     }
 </script>

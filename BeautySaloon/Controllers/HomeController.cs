@@ -35,7 +35,7 @@ public class HomeController : Controller
     {
         HomeViewModel homeViewModel = new HomeViewModel();
         homeViewModel.PromotionsViewModel = _mapper.Map<List<PromotionViewModel>>(_promotionService.GetAll());
-        homeViewModel.CategoriesViewModel = _mapper.Map<List<CategoryViewModel>>(_categoryService.GetAll());
+        homeViewModel.CategoriesViewModel = _mapper.Map<List<CategoryViewModel>>(await _categoryService.GetAll());
 
         homeViewModel.MainSettings = await _dbRepository.Get<MainSettingsEntity>().FirstOrDefaultAsync();
         

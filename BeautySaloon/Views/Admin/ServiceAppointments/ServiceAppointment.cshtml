@@ -55,6 +55,8 @@ Layout = null;
                                end = schedule.WorkDate.ToString("yyyy-MM-dd") + "T" + schedule.EndTime
                            })
                        ));
+        
+        console.log(events);
 
         const calendar = new FullCalendar.Calendar(calendarEl, {
             locale: initialLocaleCode,
@@ -133,7 +135,7 @@ Layout = null;
                 myModal.hide();
 
                 $.ajax({
-                    url: '@Url.Action("SaveServiceAppointment", "ServiceAppointments")',
+                    url: '@Url.Action("SaveServiceAppointment", "AdminServiceAppointments")',
                     method: 'POST',
                     data: dataFromModal,
                     success: function (data) {
@@ -161,7 +163,7 @@ Layout = null;
 
             deleteEventButton.off('click').on('click', () => {
                 $.ajax({
-                    url: '@Url.Action("DeleteServiceAppointmentById", "ServiceAppointments")',
+                    url: '@Url.Action("DeleteServiceAppointmentById", "AdminServiceAppointments")',
                     type: 'POST',
                     data: { id: info.event._def.extendedProps.publicId },
                     success: function(result) {
@@ -194,7 +196,7 @@ Layout = null;
                 };
 
                 $.ajax({
-                    url: '@Url.Action("UpdateServiceAppointment", "ServiceAppointments")',
+                    url: '@Url.Action("UpdateServiceAppointment", "AdminServiceAppointments")',
                     method: 'POST',
                     data: dataFromModal,
                     success: function (data) {
@@ -222,7 +224,7 @@ Layout = null;
 
         function loadClients() {
             $.ajax({
-                url: '@Url.Action("GetAllClients", "ServiceAppointments")',
+                url: '@Url.Action("GetAllClients", "AdminServiceAppointments")',
                 method: 'GET',
                 success: function(data) {
                     const userSelect = document.getElementById('userSelect');
@@ -242,7 +244,7 @@ Layout = null;
 
         function loadServices() {
             $.ajax({
-                url: '@Url.Action("GetAllService", "ServiceAppointments")',
+                url: '@Url.Action("GetAllService", "AdminServiceAppointments")',
                 method: 'GET',
                 success: function(data) {
                     const serviceSelect = document.getElementById('serviceSelect');
@@ -262,7 +264,7 @@ Layout = null;
 
         function loadInfoAboutSchedule(scheduleId) {
             $.ajax({
-                url: '@Url.Action("GetServiceAppointmentById", "ServiceAppointments")',
+                url: '@Url.Action("GetServiceAppointmentById", "AdminServiceAppointments")',
                 method: 'GET',
                 data: { scheduleId: scheduleId },
                 success: function(data) {

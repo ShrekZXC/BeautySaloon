@@ -13,7 +13,7 @@ Layout = null;
 <div class="container">
     <div class="d-flex justify-content-between mb-3">
         <h2>Список мастеров</h2>
-        <a href="@Url.Action("GetAllServiceAppointment", "ServiceAppointments")" class="btn btn-primary">Показать все записи на услуги</a>
+        <a href="@Url.Action("GetAllServiceAppointment", "AdminServiceAppointments")" class="btn btn-primary">Показать все записи на услуги</a>
     </div>
     <table class="table table-striped table-sm">
         <thead>
@@ -30,7 +30,7 @@ Layout = null;
                 <td class="text-center">@worker.Id</td>
                 <td class="text-center">@worker.SecondName @worker.FirstName @worker.LastName</td>
                 <td class="text-center">
-                    <form action="@Url.Action("SetUpServiceAppointmentForWorker", "ServiceAppointments")" method="post" class="d-flex flex-column">
+                    <form action="@Url.Action("SetUpServiceAppointmentForWorker", "AdminServiceAppointments")" method="post" class="d-flex flex-column">
                         <input type="hidden" name="workerId" value="@worker.Id"/>
                         <button type="submit" class="btn btn-primary mb-2 btn-custom">Настроить расписание</button>
                     </form>

@@ -10,17 +10,17 @@ using Microsoft.AspNetCore.Mvc;
 namespace BeautySaloon.Controllers.Admin;
 
 [Authorize(Roles = "Admin")]
-public class ServiceAppointmentsController : Controller
+public class AdminServiceAppointmentsController : Controller
 {
-    private readonly ILogger<ServiceAppointmentsController> _logger;
+    private readonly ILogger<AdminServiceAppointmentsController> _logger;
     private readonly IMapper _mapper;
     private readonly IServiceAppointmentService _serviceAppointmentService;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IUserService _userService;
     private readonly IServiceService _serviceService;
 
-    public ServiceAppointmentsController(
-        ILogger<ServiceAppointmentsController> logger, 
+    public AdminServiceAppointmentsController(
+        ILogger<AdminServiceAppointmentsController> logger, 
         IMapper mapper, IServiceAppointmentService serviceAppointmentService, UserManager<ApplicationUser> userManager, IUserService userService, IServiceService serviceService)
     {
         _logger = logger;

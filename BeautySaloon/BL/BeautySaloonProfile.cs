@@ -26,6 +26,7 @@ public class BeautySaloonProfile: Profile
         CreateMap<ServiceAppointmentsEntity, ServiceAppointmentsModel>().ReverseMap();
         CreateMap<ServiceAppointmentsModel, ServiceAppointmentsViewModel>().ReverseMap();
         CreateMap<ApplicationUser, ClientModel>().ReverseMap();
+        CreateMap<UserModel, ProfileViewModel>().ReverseMap();
         CreateMap<ClientModel, ClientViewModel>().ForMember(x => x.FullName, src => src.MapFrom(
             x => $"{x.SecondName} {x.FirstName} {x.LastName}"));
     }

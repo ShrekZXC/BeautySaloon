@@ -51,6 +51,18 @@ public class ServiceAppointmentService : IServiceAppointmentService
         return workScheduleModel;
     }
 
+    public async Task<List<ServiceAppointmentsModel>> GetAllServiceAppointmentsByClientId(Guid id)
+    {
+        var workScheduletEntities = await _dbRepository.Get<ServiceAppointmentsEntity>()
+            .Where(ws => ws.ClientId == id)
+            .Include(x=>x.Worker)
+            .Include(x=>x.Client)
+            .Include(x=>x.Service)
+            .ToListAsync();
+
+        return _mapper.Map<List<ServiceAppointmentsModel>>(workScheduletEntities);
+    }
+
     public async Task<bool> DeleteServiceAppointmentById(Guid id)
     {
         try
@@ -79,11 +91,12 @@ public class ServiceAppointmentService : IServiceAppointmentService
 
         foreach (var user in users)
         {
-            if (await _userManager.IsInRoleAsync(user, "Worker"))
+            if (await _userManager.IsInRoleAsync(user, "User"))
             {
-                // Добавляем пользователя в список работников
-                workers.Add(_mapper.Map<WorkerModel>(user));
+                continue;
             }
+            // Добавляем пользователя в список работников
+            workers.Add(_mapper.Map<WorkerModel>(user));
         }
 
         return workers;

@@ -24,8 +24,13 @@ namespace BeautySaloon.Controllers.Admin
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditMain(MainSettingsEntity model, IFormFile? HeaderBackgroundImageFile,
-            IFormFile? MainBackgroundImageFile, IFormFile? FooterBackgroundImageFile)
+        public async Task<IActionResult> EditMain(MainSettingsEntity model, 
+            IFormFile? HeaderBackgroundImageFile,
+            IFormFile? MainBackgroundImageFile,
+            IFormFile? FooterBackgroundImageFile,
+            string? CurrentHeaderBackgroundImage,
+            string? CurrentMainBackgroundImage,
+            string? CurrentBackgroundImageFooter)
         {
             if (ModelState.IsValid)
             {
@@ -41,6 +46,10 @@ namespace BeautySaloon.Controllers.Admin
 
                     model.BackgroundImageHeader = $"/images/{fileName}";
                 }
+                else
+                {
+                    model.BackgroundImageHeader = CurrentHeaderBackgroundImage;
+                }
 
                 if (MainBackgroundImageFile != null && MainBackgroundImageFile.Length > 0)
                 {
@@ -54,6 +63,10 @@ namespace BeautySaloon.Controllers.Admin
 
                     model.MainBackgroundImage = $"/images/{fileName}";
                 }
+                else
+                {
+                    model.MainBackgroundImage = CurrentMainBackgroundImage;
+                }
 
                 if (FooterBackgroundImageFile != null && FooterBackgroundImageFile.Length > 0)
                 {
@@ -66,6 +79,10 @@ namespace BeautySaloon.Controllers.Admin
                     }
 
                     model.BackgroundImageFooter = $"/images/{fileName}";
+                }
+                else
+                {
+                    model.BackgroundImageFooter = CurrentBackgroundImageFooter;
                 }
 
                 var settings = await _dbRepository.Get<MainSettingsEntity>().FirstOrDefaultAsync();
@@ -90,66 +107,11 @@ namespace BeautySaloon.Controllers.Admin
                 }
 
                 await _dbRepository.SaveChangesAsync();
+                
                 return RedirectToAction("EditMain");
             }
 
             return View("~/Views/Admin/UI/EditMain.cshtml", model);
-        }
-
-
-        [HttpGet]
-        public async Task<IActionResult> EditFooter()
-        {
-            var footerSettings = await _dbRepository.Get<FooterSettingsEntity>().FirstOrDefaultAsync();
-            return View("~/Views/Admin/UI/EditFooter.cshtml", footerSettings ?? new FooterSettingsEntity());
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EditFooter(FooterSettingsEntity model, IFormFile BackgroundImageFile)
-        {
-            if (ModelState.IsValid)
-            {
-                if (BackgroundImageFile != null && BackgroundImageFile.Length > 0)
-                {
-                    var fileName = Path.GetFileName(BackgroundImageFile.FileName);
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await BackgroundImageFile.CopyToAsync(stream);
-                    }
-
-                    model.BackgroundImage = $"/images/{fileName}";
-                }
-
-                var footerSettings = await _dbRepository.Get<FooterSettingsEntity>().FirstOrDefaultAsync();
-                if (footerSettings == null)
-                {
-                   await  _dbRepository.Add(model);
-                }
-                else
-                {
-                    footerSettings.SocialMediaName = model.SocialMediaName;
-                    footerSettings.SocialMediaLink = model.SocialMediaLink;
-                    footerSettings.FooterColor = model.FooterColor;
-                    footerSettings.WorkingHours = model.WorkingHours;
-                    footerSettings.PhoneNumber = model.PhoneNumber;
-                    footerSettings.Email = model.Email;
-                    footerSettings.BackgroundImage = model.BackgroundImage;
-                    await _dbRepository.Update(footerSettings);
-                }
-
-                await _dbRepository.SaveChangesAsync();
-                return RedirectToAction("EditFooter");
-            }
-
-            return View("~/Views/Admin/UI/EditFooter.cshtml", model);
-        }
-
-        [HttpGet]
-        public IActionResult EditBody()
-        {
-            return View("~/Views/Admin/UI/EditBody.cshtml");
         }
     }
 }
