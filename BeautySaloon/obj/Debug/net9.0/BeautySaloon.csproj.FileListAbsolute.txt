@@ -170,3 +170,5 @@ C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\bin\Debug\net9.0\Micr
 C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\bin\Debug\net9.0\TranslitSharp.dll
 C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\obj\Debug\net9.0\compressed\q5zwpkzfej.gz
 C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\obj\Debug\net9.0\compressed\x5u6tdd5o5.gz
+C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\bin\Debug\net9.0\Newtonsoft.Json.dll
+C:\Users\ShrekUser\RiderProjects\BeautySaloon\BeautySaloon\bin\Debug\net9.0\Telegram.Bot.dll

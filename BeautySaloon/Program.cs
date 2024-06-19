@@ -46,6 +46,8 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
+var botToken = "7373518632:AAE37Q5jemacmQpudUeHOXagAmxSkScaFx8";
+builder.Services.AddSingleton<ITelegramService>(new TelegramService(botToken));
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IDbRepository, DbRepository>();

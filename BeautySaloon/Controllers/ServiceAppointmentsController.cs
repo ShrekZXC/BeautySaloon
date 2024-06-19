@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BeautySaloon.DAL.Entity;
 using BeautySaloon.Model;
+using BeautySaloon.Services;
 using BeautySaloon.Services.Interfaces;
 using BeautySaloon.ViewModel;
 using Microsoft.AspNetCore.Identity;
@@ -16,14 +17,15 @@ public class ServiceAppointmentsController : Controller
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IUserService _userService;
     private readonly IServiceService _serviceService;
+    private readonly ITelegramService _telegramService;
 
     public ServiceAppointmentsController(
-        ILogger<ServiceAppointmentsController> logger, 
-        IMapper mapper, 
-        IServiceAppointmentService serviceAppointmentService, 
+        ILogger<ServiceAppointmentsController> logger,
+        IMapper mapper,
+        IServiceAppointmentService serviceAppointmentService,
         UserManager<ApplicationUser> userManager,
-        IUserService userService, 
-        IServiceService serviceService)
+        IUserService userService,
+        IServiceService serviceService, ITelegramService telegramService)
     {
         _logger = logger;
         _mapper = mapper;
@@ -31,13 +33,14 @@ public class ServiceAppointmentsController : Controller
         _userManager = userManager;
         _userService = userService;
         _serviceService = serviceService;
+        _telegramService = telegramService;
     }
 
     [HttpPost]
     public async Task<IActionResult> GetAllServiceAppointmentByWorkerId(Guid workerId)
     {
         var user = await _userManager.GetUserAsync(User);
-        
+
         var serviceAppointmentsModel =
             await _serviceAppointmentService
                 .GetServiceAppointmentsByWorkerIdAsync(workerId);
@@ -48,81 +51,91 @@ public class ServiceAppointmentsController : Controller
         var formattedAppointments = serviceAppointmentsViewModel.Select(serviceAppointment => new
         {
             Id = serviceAppointment.Id,
-            Title = serviceAppointment.ClientId == user.Id ? $"Вы записаны на {serviceAppointment.Service.Name}" : "Занято",
+            Title = serviceAppointment.ClientId == user.Id
+                ? $"Вы записаны на {serviceAppointment.Service.Name}"
+                : "Занято",
             StartTime = $"{serviceAppointment.WorkDate:yyyy-MM-dd}T{serviceAppointment.StartTime}",
             EndTime = $"{serviceAppointment.WorkDate:yyyy-MM-dd}T{serviceAppointment.EndTime}",
         }).ToList();
 
-        var test = DateTime.Now;
-
         return Json(formattedAppointments);
     }
-    
-[HttpPost]
-public async Task<IActionResult> SaveServiceAppointment(
-    Guid workerId,
-    Guid serviceId, 
-    string workDate, 
-    string startTime)
-{
-    var user = await _userManager.GetUserAsync(User);
-    
-    if (workerId == Guid.Empty || string.IsNullOrEmpty(startTime))
-    {
-        return BadRequest("Invalid input");
-    }
 
-    try
+    [HttpPost]
+    public async Task<IActionResult> SaveServiceAppointment(
+        Guid workerId,
+        Guid serviceId,
+        string workDate,
+        string startTime)
     {
-        var service = await _serviceService.Get(serviceId);
-        var workDateTime = DateTime.Parse(workDate, null, System.Globalization.DateTimeStyles.RoundtripKind);
-        var startTimeSpan = TimeSpan.Parse(startTime);
-        var endTimeSpan = startTimeSpan.Add(TimeSpan.FromMinutes((double)service.Duration!));
+        var user = await _userManager.GetUserAsync(User);
 
-        // Проверка на дату
-        if (workDateTime.Date < DateTime.Today)
+        if (workerId == Guid.Empty || string.IsNullOrEmpty(startTime))
         {
-            return BadRequest("Запись доступна минимум за день до.");
+            return BadRequest("Invalid input");
         }
 
-        // Проверка на занятые слоты
-        var existingAppointments =
-            await _serviceAppointmentService.GetServiceAppointmentsByWorkerIdAsync(workerId);
-        
-        foreach (var appointment in existingAppointments)
+        try
         {
-            if ((workDateTime.Date == appointment.WorkDate.Date) && (
-                (startTimeSpan >= appointment.StartTime && startTimeSpan < appointment.EndTime) ||
-                (endTimeSpan > appointment.StartTime && endTimeSpan <= appointment.EndTime) ||
-                (startTimeSpan <= appointment.StartTime && endTimeSpan >= appointment.EndTime)))
+            var service = await _serviceService.Get(serviceId);
+            var workDateTime = DateTime.Parse(workDate, null, System.Globalization.DateTimeStyles.RoundtripKind);
+            var startTimeSpan = TimeSpan.Parse(startTime);
+            var endTimeSpan = startTimeSpan.Add(TimeSpan.FromMinutes((double) service.Duration!));
+
+            // Проверка на дату
+            if (workDateTime.Date < DateTime.Today)
             {
-                return BadRequest("Выберите другую дату, этот временной слот уже занят.");
+                return BadRequest("Запись доступна минимум за день до.");
             }
-        }
 
-        var serviceAppointmentsModel = new ServiceAppointmentsModel()
+            // Проверка на занятые слоты
+            var existingAppointments =
+                await _serviceAppointmentService.GetServiceAppointmentsByWorkerIdAsync(workerId);
+
+            foreach (var appointment in existingAppointments)
+            {
+                if ((workDateTime.Date == appointment.WorkDate.Date) && (
+                        (startTimeSpan >= appointment.StartTime && startTimeSpan < appointment.EndTime) ||
+                        (endTimeSpan > appointment.StartTime && endTimeSpan <= appointment.EndTime) ||
+                        (startTimeSpan <= appointment.StartTime && endTimeSpan >= appointment.EndTime)))
+                {
+                    return BadRequest("Выберите другую дату, этот временной слот уже занят.");
+                }
+            }
+
+            var serviceAppointmentsModel = new ServiceAppointmentsModel()
+            {
+                WorkerId = workerId,
+                ClientId = user.Id,
+                ServiceId = serviceId,
+                WorkDate = workDateTime,
+                StartTime = startTimeSpan,
+                EndTime = endTimeSpan
+            };
+
+            serviceAppointmentsModel = await _serviceAppointmentService
+                .AddServiceAppointmentAsync(serviceAppointmentsModel);
+            
+            var message = $"Пользователь {user.SecondName} {user.FirstName} {user.LastName} " +
+                          $"был записан на {serviceAppointmentsModel.Service.Name} " +
+                          $"к мастеру {serviceAppointmentsModel.Worker.SecondName} {serviceAppointmentsModel.Worker.FirstName} {serviceAppointmentsModel.Worker.LastName} " +
+                          $"на {workDateTime.ToString("yyyy-MM-dd")} в {startTime}.";
+            
+            await _telegramService.SendMessageAsync(630443376, message);
+            
+            return Ok(new
+            {
+                id = serviceAppointmentsModel.Id,
+                title = $"Вы записаны на {serviceAppointmentsModel.Service.Name}",
+                start = serviceAppointmentsModel.WorkDate.ToString("yyyy-MM-dd") + "T" +
+                        serviceAppointmentsModel.StartTime,
+                end = serviceAppointmentsModel.WorkDate.ToString("yyyy-MM-dd") + "T" + serviceAppointmentsModel.EndTime
+            });
+        }
+        catch (System.Exception ex)
         {
-            WorkerId = workerId,
-            ClientId = user.Id,
-            ServiceId = serviceId,
-            WorkDate = workDateTime,
-            StartTime = startTimeSpan,
-            EndTime = endTimeSpan
-        };
-        
-        serviceAppointmentsModel = await _serviceAppointmentService.AddServiceAppointmentAsync(serviceAppointmentsModel);
-        return Ok(new
-        {
-            id = serviceAppointmentsModel.Id,
-            title = $"Вы записаны на {serviceAppointmentsModel.Service.Name}",
-            start = serviceAppointmentsModel.WorkDate.ToString("yyyy-MM-dd") + "T" + serviceAppointmentsModel.StartTime,
-            end = serviceAppointmentsModel.WorkDate.ToString("yyyy-MM-dd") + "T" + serviceAppointmentsModel.EndTime
-        });
+            _logger.LogError(ex, "Error saving schedule");
+            return StatusCode(500, "Internal server error");
+        }
     }
-    catch (System.Exception ex)
-    {
-        _logger.LogError(ex, "Error saving schedule");
-        return StatusCode(500, "Internal server error");
-    }
-}
 }

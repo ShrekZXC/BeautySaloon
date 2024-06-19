@@ -18,6 +18,8 @@ public interface IServiceAppointmentService
     Task<ServiceAppointmentsModel> UpdateServiceAppointmentAsync(ServiceAppointmentsModel serviceAppointmentsModel);
 
     Task<List<ServiceAppointmentsModel>> GetAllServiceAppointmentsByClientId(Guid id);
+    
+    Task<List<ServiceAppointmentsModel>>  GetAllServiceAppointmentsByWorkerId(Guid id);
 
     Task<bool> DeleteServiceAppointmentById(Guid id);
 }

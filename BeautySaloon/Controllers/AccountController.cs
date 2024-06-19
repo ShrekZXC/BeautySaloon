@@ -108,9 +108,19 @@ public class AccountController : Controller
         var user = await _userService.FindByIdAsync(appUser.Id);
 
         var profile = _mapper.Map<ProfileViewModel>(user);
-        var appointments = await _serviceAppointmentService.GetAllServiceAppointmentsByClientId(appUser.Id);
+    
+        List<ServiceAppointmentsModel> appointments;
 
-        profile.Appointments = _mapper.Map<List<ServiceAppointmentsViewModel>>(appointments);
+        if (await _userManager.IsInRoleAsync(appUser, "User"))
+        {
+            appointments = await _serviceAppointmentService.GetAllServiceAppointmentsByClientId(appUser.Id);
+        }
+        else
+        {
+            appointments = await _serviceAppointmentService.GetAllServiceAppointmentsByWorkerId(appUser.Id);
+        }
+
+        profile.Appointments = _mapper.Map<List<ServiceAppointmentsViewModel>>(appointments.OrderBy(x=>x.WorkDate).ThenBy(x=>x.StartTime));
 
         return View(profile);
     }

@@ -1,13 +1,23 @@
 ﻿@model BeautySaloon.ViewModel.ProfileViewModel
 
 @{
-ViewData["Title"] = "Contact page";
+    ViewData["Title"] = "Contact page";
+    var role = User.IsInRole("Client") ? "Client" :"Worker";
 }
 
 <div class="container mt-4">
     <div class="row mb-4">
         <div class="col-12">
-            <h2 class="mb-4">Профиль пользователя</h2>
+            <h2 class="mb-4">
+                @if (role == "User")
+                {
+                    @:Профиль клиента
+                }
+                else
+                {
+                    @:Профиль мастера
+                }
+            </h2>
             <div class="mb-3">
                 <label class="font-weight-bold">Имя:</label>
                 <span>@Model.FirstName</span>
@@ -39,7 +49,10 @@ ViewData["Title"] = "Contact page";
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col" class="text-center">Услуга</th>
-                    <th scope="col" class="text-center">Мастер</th>
+                    @if (role == "User")
+                    {
+                        <th scope="col" class="text-center">Мастер</th>
+                    }
                     <th scope="col" class="text-center">Дата</th>
                     <th scope="col" class="text-center">Начало</th>
                     <th scope="col" class="text-center">Конец</th>
@@ -51,7 +64,10 @@ ViewData["Title"] = "Contact page";
                 {
                 <tr>
                     <td class="text-center">@appointment.Service.Name</td>
-                    <td class="text-center">@appointment.Worker.FirstName @appointment.Worker.LastName</td>
+                    @if (role == "User")
+                    {
+                        <td class="text-center">@appointment.Worker.FirstName @appointment.Worker.LastName</td>
+                    }
                     <td class="text-center">@appointment.WorkDate.Date.ToString("d")</td>
                     <td class="text-center">@appointment.StartTime.ToString("g")</td>
                     <td class="text-center">@appointment.EndTime.ToString("g")</td>
